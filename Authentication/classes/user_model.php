@@ -1,6 +1,6 @@
 <?php
 
-require_once('../connection.php');
+require_once(dirname(__FILE__).'/'."../../connection.php");
 
 class UserModel{
 	
