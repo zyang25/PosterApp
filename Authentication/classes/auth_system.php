@@ -115,7 +115,16 @@ class AuthSystem{
 		return $string;
 	}
 
-	
+	// User profile
+	public function updateuserinfo($lname,$fname,$address1,$address2,$tel,$zip,$preference,$user_id){
+		$this->model->updateuserinfo($lname,$fname,$address1,$address2,$tel,$zip,$preference,$user_id);
+	}
+
+	public function getuserinfo(){
+		$userinfo = $this->model->getuserinfo();
+		return $userinfo[0];
+		// var_dump($userinfo[0]);
+	}
 
 }
 

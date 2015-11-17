@@ -9,6 +9,7 @@ class UserModel{
 	private $createavtivationcode;
 	private $getuser;
 	private $vertifycode;
+	private $updateuserinfo;
 
 	public function __construct(){
 		$this->db = new DatabaseConnection();
@@ -21,6 +22,9 @@ class UserModel{
 		// );
 		$this->vertifycode = $this->db->prepare_statement(
 			"UPDATE `USER` SET `is_activated` = '1' WHERE `USER_ID` = (SELECT `USER_ID` FROM `USER_ACTIVATION` WHERE `activation_key` = ? LIMIT 1)"
+		);
+		$this->updateuserinfo = $this->db->prepare_statement(
+			"UPDATE `User_Info` SET `lname`=?, `fname`=?, `address1`=?, `address2`=?, `zip`=?, `tel`=?, `preference`=? WHERE `user_id`=?"
 		);
 
 	}
@@ -79,10 +83,16 @@ class UserModel{
 
 	}
 
-	public function updateuserinfo(){
-		$query = "UPDATE  FROM `USER`";
+	public function updateuserinfo($lname,$fname,$address1,$address2,$tel,$zip,$preference,$user_id){
+		$this->updateuserinfo->bind_param("ssssssss",$lname,$fname,$address1,$address2,$tel,$zip,$preference,$user_id);
+		$this->updateuserinfo->execute();
+	}
+
+	public function getuserinfo(){
+		$query = "SELECT * FROM `USER_INFO`";
 		return $this->db->send_sql($query)->fetch_all(MYSQLI_ASSOC);
 	}
+
 
 	// Admin
 	public function getalluser(){
