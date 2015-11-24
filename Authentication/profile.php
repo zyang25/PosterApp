@@ -1,7 +1,6 @@
 <?php
-session_start();
 $title = 'vjoin';
-include('../static/header.php');
+include('../main/header.php');
 require_once('classes/auth_system.php');
 echo '<br/><br/><pre>Session_variable:<br/>';
 	var_dump($_SESSION);
@@ -101,7 +100,16 @@ if($_SESSION['user_id']!=""){
 		</div>
 	</fieldset>
 </form>
-<?php
 
-include('../static/footer.php');
-?>
+<!-- /.container -->
+
+    <!-- jQuery -->
+    <script src="../assets/js/jquery-1.11.1.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="../assets/bootstrap/js/bootstrap.min.js"></script>
+
+</body>
+
+</html>
+

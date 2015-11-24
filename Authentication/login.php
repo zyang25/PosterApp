@@ -1,8 +1,7 @@
 <?php
 session_start();
 $title = 'vjoin';
-include('../static/header.php');
-
+include('../assets/header.php');
 require_once('classes/auth_system.php');
 
 echo '<br/><br/><pre>Session_variable:<br/>';

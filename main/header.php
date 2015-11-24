@@ -13,7 +13,7 @@
 
 <body>
 
-    <!-- Fixed navbar -->
+<!-- Fixed navbar -->
 <div class="row">
   <div class="container">
     <nav class="navbar navbar-inverse navbar-fixed-top">
@@ -29,14 +29,26 @@
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
-            <li class="active"><a href="index.php">Home</a></li>
+            <li class="active"><a href="">Home</a></li>
           </ul>
           <ul class="nav navbar-nav navbar-right">
             <?php
             if(isset($_SESSION['user_id'])){
 
-              echo '<li><a href="#">'.$_SESSION['email'].'</a></li>';
-              echo '<li><a href="logout.php">  Logout</a></li>';
+              echo'
+                <div class="collapse navbar-collapse" id="myNavbar">
+                  <ul class="nav navbar-nav navbar-right">
+                    <li class="dropdown">
+                      <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-user"></span>'.$_SESSION['email'].'</a>
+                      <ul class="dropdown-menu">
+                        <li><a href="../authentication/profile.php">Edit Profile</a></li>
+                        <li><a href="../authentication/logout.php">Log out</a></li>
+                      </ul>
+                    </li>
+                 </ul>
+                </div>
+    
+              ';
 
             }else{
               echo '

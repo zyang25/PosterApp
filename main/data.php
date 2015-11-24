@@ -1,6 +1,6 @@
 <?php
 
-   require_once($_SERVER['DOCUMENT_ROOT'].'/Vjoin/connection.php');
+    require_once($_SERVER['DOCUMENT_ROOT'].'/Vjoin/connection.php');
 
     $dbConnection;
     class activity
