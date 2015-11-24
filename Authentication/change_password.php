@@ -1,7 +1,6 @@
 <?php
 session_start();
 $title = 'vjoin';
-include($_SERVER['DOCUMENT_ROOT'].'/final/static/header.php');
 
 require_once('classes/auth_system.php');
 
@@ -37,6 +36,3 @@ if(isset($_POST['org_password'])
 	
 	<input type="submit" name="change_password_submit" value="Change" class="btn btn-primary btn-block btn-lg" tabindex="5">
 </form>
-<?php
-include(__DIR__.'/static/footer.php');
-?>

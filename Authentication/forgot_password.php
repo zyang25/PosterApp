@@ -1,7 +1,7 @@
 <?php
 session_start();
 $title = 'vjoin';
-include('../static/header.php');
+
 
 require_once('classes/auth_system.php');
 
@@ -32,7 +32,3 @@ if(isset($_POST['email'])){
 	
 	<input type="submit" name="submit" value="Submit" class="btn btn-primary btn-block btn-lg" tabindex="5">
 </form>
-
-<?php
-include('../static/footer.php');
-?>
