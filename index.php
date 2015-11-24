@@ -37,8 +37,8 @@
                         <div class="col-sm-6 col-sm-offset-3 form-box">
                             <div class="form-top">
                                 <div class="form-top-left">
-                                    <h3>Login to our site</h3>
-                                    <p>Enter your email and password to log on:</p>
+                                    <h3>Login to our site</h3> 
+                                    <p>Enter your email and password to log on &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="./Authentication/logout.php">logout</a></p>
                                 </div>
                                 <div class="form-top-right">
                                     <i class="fa fa-lock"></i>
