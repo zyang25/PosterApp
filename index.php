@@ -63,7 +63,7 @@
                             }
                             ?>
                             <div class="form-bottom">
-                                <form role="form" action="" method="post" class="login-form" id="login_form">
+                                <form role="form" action="./main/main.php" method="post" class="login-form" id="login_form">
                                     <div class="form-group">
                                         <label class="sr-only" for="form-username">Email</label>
                                         <input type="email" name="email" id="email" class="form-control input-lg" placeholder="Email Address" value="<?php if(isset($error)){ echo $_POST['email']; } ?>" tabindex="2" required>
