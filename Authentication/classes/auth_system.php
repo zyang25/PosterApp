@@ -1,6 +1,5 @@
 <?php
-require_once 'user_model.php';
-
+require_once($_SERVER['DOCUMENT_ROOT'].'/Vjoin/main/data.php');
 class AuthSystem{
 
 	private $site_key;
