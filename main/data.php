@@ -1,4 +1,5 @@
 <?php
+
    require_once($_SERVER['DOCUMENT_ROOT'].'/Vjoin/connection.php');
 
     $dbConnection;
@@ -8,7 +9,7 @@
         private $deleteActiv;
         private $updateFollower;
         private $removeFollow;
-        private $retrieveAll;   //retrieve all 
+        //private $retrieveAll;   //retrieve all 
         private $retrieveCate;  //get back all info depend on category
         private $retrieveOne;   //one event
         private $retriveUnVerify;
@@ -35,14 +36,14 @@
         }
 
         public function getAllEvent(){
-            $res = array();
-            $this->retrieveAll->execute();
-            $this->retrieveAll->bind_result($activity_id, $start_time, $location, $description, $image, $user_id, $category_id, $followers, $max_followers, $title, $state);
-            while($this->retrieveAll->fetch()){
-                $newTuple = array("activity_id" => $activity_id, "start_time" => $start_time, "location" => $location, "description" => $description, "image" => $image, "user_id" => $user_id, "category_id" =>  $category_id, "followers" => $followers, "max_followers" => $max_followers, "title" => $title, "state" => $state);
-                array_push($res, $newTuple);               
-            }
-            return $res;
+            // $res = array();
+            // $this->retrieveAll->execute();
+            // $this->retrieveAll->bind_result($activity_id, $start_time, $location, $description, $image, $user_id, $category_id, $followers, $max_followers, $title, $state);
+            // while($this->retrieveAll->fetch()){
+            //     $newTuple = array("activity_id" => $activity_id, "start_time" => $start_time, "location" => $location, "description" => $description, "image" => $image, "user_id" => $user_id, "category_id" =>  $category_id, "followers" => $followers, "max_followers" => $max_followers, "title" => $title, "state" => $state);
+            //     array_push($res, $newTuple);               
+            // }           
+            return $dbConnection->send_sql("SELECT * FROM `activities`")->fetch_all(MYSQLI_ASSOC);
         }
         public function getCategory($category_id){
             $res = array();            
@@ -90,7 +91,7 @@
             $this->updateFollower = $dbConnection->prepare_statement("UPDATE `activities` SET `followers` = `followers` + 1 WHERE `activity_id` = ?");
             $this->removeFollow = $dbConnection->prepare_statement("UPDATE `activities` SET `followers` = `followers` - 1 WHERE `activity_id` = ?");
 
-            $this->retrieveAll = $dbConnection->prepare_statement("SELECT * FROM `activities`");
+            //$this->retrieveAll = $dbConnection->prepare_statement("SELECT * FROM `activities`");
             $this->retrieveOne = $dbConnection->prepare_statement("SELECT * FROM `activities` WHERE `activity_id` = ?");
             $this->retrieveCate = $dbConnection->prepare_statement("SELECT * FROM `activities` WHERE `category_id` = ?");
             $this->retriveUnVerify = $dbConnection->prepare_statement("SELECT * FROM `activities` WHERE `state` = 0");          
@@ -100,7 +101,7 @@
             $this->deleteActiv->close(); 
             $this->updateFollower->close();
 
-            $this->retrieveAll->close();
+            //$this->retrieveAll->close();
             $this->retrieveCate->close();
             $this->retrieveOne->close();
             $this->retriveUnVerify->close();
@@ -230,7 +231,7 @@
 
 class UserModel{
 	
-	private $db;
+	//private $db;
 	private $createuser;
 	private $createavtivationcode;
 	private $getuser;
@@ -239,25 +240,32 @@ class UserModel{
 	private $changepassword;
 
 	public function __construct(){
-		$this->db = new DatabaseConnection();
-		$this->createuser = $this->db->prepare_statement("INSERT INTO `USER` (email, password, salt) VALUES (?,?,?)");
-		$this->createavtivationcode = $this->db->prepare_statement("INSERT INTO `User_activation` (user_id, activation_key,expire) VALUES (?,?,?)");
-		$this->createuserinfo = $this->db->prepare_statement("INSERT INTO `User_Info` (user_id) VALUES (?)");
-		$this->getuser = $this->db->prepare_statement("SELECT * FROM `USER` WHERE `email` = ?");
+        global $dbConnection;
+        if($dbConnection == null) $dbConnection = new DatabaseConnection();
+		//$this->db = new DatabaseConnection();
+		$this->createuser = $dbConnection->prepare_statement("INSERT INTO `USER` (email, password, salt) VALUES (?,?,?)");
+		$this->createavtivationcode = $dbConnection->prepare_statement("INSERT INTO `User_activation` (user_id, activation_key,expire) VALUES (?,?,?)");
+		$this->createuserinfo = $dbConnection->prepare_statement("INSERT INTO `User_Info` (user_id) VALUES (?)");
+		$this->getuser = $dbConnection->prepare_statement("SELECT * FROM `USER` WHERE `email` = ?");
 		
-		$this->vertifycode = $this->db->prepare_statement(
+		$this->vertifycode = $dbConnection->prepare_statement(
 			"UPDATE `USER` SET `is_activated` = '1' WHERE `USER_ID` = (SELECT `USER_ID` FROM `USER_ACTIVATION` WHERE `activation_key` = ? LIMIT 1)"
 		);
-		$this->updateuserinfo = $this->db->prepare_statement(
+		$this->updateuserinfo = $dbConnection->prepare_statement(
 			"UPDATE `User_Info` SET `lname`=?, `fname`=?, `address1`=?, `address2`=?, `zip`=?, `tel`=?, `preference`=? WHERE `user_id`=?"
 		);
-		$this->changepassword = $this->db->prepare_statement(
+		$this->changepassword = $dbConnection->prepare_statement(
 			"UPDATE `USER` SET `password` = ?, `SALT`=? WHERE `user_id` = ?"
 		);
 	}
 
 	public function __destruct(){
 		$this->createuser->close();
+        $this->createavtivationcode->close();
+        $this->getuser->close();
+        $this->vertifycode->close();
+        $this->updateuserinfo->close();
+        $this->changepassword->close();
 	}
 
 	public function createuser($email,$password,$salt,$code){
@@ -265,7 +273,7 @@ class UserModel{
 		$success = $this->createuser->execute();
 		if($success == true){
 			// Last insert id
-			$last_pk = $this->db->last_insert_id();
+			$last_pk = $dbConnection->last_insert_id();
 			// Insert activation key
 			$dateTime = date("Y-m-d H:i:s",strtotime("+24 hours"));
 			$this->createavtivationcode->bind_param("sss",$last_pk,$code, $dateTime);
@@ -317,7 +325,7 @@ class UserModel{
 
 	public function getuserinfo(){
 		$query = "SELECT * FROM `USER_INFO`";
-		return $this->db->send_sql($query)->fetch_all(MYSQLI_ASSOC);
+		return $dbConnection->send_sql($query)->fetch_all(MYSQLI_ASSOC);
 	}
 
 	public function changepassword($password,$salt,$user_id){
@@ -326,13 +334,10 @@ class UserModel{
 		$this->changepassword->execute();
 
 	}
-
-	
-
 	// Admin
 	public function getalluser(){
 		$query = "SELECT * FROM `USER`";
-		return $this->db->send_sql($query)->fetch_all(MYSQLI_ASSOC);
+		return $dbConnection->send_sql($query)->fetch_all(MYSQLI_ASSOC);
 	}
 
 
