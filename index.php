@@ -1,3 +1,15 @@
+<?php
+session_start();
+require_once('./Authentication/classes/auth_system.php');
+echo '<br/><br/><pre>Session_variable:<br/>';
+var_dump($_SESSION);
+echo '</pre>';
+$title = 'vjoin';
+// if(!isset($_SESSION['user_id'])){
+//     header("Location: main/main.php");
+// }
+?>
+
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -45,17 +57,13 @@
                                 </div>
                             </div>
                             <?php
-                            session_start();
-                            $title = 'vjoin';
-                            require_once('./Authentication/classes/auth_system.php');
-                                                                                        echo '<br/><br/><pre>Session_variable:<br/>';
-                                                                                                    var_dump($_SESSION);
-                            echo '</pre>';
+                            
+    
                             if(isset($_POST['email'])&&isset($_POST['password'])){
                             $user = new AuthSystem();
                             $status = $user -> login($_POST['email'],$_POST['password']);
                             echo "Status: ".$status."<br/>";
-                            if($status == 1 || $status == 2){
+                            if($status == 1 || $status == 2 || $status ==3){
                             echo "Login successfully";
                             }else{
                             echo "Email or password is not correct.";
@@ -63,7 +71,7 @@
                             }
                             ?>
                             <div class="form-bottom">
-                                <form role="form" action="./main/main.php" method="post" class="login-form" id="login_form">
+                                <form role="form" action="." method="post" class="login-form" id="login_form">
                                     <div class="form-group">
                                         <label class="sr-only" for="form-username">Email</label>
                                         <input type="email" name="email" id="email" class="form-control input-lg" placeholder="Email Address" value="<?php if(isset($error)){ echo $_POST['email']; } ?>" tabindex="2" required>

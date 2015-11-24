@@ -241,7 +241,8 @@ class UserModel{
 
 	public function __construct(){
         global $dbConnection;
-        if($dbConnection == null) $dbConnection = new DatabaseConnection();
+        if($dbConnection == null) 
+            $dbConnection = new DatabaseConnection();
 		//$this->db = new DatabaseConnection();
 		$this->createuser = $dbConnection->prepare_statement("INSERT INTO `USER` (email, password, salt) VALUES (?,?,?)");
 		$this->createavtivationcode = $dbConnection->prepare_statement("INSERT INTO `User_activation` (user_id, activation_key,expire) VALUES (?,?,?)");
@@ -272,6 +273,7 @@ class UserModel{
 		$this->createuser->bind_param("sss",$email,$password,$salt);
 		$success = $this->createuser->execute();
 		if($success == true){
+            global $dbConnection;
 			// Last insert id
 			$last_pk = $dbConnection->last_insert_id();
 			// Insert activation key

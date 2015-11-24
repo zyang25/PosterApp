@@ -11,6 +11,4 @@ echo '</pre>';
 $user = new AuthSystem();
 $user->logout();
 header('Location: ../index.php');
-
-
 ?>
