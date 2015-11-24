@@ -76,7 +76,7 @@ echo 'Account Created, please check your email for verification information';
         var password1 = document.getElementById("password").value;
         var password2 = document.getElementById("passwordConfirm").value;
         if(password1.length<6||password2.length<6){
-            document.getElementById("password_error").innerHTML = "Password error";
+            document.getElementById("password_error").innerHTML = "Password's length should be longer than 6.";
             return false;
         }else if(password1 != password2){
             document.getElementById("password_error").innerHTML = "Password does not match.";
