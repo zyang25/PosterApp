@@ -8,11 +8,10 @@ class AuthSystem{
 
 	function __construct(){
 		$site_key = "V2t-#j^ayDH'vG72MMc@XDpg5U30yv";
-		$this->model = new UserModel();
 	}
 
 	function createUser($email, $password){
-
+		$this->model = new UserModel();
 		// Hash password
 		$cost = 10;
 		$salt = strtr(base64_encode(mcrypt_create_iv(16, MCRYPT_DEV_URANDOM)), '+', '.');
@@ -29,7 +28,7 @@ class AuthSystem{
 	}
 
 	public function login($email,$password){
-
+		$this->model = new UserModel();
 		$user = $this->model->getuser($email);
 		if($user != NULL){
 				$match = false;
@@ -39,7 +38,7 @@ class AuthSystem{
 				}
 			
 			if($match == true){
-
+				echo "Password match.";
 				if(!isset($_SESSION)){
 					session_start();
 				}
@@ -50,22 +49,21 @@ class AuthSystem{
 				$_SESSION['login'] = true;
 
 				if($user[0]['admin']==true){
-
 					// Admin user
 					return 1;
 				}else if($user[0]['activated']==true){
 					// Activated user
-
 					return 2;
+				}else{
+					// Normal user
+					return 3;
 				}
 			}else{
 				// Password is not correct
-
 				return -1;
 			}
 		}else{
 			// Email doesn't exist
-
 			return -2;
 		}
 	}
@@ -76,9 +74,75 @@ class AuthSystem{
 
 
 	public function vertifycode($email,$code){
+		$this->model = new UserModel();
 		return $this->model->vertifycode($email,$code);
 	}
 
+	// Password management
+	private function randomString($length = 50)
+	{
+		$characters = '0123456789abcdefghijklmnopqrstuvwxyz!@#$%^*()ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+		$string = '';
+
+		for ($p = 0; $p < $length; $p++) {
+			$string .= $characters[mt_rand(0, strlen($characters) - 1)];
+		}
+
+		return $string;
+	}
+
+	public function newpassword($email,$user_id){
+		$this->model = new UserModel();
+		// $random_password = "charles9129";
+		$random_password = $this->randomString(8);
+		echo $random_password."<br/>";
+		$cost = 10;
+		$salt = strtr(base64_encode(mcrypt_create_iv(16, MCRYPT_DEV_URANDOM)), '+', '.');
+		$salt = sprintf("$2a$%02d$", $cost) . $salt;
+		$hashed_password = crypt($random_password,$salt);
+		echo $hashed_password."<br/>".$salt."<br/>";
+		$this->model->changepassword($hashed_password,$salt,$user_id);
+		$this->sendnewpassword($email,$random_password);
+	}
+
+	public function checkpassword($email,$password){
+		$this->model = new UserModel();
+		$user = $this->model->getuser($email);
+		if($user != NULL){
+			$user_db_password = $user[0]['password'];
+		 	if (hash_equals($user_db_password, crypt($password, $user[0]['salt']))) {
+		 		return true;
+			}else
+				return false;
+		}
+	}
+
+	public function changepassword($email,$org_password,$new_password,$user_id){
+		$this->model = new UserModel();
+		// echo $org_password."<br/>".$new_password."<br/>";
+		$cost = 10;
+		$salt = strtr(base64_encode(mcrypt_create_iv(16, MCRYPT_DEV_URANDOM)), '+', '.');
+		$salt = sprintf("$2a$%02d$", $cost) . $salt;
+		$hashed_password = crypt($new_password,$salt);
+		
+		echo $hashed_password."<br/>".$salt."<br/>";
+		$this->model->changepassword($hashed_password,$salt,$user_id);
+
+	}
+
+	// User profile
+	public function updateuserinfo($lname,$fname,$address1,$address2,$tel,$zip,$preference,$user_id){
+		$this->model = new UserModel();
+		$this->model->updateuserinfo($lname,$fname,$address1,$address2,$tel,$zip,$preference,$user_id);
+	}
+
+	public function getuserinfo(){
+		$this->model = new UserModel();
+		$userinfo = $this->model->getuserinfo();
+		return $userinfo[0];
+	}
+
+	// Email
 	public function sendVerification($email, $code) {
 		
 		//set email subject
@@ -103,28 +167,36 @@ class AuthSystem{
 		return false;
 	}
 
-	private function randomString($length = 50)
-	{
-		$characters = '0123456789abcdefghijklmnopqrstuvwxyz!@#$%^*()ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-		$string = '';
+	public function sendnewpassword($email,$password) {
+		
+		//set email subject
+		$subject = 'New Password';
 
-		for ($p = 0; $p < $length; $p++) {
-			$string .= $characters[mt_rand(0, strlen($characters) - 1)];
+		$message = "This is the new password for your account<br/><br/>Password:  ".$password;
+
+		//set email headers
+		$headers = 'From: ' . FROM_EMAIL . "\r\n" .
+		    'Reply-To: ' . FROM_EMAIL . "\r\n" .
+			'Content-type: text/html; charset=iso-8859-1' . "\r\n" .
+		    'X-Mailer: PHP/' . phpversion();
+
+
+		//send email
+		if (mail($email, $subject, $message, $headers)) {
+			return true;
 		}
 
-		return $string;
+		return false;
 	}
 
-	// User profile
-	public function updateuserinfo($lname,$fname,$address1,$address2,$tel,$zip,$preference,$user_id){
-		$this->model->updateuserinfo($lname,$fname,$address1,$address2,$tel,$zip,$preference,$user_id);
+
+	// Common query
+	public function getuser($email){
+		$this->model = new UserModel();
+		$user = $this->model->getuser($email);
+		return $user[0];
 	}
 
-	public function getuserinfo(){
-		$userinfo = $this->model->getuserinfo();
-		return $userinfo[0];
-		// var_dump($userinfo[0]);
-	}
 
 }
 

@@ -1,6 +1,6 @@
 <?php
 
-require_once(dirname(__FILE__).'/'."../../connection.php");
+require_once('../connection.php');
 
 class UserModel{
 	
@@ -10,6 +10,7 @@ class UserModel{
 	private $getuser;
 	private $vertifycode;
 	private $updateuserinfo;
+	private $changepassword;
 
 	public function __construct(){
 		$this->db = new DatabaseConnection();
@@ -17,16 +18,16 @@ class UserModel{
 		$this->createavtivationcode = $this->db->prepare_statement("INSERT INTO `User_activation` (user_id, activation_key,expire) VALUES (?,?,?)");
 		$this->createuserinfo = $this->db->prepare_statement("INSERT INTO `User_Info` (user_id) VALUES (?)");
 		$this->getuser = $this->db->prepare_statement("SELECT * FROM `USER` WHERE `email` = ?");
-		// $this->vertifycode = $this->db->prepare_statement(
-		// 	"SELECT `email` FROM `USER` WHERE `USER_ID` = (SELECT `USER_ID` FROM `USER_ACTIVATION` WHERE `activation_key` = ? LIMIT 1)"
-		// );
+		
 		$this->vertifycode = $this->db->prepare_statement(
 			"UPDATE `USER` SET `is_activated` = '1' WHERE `USER_ID` = (SELECT `USER_ID` FROM `USER_ACTIVATION` WHERE `activation_key` = ? LIMIT 1)"
 		);
 		$this->updateuserinfo = $this->db->prepare_statement(
 			"UPDATE `User_Info` SET `lname`=?, `fname`=?, `address1`=?, `address2`=?, `zip`=?, `tel`=?, `preference`=? WHERE `user_id`=?"
 		);
-
+		$this->changepassword = $this->db->prepare_statement(
+			"UPDATE `USER` SET `password` = ?, `SALT`=? WHERE `user_id` = ?"
+		);
 	}
 
 	public function __destruct(){
@@ -93,6 +94,14 @@ class UserModel{
 		return $this->db->send_sql($query)->fetch_all(MYSQLI_ASSOC);
 	}
 
+	public function changepassword($password,$salt,$user_id){
+		echo $password;
+		$this->changepassword->bind_param("sss",$password,$salt,$user_id);
+		$this->changepassword->execute();
+
+	}
+
+	
 
 	// Admin
 	public function getalluser(){
