@@ -1,12 +1,12 @@
 <?php
-$title = 'vjoin';
 include('../main/header.php');
+$title = 'vjoin';
 require_once('classes/auth_system.php');
 echo '<br/><br/><pre>Session_variable:<br/>';
 	var_dump($_SESSION);
 echo '</pre>';
+
 if($_SESSION['user_id']!=""){
-	
 	$user = new AuthSystem();
 	// Check profile update
 	if(isset($_POST['last_name'])||
@@ -17,7 +17,6 @@ if($_SESSION['user_id']!=""){
 						isset($_POST['phone_number'])||
 							isset($_POST['introduction'])
 	){
-	
 	$user_id = $_SESSION['user_id'];
 	$user->updateuserinfo(
 		$_POST['last_name'],
@@ -29,11 +28,12 @@ if($_SESSION['user_id']!=""){
 		$_POST['introduction'],
 		$user_id
 	);
-	// var_dump($_POST);
+	
 	}
 
 	$userinfo = $user->getuserinfo();
 }else{
+	header('Location: login.php');
 	echo "Login pls.";
 }
 	
