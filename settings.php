@@ -5,7 +5,8 @@ $db_connection = array();
 $db_connection['host'] = "localhost";
 $db_connection['username'] = "root"; // Change this to your user
 $db_connection['password'] = ""; // randomly generated
-$db_connection['database'] = "vjoin"; // randomly generated
+$db_connection['database'] = "final"; // randomly generated
+
 
 // Timezone
 date_default_timezone_set('America/New_York');

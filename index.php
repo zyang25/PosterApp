@@ -119,7 +119,8 @@ if(isset($_SESSION['user_id'])){
             var stevens_email = /^\w+@(stevens.edu)$/;
             var email = document.getElementById("email").value;
             var r = stevens_email.test(email);
-            document.getElementById("email_error").innerHTML = "Please use Stevens edu email.";
+            if (r == false)
+                document.getElementById("email_error").innerHTML = "Please use Stevens edu email.";
             console.log(r);
             return r;
         };

@@ -1,4 +1,10 @@
-<?php include("header.php"); ?>
+<?php include("header.php"); 
+
+if(!isset($_SESSION['user_id'])){
+    header('Location: ../index.php');
+}
+
+?>
 
     <!-- Page Content -->
     <div class="container">
