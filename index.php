@@ -62,12 +62,12 @@ if(isset($_SESSION['user_id'])){
                             if(isset($_POST['email'])&&isset($_POST['password'])){
                             $user = new AuthSystem();
                             $status = $user -> login($_POST['email'],$_POST['password']);
-                            echo "Status: ".$status."<br/>";
+                         
                             if($status == 1 || $status == 2 || $status ==3){
                             echo "Login successfully";
                             header("Location: main/main.php");
                             }else{
-                            echo "Email or password is not correct.";
+                            echo "<div class=\"alert alert-danger\" role=\"alert\">Email or password is not correct.</div>";
                             }
                             }
                             ?>
