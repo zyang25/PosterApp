@@ -42,6 +42,7 @@
                       <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-user"></span>'.$_SESSION['email'].'</a>
                       <ul class="dropdown-menu">
                         <li><a href="../authentication/profile.php">Edit Profile</a></li>
+                          <li><a href="../authentication/change_password.php">Change Password</a></li>
                         <li><a href="../authentication/logout.php">Log out</a></li>
                       </ul>
                     </li>

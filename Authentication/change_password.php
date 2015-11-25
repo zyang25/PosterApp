@@ -44,7 +44,7 @@ $user1->changepassword($_SESSION['email'],$_POST['org_password'],$_POST['new_pas
 
         <div class="row omb_row-sm-offset-3">
 			<div class="col-xs-12 col-sm-6 col-sm-offset-3">
-                <h1>Vjoin forgot password</h1>
+                <h1>Vjoin change password</h1>
 			     <form role="form" method="post" action="" autocomplete="off">
                     <div class="form-group">
                     <input type="password" name="org_password" id="password" class="form-control input-lg" placeholder="Old password" tabindex="3">
