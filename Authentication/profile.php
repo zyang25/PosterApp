@@ -6,7 +6,12 @@ echo '<br/><br/><pre>Session_variable:<br/>';
 	var_dump($_SESSION);
 echo '</pre>';
 
+$c = new category();
+$allc = $c->getAllCategory();
+
+
 if($_SESSION['user_id']!=""){
+	
 	$user = new AuthSystem();
 	// Check profile update
 	if(isset($_POST['last_name'])||
@@ -18,6 +23,22 @@ if($_SESSION['user_id']!=""){
 							isset($_POST['introduction'])
 	){
 	$user_id = $_SESSION['user_id'];
+	
+	// Preference
+	if(!empty($_POST['introduction'])){
+		$preference_array = $_POST['introduction'];
+		$result = $_POST['introduction'][0];
+	
+		for($x = 1; $x < sizeof($preference_array); $x++){
+			$result .= ',' . $preference_array[$x] ;
+		}
+
+		$_POST['introduction'] = $result;
+	}else{
+		$_POST['introduction'] = "";
+	}
+	// Preference
+	
 	$user->updateuserinfo(
 		$_POST['last_name'],
 		$_POST['first_name'],
@@ -31,7 +52,11 @@ if($_SESSION['user_id']!=""){
 	
 	}
 
+	// If there is nothing post, then get information from database
 	$userinfo = $user->getuserinfo();
+	$get_preference = explode($userinfo["preference"],',');
+
+	
 }else{
 	header('Location: login.php');
 	echo "Login pls.";
@@ -87,19 +112,50 @@ if($_SESSION['user_id']!=""){
 				
 			</div>
 		</div>
-		<!-- Text input-->
+
 		<div class="form-group">
-			<label class="col-md-4 control-label" for="user_introduciton">Preference</label>
-			<div class="col-md-4">
-				<input id="user_introduciton" name="introduction" type="text" placeholder="" class="form-control input-md" value="<?php echo $userinfo["preference"] ?>">
-				
-			</div>
+		  <label class="col-md-4 control-label" for="selectmultiple">Preference</label>
+		  <div class="col-md-4">
+		    <select id="selectmultiple" name="introduction[]" class="form-control" multiple="multiple">
+		      <?php
+		      		foreach ($allc as $key) {
+						echo '<option value= ' . $key["category_id"] . '>';
+						echo $key["category_name"];
+						echo "</option>";
+					}
+		      ?>
+		    </select>
+		  </div>
 		</div>
+		
+
+		<!-- Multiple Checkboxes -->
+		<div class="form-group">
+		  <label class="col-md-4 control-label" for="checkboxes">Preference</label>
+		  <div class="col-md-4" style="margin-left: 0.5cm;">
+			<?php
+		      		foreach ($allc as $key) {
+
+		      			echo '<div class="checkbox">';
+		      			echo '<input type="checkbox" name="introduction[]" value="' . $key["category_id"] . '"checked >';		
+						echo $key["category_name"];
+						echo "</div>";
+					
+					}
+		    ?>
+		  </div>
+		</div>
+
+
 		<div class="form-group">
 			<center><button type="submit" id="userinfo_sumit" name="userinfo" class="btn btn-success">Save</button></center>
 		</div>
 	</fieldset>
 </form>
+
+<select multiple>
+
+</select>
 
 <!-- /.container -->
 
@@ -112,4 +168,15 @@ if($_SESSION['user_id']!=""){
 </body>
 
 </html>
+
+<?php
+
+function process_preference($data){
+	$preference = explode($data,',');
+	return $preference;
+}
+
+?>
+
+
 

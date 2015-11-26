@@ -29,6 +29,7 @@ class AuthSystem{
 	public function login($email,$password){
 		$this->model = new UserModel();
 		$user = $this->model->getuser($email);
+		
 		if($user != NULL){
 				$match = false;
 			 	$user_db_password = $user[0]['password'];
@@ -41,11 +42,17 @@ class AuthSystem{
 				if(!isset($_SESSION)){
 					session_start();
 				}
+				// Get user information then store into session
+				$userinfo = $this->getuserinfobyuserid($user[0]['id']);
+				var_dump($userinfo);
+
 				$_SESSION['user_id'] = $user[0]['id'];
 				$_SESSION['email'] = $user[0]['email'];
 				$_SESSION['activated'] = $user[0]['activated'];
 				$_SESSION['admin'] = $user[0]['admin'];
 				$_SESSION['login'] = true;
+				$_SESSION['zipcode'] = $userinfo['zip'];
+				$_SESSION['preference'] = $userinfo['preference'];
 
 				if($user[0]['admin']==true){
 					// Admin user
@@ -138,6 +145,12 @@ class AuthSystem{
 	public function getuserinfo(){
 		$this->model = new UserModel();
 		$userinfo = $this->model->getuserinfo();
+		return $userinfo[0];
+	}
+
+	public function getuserinfobyuserid($id){
+		$this->model = new UserModel();
+		$userinfo = $this->model->getuserinfo($id);
 		return $userinfo[0];
 	}
 

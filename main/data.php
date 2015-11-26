@@ -77,6 +77,30 @@
             }
             return $res; 
         }
+
+        public function getActivityByCategory($category_combined_id){
+            global $dbConnection;
+            if($category_combined_id != ""){
+                $category_id = explode(",",$category_combined_id);
+                $first = 1;
+                $query_combined = "";
+                foreach ($category_id as $id) {
+                    //$query = "SELECT * FROM activities where category_id = 1 or category_id = 2 order by activity_id DESC limit 5";                  
+                    if($first == 1){
+                        $query_combined .= "category_id = '$id'";
+                        $first = 0;
+                    }else{
+                        $query_combined .= " or " . "category_id = '$id'";
+                    }
+                }
+                $query = "SELECT * FROM activities where " . $query_combined . "order by activity_id DESC limit 5";
+                //echo $query;
+                $activities_array = $dbConnection->send_sql($query)->fetch_all(MYSQLI_ASSOC);
+                return $activities_array;
+            }
+            
+        }
+
         public function __construct ()
         {   
             global $dbConnection;
@@ -321,6 +345,11 @@ class UserModel{
         return $this->db->send_sql($query)->fetch_all(MYSQLI_ASSOC);
     }
 
+    public function getuserinfobyuserid($id){
+        $query = "SELECT * FROM `USER_INFO` WHERE `user_id` = '$id'";
+        return $this->db->send_sql($query)->fetch_all(MYSQLI_ASSOC);
+    }
+
     public function changepassword($password,$salt,$user_id){
         echo $password;
         $this->changepassword->bind_param("sss",$password,$salt,$user_id);
@@ -328,7 +357,6 @@ class UserModel{
 
     }
 
-    
 
     // Admin
     public function getalluser(){
