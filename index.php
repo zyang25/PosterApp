@@ -5,9 +5,9 @@ echo '<br/><br/><pre>Session_variable:<br/>';
 var_dump($_SESSION);
 echo '</pre>';
 $title = 'vjoin';
-// if(isset($_SESSION['user_id'])){
-//     header('Location: main');
-// }
+if(isset($_SESSION['user_id'])){
+    header('Location: main');
+}
 ?>
 
 <!DOCTYPE html>
@@ -65,7 +65,7 @@ $title = 'vjoin';
                          
                             if($status == 1 || $status == 2 || $status ==3){
                             echo "Login successfully";
-                            // header("Location: main");
+                            header("Location: main");
                             }else{
                             echo "<div class=\"alert alert-danger\" role=\"alert\">Email or password is not correct.</div>";
                             }

@@ -37,8 +37,8 @@ if($_SESSION['user_id']!=""){
 	}else{
 		$_POST['introduction'] = "";
 	}
-	// Preference
-	
+
+	// Preference update	
 	$user->updateuserinfo(
 		$_POST['last_name'],
 		$_POST['first_name'],
@@ -49,11 +49,13 @@ if($_SESSION['user_id']!=""){
 		$_POST['introduction'],
 		$user_id
 	);
+	// Update session
+	$_SESSION['preference'] = $_POST['introduction'];
 	
 	}
 
 	// If there is nothing post, then get information from database
-	$userinfo = $user->getuserinfo();
+	$userinfo = $user->getuserinfobyuserid($_SESSION['user_id']);
 	$get_preference = explode($userinfo["preference"],',');
 
 	

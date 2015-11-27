@@ -1,5 +1,6 @@
 <?php
 require_once($_SERVER['DOCUMENT_ROOT'].'/Vjoin/main/data.php');
+
 class AuthSystem{
 
 	private $site_key;
@@ -201,14 +202,12 @@ class AuthSystem{
 		return false;
 	}
 
-
 	// Common query
 	public function getuser($email){
 		$this->model = new UserModel();
 		$user = $this->model->getuser($email);
 		return $user[0];
 	}
-
 
 }
 

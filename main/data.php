@@ -78,7 +78,7 @@
             return $res; 
         }
 
-        public function getActivityByCategory($category_combined_id){
+        public function getActivityByCategory($user_id, $category_combined_id){
             global $dbConnection;
             if($category_combined_id != ""){
                 $category_id = explode(",",$category_combined_id);
@@ -93,8 +93,8 @@
                         $query_combined .= " or " . "category_id = '$id'";
                     }
                 }
-                $query = "SELECT * FROM activities where " . $query_combined . "order by activity_id DESC limit 5";
-                //echo $query;
+                $query = "SELECT * FROM activities where user_id !='$user_id' and (" . $query_combined . ") order by activity_id DESC limit 5";
+                echo "<br/><br/><br/>".$query;
                 $activities_array = $dbConnection->send_sql($query)->fetch_all(MYSQLI_ASSOC);
                 return $activities_array;
             }
@@ -338,6 +338,7 @@ class UserModel{
     public function updateuserinfo($lname,$fname,$address1,$address2,$tel,$zip,$preference,$user_id){
         $this->updateuserinfo->bind_param("ssssssss",$lname,$fname,$address1,$address2,$tel,$zip,$preference,$user_id);
         $this->updateuserinfo->execute();
+        
     }
 
     public function getuserinfo(){

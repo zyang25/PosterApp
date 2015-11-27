@@ -7,12 +7,12 @@ if(!isset($_SESSION['user_id'])){
 }
 
 $activity = new activity();
-$activity_array = $activity->getActivityByCategory($_SESSION['preference']);
+$activity_array = $activity->getActivityByCategory($_SESSION['user_id'],$_SESSION['preference']);
 
 $recommanded_title = array();
 $recommanded_img = array();
 foreach ($activity_array as $key) {
-	$img_path = '../assets/img/activities-large-pic/' . $key['image'] . '.png';
+	$img_path = '../assets/img/activities-large-pic/' . $key['image'];
 	array_push($recommanded_img, $img_path);
 	array_push($recommanded_title, $key['title']);
 };
@@ -40,7 +40,6 @@ foreach ($activity_array as $key) {
 
 <!-- Half Page Image Background Carousel Header -->
 <header id="myCarousel" class="carousel slide">
-    <!-- Indicators -->
     <ol class="carousel-indicators">
         <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
         <li data-target="#myCarousel" data-slide-to="1"></li>
@@ -100,13 +99,7 @@ foreach ($activity_array as $key) {
 </header>
 
 <div class="row">
-<?php 
-	// foreach ($activity_array as $key) {
-	// 	echo '<div class="col-md-7">';
-	// 	echo '<img class="img-responsive" src="../assets/img/activities-large-pic/'. $key['image'] . '.png">';
-	// 	echo '</div>';
-	// }
-?>
+
 </div>	
 
 
