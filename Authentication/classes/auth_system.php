@@ -1,5 +1,7 @@
 <?php
+
 require_once($_SERVER['DOCUMENT_ROOT'].'/Vjoin/main/data.php');
+require_once($_SERVER['DOCUMENT_ROOT'].'/Vjoin/PHPmail/mail.php');
 
 class AuthSystem{
 
@@ -20,9 +22,11 @@ class AuthSystem{
 		// Generate code
 		$code = $this->randomString();
 		// Create user
-
 		if($this->model->createuser($email,$hashed_password,$salt,$code)){
-			$this->sendVerification($email,$code);
+			//$this->sendVerification($email,$code);
+			$gmail = new Gmail();
+			$gmail->sendVertifiedEmail($email,urlencode($code));
+
 		}else
 			return false;
 	}
@@ -82,7 +86,7 @@ class AuthSystem{
 
 	public function vertifycode($email,$code){
 		$this->model = new UserModel();
-		return $this->model->vertifycode($email,$code);
+		return $this->model->vertifycode($email,urldecode($code));
 	}
 
 	// Password management
@@ -109,7 +113,10 @@ class AuthSystem{
 		$hashed_password = crypt($random_password,$salt);
 		echo $hashed_password."<br/>".$salt."<br/>";
 		$this->model->changepassword($hashed_password,$salt,$user_id);
-		$this->sendnewpassword($email,$random_password);
+
+		// Send mail
+		$gmail = new Gmail();
+		$gmail->sendnewpassword($email,$random_password);
 	}
 
 	public function checkpassword($email,$password){
@@ -153,53 +160,6 @@ class AuthSystem{
 		$this->model = new UserModel();
 		$userinfo = $this->model->getuserinfo($id);
 		return $userinfo[0];
-	}
-
-	// Email
-	public function sendVerification($email, $code) {
-		
-		//set email subject
-		$subject = 'Account Creation Verification';
-
-		$message = 'This is to verify your new account has a valid email address';
-		$message .= '<br /><br />You can click <a href="http://' . SITE_HTTP . '/final/Authentication/vertify.php?email=' . $email . '&code=' . $code . '">here</a> to verify automatically';
-		$message .= '<br /><br />Thank you for your coorperation';
-
-		//set email headers
-		$headers = 'From: ' . FROM_EMAIL . "\r\n" .
-		    'Reply-To: ' . FROM_EMAIL . "\r\n" .
-			'Content-type: text/html; charset=iso-8859-1' . "\r\n" .
-		    'X-Mailer: PHP/' . phpversion();
-
-
-		//send email
-		if (mail($email, $subject, $message, $headers)) {
-			return true;
-		}
-
-		return false;
-	}
-
-	public function sendnewpassword($email,$password) {
-		
-		//set email subject
-		$subject = 'New Password';
-
-		$message = "This is the new password for your account<br/><br/>Password:  ".$password;
-
-		//set email headers
-		$headers = 'From: ' . FROM_EMAIL . "\r\n" .
-		    'Reply-To: ' . FROM_EMAIL . "\r\n" .
-			'Content-type: text/html; charset=iso-8859-1' . "\r\n" .
-		    'X-Mailer: PHP/' . phpversion();
-
-
-		//send email
-		if (mail($email, $subject, $message, $headers)) {
-			return true;
-		}
-
-		return false;
 	}
 
 	// Common query

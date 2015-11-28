@@ -60,7 +60,7 @@ echo "</div>";
     <!-- Javascript -->
     <script src="../assets/js/jquery-1.11.1.min.js"></script>
     <script>
-    function check_email(){
+        function check_email(){
         var pattern = /^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/;
         var stevens_email = /^\w+@(stevens.edu)$/;
         var email = document.getElementById("email").value;
@@ -86,6 +86,7 @@ echo "</div>";
             return true;
         }
     };
+
     $('#register_form').bind("submit",function(e){
         if(check_email()&&check_password()){
             console.log("Hello");
@@ -94,7 +95,7 @@ echo "</div>";
             e.preventDefault();
         }
     });
-</script>
+    </script>
 
 </body>
 </html>

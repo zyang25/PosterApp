@@ -328,7 +328,7 @@ class UserModel{
     }
 
     public function vertifycode($email,$code){
-
+        echo $code;
         $this->vertifycode->bind_param("s",$code);
         $this->vertifycode->execute();
         return $this->vertifycode->affected_rows;

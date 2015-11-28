@@ -1,29 +1,55 @@
 <?php
 session_start();
 $title = 'vjoin';
-include('../static/header.php');
-include('../static/nav.php');
+
 require_once('classes/auth_system.php');
 
 echo '<br/><br/><pre>Session_variable:<br/>';
 	var_dump($_SESSION);
 echo '</pre>';
 
+?>
 
-// http://localhost/final/authentication/vertify.php?email=909@gmail.com&code=oasANXjFTDedAPl26yI^S10Lo5oVmkZn%H5(iJT$
-if(isset($_GET['email'])&&isset($_GET['code'])){
-	$user = new AuthSystem();
-	if($user->vertifycode($_GET['email'],$_GET['code'])){
-		echo "Vertified.";
+<!DOCTYPE html>
+<html lang="en">
 
-	}else{
-		echo "Bad request.";
-		
+<head>   
+<!-- CSS -->
+        <link rel="stylesheet" href="../assets/bootstrap/css/bootstrap.min.css">
+        <link rel="stylesheet" href="../assets/css/omb.css">
+        
+</head>
+<body>
+<div class="container">
+    
+<div class="row">
+<img style="margin-top:-10px;width:300px;"class="pull-left" src="../assets/img/stevens.png" alt="UAH"/>
+</div>
+
+<div class="row">
+	<?php
+
+	if(isset($_GET['email'])&&isset($_GET['code'])){
+
+		$user = new AuthSystem();
+		if($user->vertifycode($_GET['email'],$_GET['code'])){
+			echo "<center>";
+			echo "<h2>Vertified.<h2>";
+			echo "</center>";
+
+		}else{
+			echo "Bad request.";
+			
+		}
 	}
-}
-
 ?>
+</div>
+    
 
-<?php
-include('../static/footer.php');
-?>
+</div>
+    <!-- Javascript -->
+    <script src="../assets/js/jquery-1.11.1.min.js"></script>
+    
+
+</body>
+</html>
