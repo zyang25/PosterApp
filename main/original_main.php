@@ -1,10 +1,13 @@
 <?php include("header.php"); 
+require_once('./data.php');
 
 if(!isset($_SESSION['user_id'])){
     header('Location: ../index.php');
 }
 
 ?>
+
+ 
 
     <!-- Page Content -->
     <div class="container">
@@ -79,6 +82,23 @@ if(!isset($_SESSION['user_id'])){
         <!-- /.row -->
 
         <hr>
+        <?php
+        if(isset($_POST['title'])){
+            if ($_FILES["image"]["error"] > 0)
+            {
+              echo "Error: " . $_FILES["image"]["error"] . "<br />";
+            }
+            else
+            {
+              $filename = md5(uniqid(rand()));
+              move_uploaded_file($_FILES["image"]["tmp_name"],"../assets/img/activites/" . $filename);
+              echo 'enter'.$_POST['title'].$_POST['location'].$_POST['start_time'].$_POST['description'].$_POST['max_followers'].$_POST['category'];
+              $activity = new activity();
+              $activity -> addEvent($_POST['start_time'], $_POST['location'], $_POST['description'], "../assets/img/activites/". $filename, $_SESSION['user_id'], $_POST['category'], $_POST['max_followers'], $_POST['title']);
+            }
+            return;
+        }
+        ?>
 
         <!-- Footer -->
         <footer>
@@ -94,10 +114,13 @@ if(!isset($_SESSION['user_id'])){
     <!-- /.container -->
 
     <!-- jQuery -->
+    <script src="../assets/js/moment-with-locales.js"></script>
     <script src="../assets/js/jquery-1.11.1.js"></script>
 
     <!-- Bootstrap Core JavaScript -->
     <script src="../assets/bootstrap/js/bootstrap.min.js"></script>
+    <script src="../assets/js/bootstrap-datetimepicker.js"></script>
+
 
 </body>
 

@@ -1,10 +1,16 @@
-<?php session_start();?>
+<?php 
+session_start();
+require_once('addActivity.php');
+?>
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="utf-8">
+    <script src="../assets/js/jquery-1.11.1.js"></script>
     <link href="../assets/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../assets/css/bootstrap-datetimepicker.css" rel="stylesheet">
+
 
     <!-- Custom CSS -->
     <!-- <link href="../assets/css/1-col-portfolio.css" rel="stylesheet"> -->
@@ -29,7 +35,13 @@
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
-            <li class="active"><a href="">Home</a></li>
+             <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Home <span class="caret"></span></a>
+             <ul class="dropdown-menu">
+               <li><a data-toggle="modal" data-target="#myModal">Post</a></li>
+               <li><a href="#">Another action</a></li>
+             </ul>
+             </li>
           </ul>
           <ul class="nav navbar-nav navbar-right">
             <?php
