@@ -115,10 +115,10 @@ foreach ($activity_array as $key) {
               $image = file_get_contents($image);
               $image = base64_encode($image);
              
-              echo 'enter'.$_POST['title'].$_POST['location'].$_POST['start_time'].$_POST['description'].$_POST['max_followers'].$_POST['category'];
+              echo 'enter'.$_POST['title'].$_POST['post_location'].$_POST['start_time'].$_POST['post_description'].$_POST['max_followers'].$_POST['category'];
 
               $activity = new activity();
-              $activity -> addEvent($_POST['start_time'], $_POST['location'], $_POST['description'], $image, $_SESSION['user_id'], $_POST['category'], $_POST['max_followers'], $_POST['title']);
+              $activity -> addEvent($_POST['start_time'], $_POST['post_location'], $_POST['post_description'], $image, $_SESSION['user_id'], $_POST['category'], $_POST['max_followers'], $_POST['title']);
             }
             return;
         }
