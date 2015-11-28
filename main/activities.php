@@ -1,33 +1,56 @@
 <?php include("header.php"); 
-if(!isset($_SESSION['user_id'])){
-    header('Location: ../index.php');
-}
-?>              
+    if(!isset($_SESSION['user_id'])){
+        header('Location: ../index.php');
+    }
+    require_once('data.php');
+    $images = new activity_images();
+    $res = $images->retrieveImage($_GET['activity_id']);
+    $count_image = count($res);
+
+?>  
+
+    <table>
+    <?php
+    for($i = 0; $i < $count_image; $i++){
+    ?>    
+        <tr>
+            <td>
+                <input id = "<?php echo $i ?>" type="hidden" value= "<?php echo $res[$i]['image']?>">
+            </td>
+        </tr>
+        <?php
+    }
+    ?>
+    </table>
+
+    <input type="hidden" id = "image_number" value="<?php echo $count_image ?>">
+    <input type="hidden" id = "activity_id" value="<?php echo $_GET['activity_id'] ?>">
+    <input type="hidden" id = "user_id" value="<?php echo $_SESSION['user_id'] ?>">
+
         <!-- Page Content -->
             <div class="container">
                 <!-- Page Heading -->
                 <div class="row">
                     <div class="col-lg-12">
-                        <h1 class="page-header" id = "activity_name"> Activity Name need to be rendered
-                            <small id = "category_name">category Name need to be rendered</small>
-                        </h1>
+                        <h1 class="page-header" id = "activity_name"></h1>
                     </div>
                 </div>
                 
-                
                 <div class="row">
                     <div class="col-md-7">
-                            <img class="img-responsive" id = "image_area" src="../assets/img/activites/BBQ.jpg" alt="">
-                            <!-- /.row modify this image src from database !!!!-->
+                            <img height="600" width="600" class="img-responsive" id = "image_area" src="data:image;base64,<?php echo $res[0]['image']?>" alt="">                            
+                           <!--  echo '<img height="300" width="300" src="data:image;base64,'.$res[1]['image'].' ">  '; -->
+                            <!-- handle no image upload -->
                     </div>
-                    <div class="col-md-5">                             
-                        <h3 id = "location">Babbio Center 104</h3>  <!-- location-->
-                        <h4 id = "time_stamp">Nov. 8, 2015, 6:47 p.m</h4> <!-- time-->
-                        <p id = "description">Had the brisket and chicken, very tasty and moist.</p>      <!-- description-->
-                        <br>
-
-                        <a class="btn btn-primary" id = "follow_status" value = "unfollow">   follow</a>&nbsp;&nbsp;&nbsp;&nbsp;<span id = "remaining">45/60</span>
-                    
+                    <div class="col-md-5">
+                        <table>
+                            <tr><td><h3><label for = "location">Location:</label></h3></td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td><h4 id = "location"></h4></td></tr>
+                            <tr><td><h3><label for = "time_stamp">Time:</label></h3></td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td><h4 id = "time_stamp"></h4></td></tr>
+                            <tr><td><h3><label for = "description">Description:</label></h3></td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td><h4 id = "description"></h4></td></tr>                            
+                        </table>
+                        <br> 
+                        <br> 
+                        <a class="btn btn-primary" id = "follow_status">Loading...</a>&nbsp;&nbsp;&nbsp;&nbsp;<span id = "remaining"></span>   
                     </div>
                 </div>
                 <!-- /.row -->
@@ -35,27 +58,21 @@ if(!isset($_SESSION['user_id'])){
                 <!-- Pagination handle multiple images-->
                 <div class="row text-center">
                     <div class="col-lg-12">
-                        <ul class="pagination">
+                        <ul class="pagination" id = "change_image">  
                             <li>
-                                <a href="#">&laquo;</a>
+                                <a class ="reply">&laquo;</a>
                             </li>
-                            <li class="active">
+                            <!--  <li class="active">
                                 <a href="#">1</a>
-                            </li>
+                            </li> -->
+                            <?php
+                                for($i = 0; $i < $count_image; $i++){
+                                    $index = $i + 1;
+                                    echo "<li><a class='reply' data-doc_value=' ".$index."'>". $index ."</a></li>";
+                                }
+                            ?>
                             <li>
-                                <a href="#">2</a>
-                            </li>
-                            <li>
-                                <a href="#">3</a>
-                            </li>
-                            <li>
-                                <a href="#">4</a>
-                            </li>
-                            <li>
-                                <a href="#">5</a>
-                            </li>
-                            <li>
-                                <a href="#">&raquo;</a>
+                                <a class ="reply">&raquo;</a>
                             </li>
                         </ul>
                     </div>
@@ -81,4 +98,6 @@ if(!isset($_SESSION['user_id'])){
         <script src="../assets/js/jquery-1.11.1.js"></script>
         <!-- Bootstrap Core JavaScript -->
         <script src="../assets/bootstrap/js/bootstrap.min.js"></script>
+        <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+        <script src="../assets/js/load_activity.js"></script>
 </html>

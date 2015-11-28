@@ -9,9 +9,10 @@
         private $deleteActiv;
         private $updateFollower;
         private $removeFollow;
+        private $getCurrentFollowerNumber;
         //private $retrieveAll;   //retrieve all 
         private $retrieveCate;  //get back all info depend on category
-        private $retrieveOne;   //one event
+        //private $retrieveOne;   //one event
         private $retriveUnVerify;
 
         public function addEvent($start_time, $location, $description, $image, $user_id, $category_id, $max_followers, $title) {    //state, following number    
@@ -30,6 +31,18 @@
             $this->updateFollower->execute();
         }
 
+        public function getCurrentFollowNumber($activity_id){
+            $res = array(); 
+            $this->getCurrentFollowerNumber->bind_param("i", $activity_id);
+            $this->getCurrentFollowerNumber->execute();    
+            $this->getCurrentFollowerNumber->bind_result($followers, $max_followers);
+            while($this->getCurrentFollowerNumber->fetch()){
+                $newTuple = array("followers" => $followers, "max_followers" => $max_followers);
+                array_push($res, $newTuple);
+            }
+            return $res[0];
+        }
+
         public function removeFollow($activity_id){
             $this->removeFollow->bind_param("i", $activity_id);
             $this->removeFollow->execute();
@@ -42,7 +55,8 @@
             // while($this->retrieveAll->fetch()){
             //     $newTuple = array("activity_id" => $activity_id, "start_time" => $start_time, "location" => $location, "description" => $description, "image" => $image, "user_id" => $user_id, "category_id" =>  $category_id, "followers" => $followers, "max_followers" => $max_followers, "title" => $title, "state" => $state);
             //     array_push($res, $newTuple);               
-            // }           
+            // }  
+            global $dbConnection;         
             return $dbConnection->send_sql("SELECT * FROM `activities`")->fetch_all(MYSQLI_ASSOC);
         }
         public function getCategory($category_id){
@@ -57,15 +71,18 @@
             return $res;
         }
         public function getOneEvent($activity_id){
-            $res = array();            
-            $this->retrieveOne->bind_param("i", $activity_id);
-            $this->retrieveOne->execute();
-            $this->retrieveOne->bind_result($start_time, $location, $description, $image, $user_id, $category_id, $followers, $max_followers, $title, $state);
-            while($this->retrieveOne->fetch()){
-                $newTuple = array("start_time" => $start_time, "location" => $location, "description" => $description, "image" => $image, "user_id" => $user_id, "category_id" =>  $category_id, "followers" => $followers, "max_followers" => $max_followers, "title" => $title, "state" => $state);
-                array_push($res, $newTuple);
-            }
-            return $res[0]; 
+            global $dbConnection;
+            return $dbConnection->send_sql("SELECT * FROM `activities` WHERE `activity_id` = $activity_id ")->fetch_all(MYSQLI_ASSOC)[0];
+
+            // $res = array();            
+            // $this->retrieveOne->bind_param("i", $activity_id);
+            // $this->retrieveOne->execute();
+            // $this->retrieveOne->bind_result($activity_id, $start_time, $location, $description, $image, $user_id, $category_id, $followers, $max_followers, $title, $state);
+            // while($this->retrieveOne->fetch()){
+            //     $newTuple = array("activity_id" => $activity_id, "start_time" => $start_time, "location" => $location, "description" => $description, "image" => $image, "user_id" => $user_id, "category_id" =>  $category_id, "followers" => $followers, "max_followers" => $max_followers, "title" => $title, "state" => $state);
+            //     array_push($res, $newTuple);
+            // }
+            // return $res[0]; 
         }
         public function getUnVerify(){
             $res = array();            
@@ -108,15 +125,15 @@
         
 
             $this->addActiv = $dbConnection->prepare_statement("INSERT INTO `activities`(`start_time`, `location`, `description`, `image`, `user_id`, `category_id`, `followers`, `max_followers`, `title`, `state`) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-    
-            
+            $this->getCurrentFollowerNumber = $dbConnection->prepare_statement("SELECT `followers`, `max_followers` From `activities` where `activity_id` = ?");
+                                                                               
 
             $this->deleteActiv = $dbConnection->prepare_statement("DELETE FROM `activities` WHERE `activity_id` = ?");
             $this->updateFollower = $dbConnection->prepare_statement("UPDATE `activities` SET `followers` = `followers` + 1 WHERE `activity_id` = ?");
             $this->removeFollow = $dbConnection->prepare_statement("UPDATE `activities` SET `followers` = `followers` - 1 WHERE `activity_id` = ?");
 
             //$this->retrieveAll = $dbConnection->prepare_statement("SELECT * FROM `activities`");
-            $this->retrieveOne = $dbConnection->prepare_statement("SELECT * FROM `activities` WHERE `activity_id` = ?");
+            //$this->retrieveOne = $dbConnection->prepare_statement("SELECT * FROM `activities` WHERE `activity_id` = ?");
             $this->retrieveCate = $dbConnection->prepare_statement("SELECT * FROM `activities` WHERE `category_id` = ?");
             $this->retriveUnVerify = $dbConnection->prepare_statement("SELECT * FROM `activities` WHERE `state` = 0");          
         }
@@ -124,13 +141,53 @@
             $this->addActiv->close(); 
             $this->deleteActiv->close(); 
             $this->updateFollower->close();
+            $this->removeFollow->close();
+            $this->getCurrentFollowerNumber->close();
 
             //$this->retrieveAll->close();
             $this->retrieveCate->close();
-            $this->retrieveOne->close();
+            //$this->retrieveOne->close();
             $this->retriveUnVerify->close();
         }
-    } 
+    }
+    class activity_images{
+        private $addImage;
+
+        public function addImage($activity_id, $name, $image) {    //state, following number
+            $this->addImage->bind_param("iss", $activity_id, $name, $image);
+            $this->addImage->execute();   
+        }
+        public function retrieveImage($activity_id) {    //state, following number
+            global $dbConnection;         
+            return $dbConnection->send_sql("SELECT * FROM `activity_images` where `activity_id` = $activity_id ")->fetch_all(MYSQLI_ASSOC);
+        }
+        public function retrieveAllImage() {    //for test purpose
+            global $dbConnection;         
+            return $dbConnection->send_sql("SELECT * FROM `activity_images`")->fetch_all(MYSQLI_ASSOC);
+        }
+        
+
+        public function deleteImageByActivity($activity_id){   
+            global $dbConnection;
+            $dbConnection->send_sql("DELETE FROM `activity_images` where `activity_id` = $activity_id");
+        }
+        public function deleteImageByName($activity_id, $name){
+            global $dbConnection;
+            $dbConnection->send_sql("DELETE FROM `activity_images` where `activity_id` = $activity_id and `name_image` = $name");
+        }
+
+        public function __construct ()
+        {   
+            global $dbConnection;          
+            if($dbConnection == null) $dbConnection = new DatabaseConnection();            
+            $this->addImage = $dbConnection->prepare_statement("INSERT INTO `activity_images`(`activity_id`, `name_image`, `image`) VALUES(?, ?, ?)");    
+        }
+        public function __destruct(){     
+            $this->addImage->close();             
+        } 
+    }
+
+
     class category
     {   
         private $addCate;
@@ -193,24 +250,42 @@
     class following
     {     
         private $addFollowers;
+        private $removeFollower;
         private $deleteFollowersU;
         private $deleteFollowersA;
         private $getGroup;        //according to activities name, activities title
         private $getEventList;
+        private $isFollow;
 
         public function addFollower($activity_id, $user_id, $follow_time) {    
             $this->addFollowers->bind_param("iis", $activity_id, $user_id, $follow_time);
             $this->addFollowers->execute();   
         }
+        public function removeFollowFromOneEvent($activity_id, $user_id){
+            $this->removeFollower->bind_param("ii", $activity_id, $user_id);
+            $this->removeFollower->execute();
+        }
+
         public function deleteFollowerActivity($activity_id){   //activity delete    
             $this->deleteFollowersA->bind_param("i", $activity_id);
             $this->deleteFollowersA->execute(); 
         }
-        public function deleteFollowerUser($user_id){ 
+        public function deleteFollowerUser($user_id){           //totally delete this user
             $this->deleteFollowersU->bind_param("i", $user_id);
             $this->deleteFollowersU->execute();
         }
+        public function isfollowing($activity_id, $user_id){
+            $res = array();
+            $this->isFollow->bind_param("ii", $activity_id, $user_id);
+            $this->isFollow->execute();
+            $this->isFollow->bind_result($count);
 
+            while($this->isFollow->fetch()){
+                $newTuple = array("count" => $count);
+                array_push($res, $newTuple);               
+            }
+            return $res[0]; 
+        }
         public function getGroupPeople($activity_id){
             $this->getGroup->bind_param("i", $activity_id);
             $this->getGroup->execute();
@@ -238,9 +313,13 @@
             if($dbConnection == null) $dbConnection = new DatabaseConnection();
 
             $this->addFollowers = $dbConnection->prepare_statement("INSERT INTO `following`(`activity_id`, `user_id`, `follow_time`) VALUES(?, ?, ?)");
+            $this->removeFollower = $dbConnection->prepare_statement("DELETE FROM `following` WHERE `activity_id` = ? and `user_id` = ?");
+
             $this->deleteFollowersU = $dbConnection->prepare_statement("DELETE FROM `following` WHERE `user_id` = ?");
             $this->deleteFollowersA = $dbConnection->prepare_statement("DELETE FROM `following` WHERE `activity_id` = ? ");                   
-            //check!!!! this sql
+            $this->isFollow = $dbConnection->prepare_statement("SELECT count(*) as `count` FROM `following` WHERE `activity_id` = ? and `user_id` = ?");
+            //check!!!! this sql modify later!!!!!!!
+            
             $this->getGroup = $dbConnection->prepare_statement("with `event_title`(`eve_title`, `activity_id`) as SELECT `title`, `activity_id` from `activities` where `activity_id` = ? with `get_userId`(`user_id`) as select `user_id` from `following` inner join `event_title` on event_title.user_id = following.user_id  SELECT `title`, `firstName`, `lastName` FROM `get_userId` natural join `User_Info` ");
             $this->getEventList = $dbConnection->prepare_statement("with `event_id`(`activity_id`) as SELECT `activity_id` from `following` where `user_id` = ?  SELECT `activity_id`, `title` FROM `activities` natrual join `event_id`");      
         }
@@ -248,8 +327,10 @@
             $this->addFollowers->close(); 
             $this->deleteFollowersU->close(); 
             $this->deleteFollowersA->close();
-            $this->getGroup->close();
-            $this->getEventList->close();
+            $this->isFollow->close();
+            $this->removeFollower->close();
+            //$this->getGroup->close();
+            //$this->getEventList->close();
         } 
     }
 
