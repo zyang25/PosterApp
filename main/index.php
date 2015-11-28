@@ -2,6 +2,7 @@
 
 session_start();
 require_once('data.php');
+require_once('addActivity.php');
 if(!isset($_SESSION['user_id'])){
     header('Location: ../index.php');
 }
@@ -26,7 +27,7 @@ foreach ($activity_array as $key) {
 <head>
     <meta charset="utf-8">
     <link href="../assets/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-
+     <link href="../assets/css/bootstrap-datetimepicker.css" rel="stylesheet">
     <!-- Custom CSS -->
     <link href="../assets/css/half-slider.css" rel="stylesheet">
 
@@ -101,6 +102,27 @@ foreach ($activity_array as $key) {
 <div class="row">
 
 </div>	
+<?php
+        if(isset($_POST['title'])){
+            if ($_FILES["image"]["error"] > 0)
+            {
+              echo "Error: " . $_FILES["image"]["error"] . "<br />";
+            }
+            else
+            {
+              $imagename = md5(uniqid(rand()));
+              $image = addslashes($_FILES['image']['tmp_name']);
+              $image = file_get_contents($image);
+              $image = base64_encode($image);
+             
+              echo 'enter'.$_POST['title'].$_POST['location'].$_POST['start_time'].$_POST['description'].$_POST['max_followers'].$_POST['category'];
+
+              $activity = new activity();
+              $activity -> addEvent($_POST['start_time'], $_POST['location'], $_POST['description'], $image, $_SESSION['user_id'], $_POST['category'], $_POST['max_followers'], $_POST['title']);
+            }
+            return;
+        }
+?>
 
 
 
@@ -109,6 +131,9 @@ foreach ($activity_array as $key) {
 
 <!-- jQuery -->
 <script src="../assets/js/jquery-1.11.1.js"></script>
+<script src="../assets/js/moment-with-locales.js"></script>
+<script src="../assets/js/bootstrap-datetimepicker.js"></script>
+
 
 <!-- Bootstrap Core JavaScript -->
 <script src="../assets/bootstrap/js/bootstrap.min.js"></script>
