@@ -6,7 +6,7 @@ $("#follow_status").click(function(){
         var now = new Date();
         var month = now.getMonth() + 1;
         var time_stamp = now.getFullYear() + '-' + month + '-' + now.getDate() + ' ' + now.getHours()+':'+now.getMinutes()+':'+now.getSeconds();
-        var url = 'load_activity.php?type=' + 1 +'&user_id=' + user_id + '&activity_id=' + activity_id + '&follow_time=' + time_stamp;        
+        var url = '../../main/load_activity.php?type=' + 1 +'&user_id=' + user_id + '&activity_id=' + activity_id + '&follow_time=' + time_stamp;        
         $.getJSON(url, function(data){
             $("#follow_status").html("Unfollow");
             $("#follow_status").attr("key","1");    // to unfollow this event
@@ -15,7 +15,7 @@ $("#follow_status").click(function(){
         });
     }
     else if(value == 1){ // to unfollow this event
-        var url = 'load_activity.php?type=' + 2 +'&user_id=' + user_id + '&activity_id=' + activity_id;        
+        var url = '../../main/load_activity.php?type=' + 2 +'&user_id=' + user_id + '&activity_id=' + activity_id;        
         $.getJSON(url, function(data){
             $("#follow_status").html("Follow!!");
             $("#follow_status").attr("key","2");    // to follow this event
@@ -53,7 +53,7 @@ $(".reply").click(function(){
 $(function(){
     var user_id = $('#user_id').val();
     var activity_id = $('#activity_id').val();
-    var url = 'load_activity.php?type=' + 0 +'&user_id=' + user_id + '&activity_id=' + activity_id;
+    var url = '../../main/load_activity.php?type=' + 0 +'&user_id=' + user_id + '&activity_id=' + activity_id;
     $.getJSON(url, function(data){
         $("#activity_name").html(data['title']);
        // console.log(data['image']);         //for image

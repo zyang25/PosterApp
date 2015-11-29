@@ -298,23 +298,21 @@
             return $res[0]; 
         }
         public function getGroupPeople($activity_id){
-            $res = array();
             $this->getGroup->bind_param("i", $activity_id);
             $this->getGroup->execute();
-            $this->getGroup->bind_result($email);
+            $this->getGroup->bind_result($title, $firstName, $lastName);
             while($this->getGroup->fetch()){
-                $newTuple = array("email" => $email);
+                $newTuple = array("title" => $title, "firstName" => $firstName, "lastName" => $lastName);
                 array_push($res, $newTuple);               
             }
             return $res; 
         }
         public function getPersonalEventList($user_id){
-            $res = array();
             $this->getEventList->bind_param("i", $user_id);
             $this->getEventList->execute();
-            $this->getEventList->bind_result($activity_id, $title, $start_time);
+            $this->getEventList->bind_result($activity_id, $title);
             while($this->getEventList->fetch()){
-                $newTuple = array("activity_id" => $activity_id, "title" => $title, "start_time" => $start_time);
+                $newTuple = array("activity_id" => $activity_id, "title" => $title);
                 array_push($res, $newTuple);               
             }
             return $res; 
@@ -332,8 +330,9 @@
             $this->deleteFollowersA = $dbConnection->prepare_statement("DELETE FROM `following` WHERE `activity_id` = ? ");                   
             $this->isFollow = $dbConnection->prepare_statement("SELECT count(*) as `count` FROM `following` WHERE `activity_id` = ? and `user_id` = ?");
             //check!!!! this sql modify later!!!!!!!
-            $this->getGroup = $dbConnection->prepare_statement("SELECT `email` from `user` NATURAL join (SELECT `user_id` from `following` WHERE `activity_id` = ?) as T");
-            $this->getEventList = $dbConnection->prepare_statement("SELECT `activity_id`, `title`, `start_time` FROM `activities` NATURAL JOIN (SELECT `activity_id` from `following` where `user_id` = ?) as T ");      
+            
+            $this->getGroup = $dbConnection->prepare_statement("with `event_title`(`eve_title`, `activity_id`) as SELECT `title`, `activity_id` from `activities` where `activity_id` = ? with `get_userId`(`user_id`) as select `user_id` from `following` inner join `event_title` on event_title.user_id = following.user_id  SELECT `title`, `firstName`, `lastName` FROM `get_userId` natural join `User_Info` ");
+            $this->getEventList = $dbConnection->prepare_statement("with `event_id`(`activity_id`) as SELECT `activity_id` from `following` where `user_id` = ?  SELECT `activity_id`, `title` FROM `activities` natrual join `event_id`");      
         }
         public function __destruct(){     
             $this->addFollowers->close(); 
@@ -341,8 +340,8 @@
             $this->deleteFollowersA->close();
             $this->isFollow->close();
             $this->removeFollower->close();
-            $this->getGroup->close();
-            $this->getEventList->close();
+            //$this->getGroup->close();
+            //$this->getEventList->close();
         } 
     }
 

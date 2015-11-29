@@ -13,7 +13,7 @@ require_once('addActivity.php');
 
 
     <!-- Custom CSS -->
-    <link href="../assets/css/1-col-portfolio.css" rel="stylesheet">
+    <!-- <link href="../assets/css/1-col-portfolio.css" rel="stylesheet"> -->
 
 </head>
 
