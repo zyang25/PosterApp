@@ -26,6 +26,13 @@
             $this->deleteActiv->execute();
         }
 
+        public function updateEvent($activity_id, $title, $description, $location, $max_followers){
+            global $dbConnection;       
+            $query = "UPDATE activities SET title=$title, description=$description,location=$location, max_followers=$max_followers WHERE activity_id =$activity_id";
+            echo $query;
+            $dbConnection->send_sql($query);
+        }
+
         public function upadateFollow($activity_id){
             $this->updateFollower->bind_param("i", $activity_id);
             $this->updateFollower->execute();
@@ -116,6 +123,13 @@
                 return $activities_array;
             }
             
+        }
+        
+        public function getActivityByUserId($user_id){
+            global $dbConnection;
+            $query = "SELECT * FROM activities where user_id ='$user_id' ";
+            $activities_array = $dbConnection->send_sql($query)->fetch_all(MYSQLI_ASSOC);
+            return $activities_array;
         }
 
         public function __construct ()
