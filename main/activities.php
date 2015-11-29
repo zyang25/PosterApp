@@ -1,8 +1,10 @@
 <?php 
     session_start();
-    //require_once('addActivity.php');
-    
+    require_once('addActivity.php');    //question!!
     require_once('data.php');
+    if(!isset($_SESSION['user_id'])){
+        header('Location: ../index.php');
+    }
     $images = new activity_images();
     $res = $images->retrieveImage($_GET['activity_id']);
     $count_image = count($res);
@@ -19,10 +21,12 @@
     <link href="../assets/css/1-col-portfolio.css" rel="stylesheet">
 
 </head>
+    
+<body>
     <?php
         include('nav.php');
     ?>
-<body>
+    
     <table>
     <?php
     for($i = 0; $i < $count_image; $i++){
@@ -89,8 +93,6 @@
                     </div>
                 </div>
                 <!-- /.row -->
-
-                <hr>
 
                 <!-- Footer -->
                 <footer>

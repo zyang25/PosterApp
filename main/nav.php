@@ -21,8 +21,9 @@
              <ul class="dropdown-menu">
                <li><a data-toggle="modal" data-target="#myModal">Post a activity</a></li>
                <li><a href="./editActivity.php">Manage my activities</a></li>
-             </ul>
-             </li>
+             </ul>             
+            </li>
+            <li><a href="manageAppliedActivity.php">Applied Activities</a></li>
           </ul>
           <ul class="nav navbar-nav navbar-right">
             <?php
