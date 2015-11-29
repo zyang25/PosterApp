@@ -1,14 +1,26 @@
-<?php include("header.php"); 
-    if(!isset($_SESSION['user_id'])){
-        header('Location: ../index.php');
-    }
+<?php 
+    session_start();
+    //require_once('addActivity.php');
+    include('nav.php');
     require_once('data.php');
     $images = new activity_images();
     $res = $images->retrieveImage($_GET['activity_id']);
     $count_image = count($res);
+?>
+<!DOCTYPE html>
+<html lang="en">
 
-?>  
+<head>
+    <meta charset="utf-8">
+    <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+    <link href="../assets/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../assets/css/bootstrap-datetimepicker.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link href="../assets/css/1-col-portfolio.css" rel="stylesheet">
 
+</head>
+
+<body>
     <table>
     <?php
     for($i = 0; $i < $count_image; $i++){
@@ -39,7 +51,7 @@
                 <div class="row">
                     <div class="col-md-7">
                             <img height="600" width="600" class="img-responsive" id = "image_area" src="data:image;base64,<?php echo $res[0]['image']?>" alt="">                            
-                           <!--  echo '<img height="300" width="300" src="data:image;base64,'.$res[1]['image'].' ">  '; -->
+                            <!--  echo '<img height="300" width="300" src="data:image;base64,'.$res[1]['image'].' ">  '; -->
                             <!-- handle no image upload -->
                     </div>
                     <div class="col-md-5">
@@ -62,9 +74,6 @@
                             <li>
                                 <a class ="reply">&laquo;</a>
                             </li>
-                            <!--  <li class="active">
-                                <a href="#">1</a>
-                            </li> -->
                             <?php
                                 for($i = 0; $i < $count_image; $i++){
                                     $index = $i + 1;
@@ -94,10 +103,6 @@
             </div>
             <!-- /.container -->
     </body>
-    <!-- jQuery -->
-        <script src="../assets/js/jquery-1.11.1.js"></script>
-        <!-- Bootstrap Core JavaScript -->
-        <script src="../assets/bootstrap/js/bootstrap.min.js"></script>
-        <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+    <!-- jQuery -->                
         <script src="../assets/js/load_activity.js"></script>
 </html>
