@@ -6,14 +6,14 @@
         <h4 class="modal-title" id="exampleModalLabel">Post Activity</h4>
       </div>
       <div class="modal-body">
-        <form method="POST" id="postform" action="./main.php" name="postform" enctype="multipart/form-data" onsubmit="return check();">
+        <form method="POST" id="postform" action="./index.php" name="postform" enctype="multipart/form-data" onsubmit="return check();">
           <div class="form-group">
             <label for="title" class="control-label">Title:</label>
             <input type="text" class="form-control" name="title" id="title">
           </div>
            <div class="form-group">
-            <label for="location" class="control-label">Location:</label>
-            <input type="text" class="form-control" name="location" id="location">
+            <label for="post_location" class="control-label">Location:</label>
+            <input type="text" class="form-control" name="post_location" id="post_location">
           </div>
            <div class="form-group">
             <label for="start_time" class="control-label">StartTime:</label>
@@ -28,8 +28,8 @@
             </script>           
           </div>
           <div class="form-group">
-            <label for="description" class="control-label">Description:</label>
-            <textarea class="form-control" name="description" id="description"></textarea>
+            <label for="post_description" class="control-label">Description:</label>
+            <textarea class="form-control" name="post_description" id="post_description"></textarea>
           </div>
           <div class="form-group">
             <label for="max_followers" class="control-label">Max followers:</label>
@@ -65,10 +65,10 @@
 <script type="text/javascript">
   function check(){
     var title = document.getElementById("title").value;
-    var location = document.getElementById("location").value;
+    var post_location = document.getElementById("post_location").value;
     var image = document.getElementById("image").value;
     var start_time = document.getElementById("datetimepicker1").value;
-    var description = document.getElementById("description").value;
+    var post_description = document.getElementById("post_description").value;
     var max_followers = document.getElementById("max_followers").value;
   
     if(title.length==0){
@@ -81,17 +81,17 @@
         document.getElementById('errorMsg').innerHTML = "plz input a short title.";
         return false;
     }
-    if(location.length==0){
+    if(post_location.length==0){
         document.getElementById('errorMsg').style.display = "";
         document.getElementById('errorMsg').innerHTML = "plz input a location.";
         return false;
     }
-    if(description.length==0){
+    if(post_description.length==0){
         document.getElementById('errorMsg').style.display = "";
         document.getElementById('errorMsg').innerHTML = "plz input a description.";
         return false;
     }
-     if(description.length>255){
+     if(post_description.length>255){
         document.getElementById('errorMsg').style.display = "";
         document.getElementById('errorMsg').innerHTML = "plz input a short description.";
         return false;

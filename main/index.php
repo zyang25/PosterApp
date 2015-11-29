@@ -1,6 +1,7 @@
 <?php
 session_start();
 require_once('data.php');
+require_once('addActivity.php');
 if(!isset($_SESSION['user_id'])){
 header('Location: ../index.php');
 }
@@ -48,7 +49,16 @@ if(isset($_GET['category_id'])){
 }
 
 
+<<<<<<< HEAD
 
+=======
+<head>
+    <meta charset="utf-8">
+    <link href="../assets/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+     <link href="../assets/css/bootstrap-datetimepicker.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link href="../assets/css/half-slider.css" rel="stylesheet">
+>>>>>>> origin/Charles
 
 
 
@@ -201,6 +211,7 @@ if(isset($_GET['category_id'])){
                 </div>
             </div>
         </div>
+<<<<<<< HEAD
         <!-- jQuery -->
         <script src="../assets/js/jquery-1.11.1.js"></script>
         <!-- Bootstrap Core JavaScript -->
@@ -212,4 +223,66 @@ if(isset($_GET['category_id'])){
         })
         </script>
     </body>
+=======
+    </div>
+
+    <!-- Controls -->
+    <a class="left carousel-control" href="#myCarousel" data-slide="prev">
+        <span class="icon-prev"></span>
+    </a>
+    <a class="right carousel-control" href="#myCarousel" data-slide="next">
+        <span class="icon-next"></span>
+    </a>
+
+</header>
+
+<div class="row">
+
+</div>	
+<?php
+        if(isset($_POST['title'])){
+            if ($_FILES["image"]["error"] > 0)
+            {
+              echo "Error: " . $_FILES["image"]["error"] . "<br />";
+            }
+            else
+            {
+              $imagename = md5(uniqid(rand()));
+              $image = addslashes($_FILES['image']['tmp_name']);
+              $image = file_get_contents($image);
+              $image = base64_encode($image);
+             
+              echo 'enter'.$_POST['title'].$_POST['post_location'].$_POST['start_time'].$_POST['post_description'].$_POST['max_followers'].$_POST['category'];
+
+              $activity = new activity();
+              $activity -> addEvent($_POST['start_time'], $_POST['post_location'], $_POST['post_description'], $image, $_SESSION['user_id'], $_POST['category'], $_POST['max_followers'], $_POST['title']);
+            }
+            return;
+        }
+?>
+
+
+
+
+
+
+<!-- jQuery -->
+<script src="../assets/js/jquery-1.11.1.js"></script>
+<script src="../assets/js/moment-with-locales.js"></script>
+<script src="../assets/js/bootstrap-datetimepicker.js"></script>
+
+
+<!-- Bootstrap Core JavaScript -->
+<script src="../assets/bootstrap/js/bootstrap.min.js"></script>
+
+<!-- Script to Activate the Carousel -->
+<script>
+	$('.carousel').carousel({
+	interval: 5000 //changes the speed
+	})
+</script>
+
+</body>
+
+>>>>>>> origin/Charles
 </html>
