@@ -95,6 +95,7 @@
             return $res; 
         }
 
+        // main/index.php query activity
         public function getActivityByCategory($user_id, $category_combined_id){
             global $dbConnection;
             if($category_combined_id != ""){
@@ -115,6 +116,16 @@
                 $activities_array = $dbConnection->send_sql($query)->fetch_all(MYSQLI_ASSOC);
                 return $activities_array;
             }
+            
+        }
+
+        public function getActivityByCategoryId($user_id, $category_id){
+            global $dbConnection;
+
+            $query = "SELECT * FROM activities where user_id !='$user_id' and category_id = '$category_id' order by activity_id DESC limit 6";
+            echo "<br/><br/><br/>".$query;
+            $activities_array = $dbConnection->send_sql($query)->fetch_all(MYSQLI_ASSOC);
+            return $activities_array;
             
         }
 
