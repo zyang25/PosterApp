@@ -1,7 +1,7 @@
 <?php 
     session_start();
     //require_once('addActivity.php');
-    include('nav.php');
+    
     require_once('data.php');
     $images = new activity_images();
     $res = $images->retrieveImage($_GET['activity_id']);
@@ -19,7 +19,9 @@
     <link href="../assets/css/1-col-portfolio.css" rel="stylesheet">
 
 </head>
-
+    <?php
+        include('nav.php');
+    ?>
 <body>
     <table>
     <?php
