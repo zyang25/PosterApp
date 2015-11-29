@@ -173,7 +173,7 @@ if(isset($_GET['category_id'])){
 
                                             echo '<div class="col-md-4 col-sm-6 hero-feature">';
                                                 echo '<div class="thumbnail">';
-                                                    echo '<a href="activities.php?activity_id='.$value['activity_id'].'">';
+                                                    echo '<a href="main/activities.php?activity_id='.$value['activity_id'].'">';
                                                         echo '<img class="img-responsive" src="'.$img_path.'" alt="" style="width:100%;height:340px;">';
                                                     echo '</a>';
                                                     echo '<div class="caption">';
