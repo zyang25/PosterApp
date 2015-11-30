@@ -1,4 +1,3 @@
-
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
@@ -13,8 +12,8 @@
             <input type="text" class="form-control" name="title" id="title">
           </div>
            <div class="form-group">
-            <label for="location" class="control-label">Location:</label>
-            <input type="text" class="form-control" name="location" id="location">
+            <label for="post_location" class="control-label">Location:</label>
+            <input type="text" class="form-control" name="post_location" id="post_location">
           </div>
            <div class="form-group">
             <label for="start_time" class="control-label">StartTime:</label>
@@ -29,8 +28,8 @@
             </script>           
           </div>
           <div class="form-group">
-            <label for="description" class="control-label">Description:</label>
-            <textarea class="form-control" name="description" id="description"></textarea>
+            <label for="post_description" class="control-label">Description:</label>
+            <textarea class="form-control" name="post_description" id="post_description"></textarea>
           </div>
           <div class="form-group">
             <label for="max_followers" class="control-label">Max followers:</label>
@@ -40,17 +39,11 @@
             <label for="image" class="control-label">Image:</label>
             <input type="file" class="form-control-file" name="image" id="image">
           </div>
-
           <div class="form-group"> 
             <label for="category" class="control-label">Category:</label>
-            <?php
-            $category = new category();
-            $allCategory = $category -> getAllCategory();
-            echo "<select class='c-select' id='category' name='category'>";
-            for ($i=0; $i < count($allCategory); $i++) { 
-                 echo "<option value='".$allCategory[$i]['category_id']."'>".$allCategory[$i]['category_name']."</option>";
-            }
-            ?>
+            <select class="c-select" id="category" name="category">
+                <option value="1">food</option>
+                <option value="2">study</option>
             </select>
             </div>
             <div class="form-group">
@@ -72,10 +65,10 @@
 <script type="text/javascript">
   function check(){
     var title = document.getElementById("title").value;
-    var location = document.getElementById("location").value;
+    var post_location = document.getElementById("post_location").value;
     var image = document.getElementById("image").value;
     var start_time = document.getElementById("datetimepicker1").value;
-    var description = document.getElementById("description").value;
+    var post_description = document.getElementById("post_description").value;
     var max_followers = document.getElementById("max_followers").value;
   
     if(title.length==0){
@@ -88,17 +81,17 @@
         document.getElementById('errorMsg').innerHTML = "plz input a short title.";
         return false;
     }
-    if(location.length==0){
+    if(post_location.length==0){
         document.getElementById('errorMsg').style.display = "";
         document.getElementById('errorMsg').innerHTML = "plz input a location.";
         return false;
     }
-    if(description.length==0){
+    if(post_description.length==0){
         document.getElementById('errorMsg').style.display = "";
         document.getElementById('errorMsg').innerHTML = "plz input a description.";
         return false;
     }
-     if(description.length>255){
+     if(post_description.length>255){
         document.getElementById('errorMsg').style.display = "";
         document.getElementById('errorMsg').innerHTML = "plz input a short description.";
         return false;
