@@ -2,6 +2,8 @@
 
 session_start();
 require_once('data.php');
+require_once('addActivity.php');
+
 if(!isset($_SESSION['user_id'])){
     header('Location: ../index.php');
 }
@@ -22,10 +24,20 @@ if(!isset($_SESSION['user_id'])){
 
 <body>
 
+        <?php
+        include("nav.php");
+        ?>
+
 
 <div>
 	
-	
+	</div>
+  </br>
+  </br>
+    </br>
+  </br>
+
+
 
     <table class="table">
 
@@ -69,6 +81,12 @@ if(!isset($_SESSION['user_id'])){
         </tbody>
 
     </table>
+
+    <div>
+      <ul class="nav nav-pills">
+        <li role="presentation" class="active"><a href="./index.php">return</a></li>
+      </ul>
+    </div>
 
 
 </div>

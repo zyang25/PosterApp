@@ -6,7 +6,7 @@
         <h4 class="modal-title" id="exampleModalLabel">Post Activity</h4>
       </div>
       <div class="modal-body">
-        <form method="POST" id="postform" action="./main.php" name="postform" enctype="multipart/form-data" onsubmit="return check();">
+        <form method="POST" id="postform" action="./index.php" name="postform" enctype="multipart/form-data" onsubmit="return check();">
           <div class="form-group">
             <label for="title" class="control-label">Title:</label>
             <input type="text" class="form-control" name="title" id="title">

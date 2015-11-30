@@ -25,8 +25,17 @@ foreach ($activity_array as $key) {
     <head>
         <meta charset="utf-8">
         <link href="../assets/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+        <link href="../assets/bootstrap/css/bootstrap-datetimepicker.css" rel="stylesheet">
         <!-- Custom CSS -->
         <link href="../assets/css/half-slider.css" rel="stylesheet">
+
+         <!-- jQuery -->
+        <script src="../assets/js/jquery-1.11.1.js"></script>
+        <script src="../assets/js/moment-with-locales.js"></script>
+        <script src="../assets/js/bootstrap-datetimepicker.js"></script>
+        <!-- Bootstrap Core JavaScript -->
+        <script src="../assets/bootstrap/js/bootstrap.min.js"></script>
+        <!-- Script to Activate the Carousel -->
     </head>
     <body>
         <?php
@@ -108,6 +117,7 @@ foreach ($activity_array as $key) {
                 </div>
 
                 <div class="tab-content">
+
                     <br/><br/>
                     <div class="tab-pane fade in active" id="tab1">             
                         <div class="activites_content"></div>
@@ -120,14 +130,84 @@ foreach ($activity_array as $key) {
                     </div>
                     <div class="tab-pane fade" id="tab4">
                         <div class="activites_content"></div>
+
+                    <div class="tab-pane fade in active" id="tab1">
+                        <br/><br/>
+                        <!-- Page Features -->
+                        <!-- <div class="row text-center"> -->
+                            <!-- <div class="col-md-4 col-sm-6 hero-feature">
+                                <div class="thumbnail">
+                                    <img src="http://placehold.it/800x500" alt="">
+                                    <div class="caption">
+                                        <h3>Feature Label</h3>
+                                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
+                                        <p>
+                                            <a href="#" class="btn btn-primary">Buy Now!</a> <a href="#" class="btn btn-default">More Info</a>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div> -->
+                            <?php
+                                $row_count = 0;
+                                if(isset($activity_query_array)&&!empty($activity_query_array)){
+                                    
+                                    foreach ($activity_query_array as $key => $value) {
+                                        $row_count = $row_count + 1;
+                                        $img_path = '../assets/img/activities-large-pic/' . $value['image'];
+
+                                        if($row_count % 3 == 0){
+                                            echo '<div class="row">';
+                                        }
+
+                                            echo '<div class="col-md-4 col-sm-6 hero-feature">';
+                                                echo '<div class="thumbnail">';
+                                                    echo '<a href="activities.php?activity_id='.$value['activity_id'].'">';
+                                                        echo '<img class="img-responsive" src="'.$img_path.'" alt="" style="width:100%;height:340px;">';
+                                                    echo '</a>';
+                                                    echo '<div class="caption">';
+                                                        echo '<h2>'.$value['title'].'</h2>';
+                                                        echo '<h4>'.$value['description'].'</h4>';
+                                                    echo '</div>';
+                                                echo '</div>';
+                                            echo '</div>';
+                                        
+                                        if($row_count % 3 == 0){
+                                            echo '</div>';
+                                        }
+                                    }
+                                }
+                             ?>
+                                    <?php
+                                            if(isset($_POST['title'])){
+                                                if ($_FILES["image"]["error"] > 0)
+                                                {
+                                                  echo "Error: " . $_FILES["image"]["error"] . "<br />";
+                                                }
+                                                else
+                                                {
+                                                  $imagename = md5(uniqid(rand()));
+                                                  $image = addslashes($_FILES['image']['tmp_name']);
+                                                  $image = file_get_contents($image);
+                                                  $image = base64_encode($image);
+                                                 
+                                                  echo 'enter'.$_POST['title'].$_POST['location'].$_POST['start_time'].$_POST['description'].$_POST['max_followers'].$_POST['category'];
+
+                                                  $activity = new activity();
+                                                  $activity -> addEvent($_POST['start_time'], $_POST['location'], $_POST['description'], $image, $_SESSION['user_id'], $_POST['category'], $_POST['max_followers'], $_POST['title']);
+                                                }
+                                                return;
+                                            }
+                                    ?>
+                            
+                        <!-- </div> -->
+                        <!-- /.row -->
+
+
                     </div>
                 </div>
             </div>
         </div>
-        <!-- jQuery -->
-        <script src="../assets/js/jquery-1.11.1.js"></script>
-        <!-- Bootstrap Core JavaScript -->
-        <script src="../assets/bootstrap/js/bootstrap.min.js"></script>
+
         <!-- Script to Activate the Carousel -->
         <script>
         $('.carousel').carousel({
