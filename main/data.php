@@ -26,13 +26,6 @@
             $this->deleteActiv->execute();
         }
 
-        public function updateEvent($activity_id, $title, $description, $location, $max_followers){
-            global $dbConnection;       
-            $query = "UPDATE activities SET title=$title, description=$description,location=$location, max_followers=$max_followers WHERE activity_id =$activity_id";
-            echo $query;
-            $dbConnection->send_sql($query);
-        }
-
         public function upadateFollow($activity_id){
             $this->updateFollower->bind_param("i", $activity_id);
             $this->updateFollower->execute();
@@ -102,7 +95,6 @@
             return $res; 
         }
 
-        // main/index.php query activity
         public function getActivityByCategory($user_id, $category_combined_id){
             global $dbConnection;
             if($category_combined_id != ""){
@@ -119,51 +111,10 @@
                     }
                 }
                 $query = "SELECT * FROM activities where user_id !='$user_id' and (" . $query_combined . ") order by activity_id DESC limit 5";
-                echo "<br/><br/>";
+                echo "<br/><br/><br/>".$query;
                 $activities_array = $dbConnection->send_sql($query)->fetch_all(MYSQLI_ASSOC);
                 return $activities_array;
             }
-            
-        }
-        
-        public function getActivityByUserId($user_id){
-            global $dbConnection;
-            $query = "SELECT * FROM activities where user_id ='$user_id' ";
-            $activities_array = $dbConnection->send_sql($query)->fetch_all(MYSQLI_ASSOC);
-            return $activities_array;
-        }
-
-        public function getActivityByCategoryId($user_id, $category_id){
-            
-            global $dbConnection;
-
-            if($category_id!=0){
-                $query = "SELECT * FROM activities where user_id !='$user_id' and category_id = '$category_id' order by activity_id DESC limit 6";
-            }
-            else{
-                $query = "SELECT * FROM activities where user_id !='$user_id' order by activity_id DESC limit 6";
-            }
-            
-            //echo "<br/><br/><br/>".$query;
-            $activities_array = $dbConnection->send_sql($query)->fetch_all(MYSQLI_ASSOC);
-            return $activities_array;
-            
-        }
-
-        public function getMoreActivityByCategoryId($user_id, $category_id, $offset){
-            
-            global $dbConnection;
-
-            if($category_id!=0){
-                $query = "SELECT * FROM activities where user_id !='$user_id' and category_id = '$category_id' order by activity_id DESC limit 6 offset ".$offset;
-            }
-            else{
-                $query = "SELECT * FROM activities where user_id !='$user_id' order by activity_id DESC limit 6 offset ".$offset;
-            }
-            
-            //echo "<br/><br/><br/>".$query;
-            $activities_array = $dbConnection->send_sql($query)->fetch_all(MYSQLI_ASSOC);
-            return $activities_array;
             
         }
 
@@ -336,21 +287,23 @@
             return $res[0]; 
         }
         public function getGroupPeople($activity_id){
+            $res = array();
             $this->getGroup->bind_param("i", $activity_id);
             $this->getGroup->execute();
-            $this->getGroup->bind_result($title, $firstName, $lastName);
+            $this->getGroup->bind_result($email);
             while($this->getGroup->fetch()){
-                $newTuple = array("title" => $title, "firstName" => $firstName, "lastName" => $lastName);
+                $newTuple = array("email" => $email);
                 array_push($res, $newTuple);               
             }
             return $res; 
         }
         public function getPersonalEventList($user_id){
+            $res = array();
             $this->getEventList->bind_param("i", $user_id);
             $this->getEventList->execute();
-            $this->getEventList->bind_result($activity_id, $title);
+            $this->getEventList->bind_result($activity_id, $title, $start_time);
             while($this->getEventList->fetch()){
-                $newTuple = array("activity_id" => $activity_id, "title" => $title);
+                $newTuple = array("activity_id" => $activity_id, "title" => $title, "start_time" => $start_time);
                 array_push($res, $newTuple);               
             }
             return $res; 
@@ -368,9 +321,8 @@
             $this->deleteFollowersA = $dbConnection->prepare_statement("DELETE FROM `following` WHERE `activity_id` = ? ");                   
             $this->isFollow = $dbConnection->prepare_statement("SELECT count(*) as `count` FROM `following` WHERE `activity_id` = ? and `user_id` = ?");
             //check!!!! this sql modify later!!!!!!!
-            
-            $this->getGroup = $dbConnection->prepare_statement("with `event_title`(`eve_title`, `activity_id`) as SELECT `title`, `activity_id` from `activities` where `activity_id` = ? with `get_userId`(`user_id`) as select `user_id` from `following` inner join `event_title` on event_title.user_id = following.user_id  SELECT `title`, `firstName`, `lastName` FROM `get_userId` natural join `User_Info` ");
-            $this->getEventList = $dbConnection->prepare_statement("with `event_id`(`activity_id`) as SELECT `activity_id` from `following` where `user_id` = ?  SELECT `activity_id`, `title` FROM `activities` natrual join `event_id`");      
+            $this->getGroup = $dbConnection->prepare_statement("SELECT `email` from `user` NATURAL join (SELECT `user_id` from `following` WHERE `activity_id` = ?) as T");
+            $this->getEventList = $dbConnection->prepare_statement("SELECT `activity_id`, `title`, `start_time` FROM `activities` NATURAL JOIN (SELECT `activity_id` from `following` where `user_id` = ?) as T ");      
         }
         public function __destruct(){     
             $this->addFollowers->close(); 
@@ -378,8 +330,8 @@
             $this->deleteFollowersA->close();
             $this->isFollow->close();
             $this->removeFollower->close();
-            //$this->getGroup->close();
-            //$this->getEventList->close();
+            $this->getGroup->close();
+            $this->getEventList->close();
         } 
     }
 
