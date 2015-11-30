@@ -7,8 +7,6 @@ header('Location: ../index.php');
 }
 $activity = new activity();
 
-
-
 // Query recommanded activity
 
 $activity_array = $activity->getActivityByCategory($_SESSION['user_id'],$_SESSION['preference']);
@@ -19,39 +17,6 @@ foreach ($activity_array as $key) {
     array_push($recommanded_img, $img_path);
     array_push($recommanded_title, $key['title']);
 };
-
-
-if(isset($_GET['category_id'])){
-    global $activity;
-    echo "<br/><br/><br/>";
-    $category_id = $_GET['category_id'];
-    $activity_query_array = $activity->getActivityByCategoryId($_SESSION['user_id'],$category_id);
-    var_dump($activity_query_array);
-    $query_title = array();
-    $query_img = array();
-    foreach ($activity_query_array as $key) {
-        array_push($query_title, $key['title']);
-    }
-}else{
-    // Query all activity
-    global $activity;
-    $id = 0;
-    $activity_query_array = $activity->getActivityByCategoryId($_SESSION['user_id'],$id);
-    var_dump($activity_query_array);
-    // $query_array = array();
-    // $query_title = array();
-    // $query_description = array();
-    // $query_img = array();
-    // foreach ($activity_query_array as $key) {
-    //     array_push($query_title, $key['title']);
-    //     array_push($query_description, $key['description']);
-    // }
-}
-
-
-
-
-
 
 
 ?>
@@ -134,71 +99,28 @@ if(isset($_GET['category_id'])){
                 <div class="row">
                     <div class="col-md-6 col-md-offset-3">
                         <ul class="nav nav-tabs">
-                            <!-- <li class="active"><a href="#tab1" data-toggle="tab">All</a></li> -->
-                            <li class="active"><a href="">All</a></li>
-                            <li><a href="index.php?category_id=1">Food</a></li>
-                            <li><a href="#tab3" data-toggle="tab">Entertatinment</a></li>
-                            <li><a href="#tab4" data-toggle="tab">Study</a></li>
+                            <li class="active"><a href="#tab1" data-toggle="tab"  data-categoryid="all">All</a></li>
+                            <li><a href="#tab2" data-toggle="tab" id="category1" data-categoryid="1">Food</a></li>
+                            <li><a href="#tab3" data-toggle="tab" id="category2" data-categoryid="2">Entertatinment</a></li>
+                            <li><a href="#tab4" data-toggle="tab" id="category3" data-categoryid="3">Study</a></li>
                         </ul>
                     </div>
                 </div>
 
                 <div class="tab-content">
-                    <div class="tab-pane fade in active" id="tab1">
-                        <br/><br/>
-                        <!-- Page Features -->
-                        <!-- <div class="row text-center"> -->
-                            <!-- <div class="col-md-4 col-sm-6 hero-feature">
-                                <div class="thumbnail">
-                                    <img src="http://placehold.it/800x500" alt="">
-                                    <div class="caption">
-                                        <h3>Feature Label</h3>
-                                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
-                                        <p>
-                                            <a href="#" class="btn btn-primary">Buy Now!</a> <a href="#" class="btn btn-default">More Info</a>
-                                        </p>
-                                    </div>
-                                </div>
-                            </div> -->
-                            <?php
-                                $row_count = 0;
-                                if(isset($activity_query_array)&&!empty($activity_query_array)){
-                                    
-                                    foreach ($activity_query_array as $key => $value) {
-                                        $row_count = $row_count + 1;
-                                        $img_path = '../assets/img/activities-large-pic/' . $value['image'];
-
-                                        if($row_count % 3 == 0){
-                                            echo '<div class="row">';
-                                        }
-
-                                            echo '<div class="col-md-4 col-sm-6 hero-feature">';
-                                                echo '<div class="thumbnail">';
-                                                    echo '<a href="activities.php?activity_id='.$value['activity_id'].'">';
-                                                        echo '<img class="img-responsive" src="'.$img_path.'" alt="" style="width:100%;height:340px;">';
-                                                    echo '</a>';
-                                                    echo '<div class="caption">';
-                                                        echo '<h2>'.$value['title'].'</h2>';
-                                                        echo '<h4>'.$value['description'].'</h4>';
-                                                    echo '</div>';
-                                                echo '</div>';
-                                            echo '</div>';
-                                        
-                                        if($row_count % 3 == 0){
-                                            echo '</div>';
-                                        }
-                                    }
-                                }
-                            ?>
-                           
-                            
-                        <!-- </div> -->
-                        <!-- /.row -->
-
+                    <br/><br/>
+                    <div class="tab-pane fade in active" id="tab1">             
+                        <div class="activites_content"></div>
                     </div>
-                    <div class="tab-pane fade" id="tab2">Default 2</div>
-                    <div class="tab-pane fade" id="tab3">Default 3</div>
-                    <div class="tab-pane fade" id="tab4">Default 4</div>
+                    <div class="tab-pane fade" id="tab2">
+                        <div class="activites_content"></div>
+                    </div>
+                    <div class="tab-pane fade" id="tab3">
+                        <div class="activites_content"></div>
+                    </div>
+                    <div class="tab-pane fade" id="tab4">
+                        <div class="activites_content"></div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -212,5 +134,10 @@ if(isset($_GET['category_id'])){
         interval: 5000 //changes the speed
         })
         </script>
+
+        <!-- Ajax query -->
+        <script src="../assets/js/index_load_activity.js"></script>
+
+
     </body>
 </html>

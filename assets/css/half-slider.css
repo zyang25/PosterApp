@@ -33,12 +33,18 @@ body {
     -o-background-size: cover;
 }
 
+
+
 .hero-spacer {
     margin-top: 50px;
 }
 
 .hero-feature {
     margin-bottom: 30px;
+}
+
+.activites_content {
+    
 }
 
 

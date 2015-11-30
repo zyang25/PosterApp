@@ -119,7 +119,7 @@
                     }
                 }
                 $query = "SELECT * FROM activities where user_id !='$user_id' and (" . $query_combined . ") order by activity_id DESC limit 5";
-                echo "<br/><br/><br/>".$query;
+                echo "<br/><br/>";
                 $activities_array = $dbConnection->send_sql($query)->fetch_all(MYSQLI_ASSOC);
                 return $activities_array;
             }
@@ -134,10 +134,34 @@
         }
 
         public function getActivityByCategoryId($user_id, $category_id){
+            
             global $dbConnection;
 
-            $query = "SELECT * FROM activities where user_id !='$user_id' and category_id = '$category_id' order by activity_id DESC limit 6";
-            echo "<br/><br/><br/>".$query;
+            if($category_id!=0){
+                $query = "SELECT * FROM activities where user_id !='$user_id' and category_id = '$category_id' order by activity_id DESC limit 6";
+            }
+            else{
+                $query = "SELECT * FROM activities where user_id !='$user_id' order by activity_id DESC limit 6";
+            }
+            
+            //echo "<br/><br/><br/>".$query;
+            $activities_array = $dbConnection->send_sql($query)->fetch_all(MYSQLI_ASSOC);
+            return $activities_array;
+            
+        }
+
+        public function getMoreActivityByCategoryId($user_id, $category_id, $offset){
+            
+            global $dbConnection;
+
+            if($category_id!=0){
+                $query = "SELECT * FROM activities where user_id !='$user_id' and category_id = '$category_id' order by activity_id DESC limit 6 offset ".$offset;
+            }
+            else{
+                $query = "SELECT * FROM activities where user_id !='$user_id' order by activity_id DESC limit 6 offset ".$offset;
+            }
+            
+            //echo "<br/><br/><br/>".$query;
             $activities_array = $dbConnection->send_sql($query)->fetch_all(MYSQLI_ASSOC);
             return $activities_array;
             
