@@ -8,6 +8,7 @@
     $follow = new following();
     $res = $follow->getPersonalEventList($_SESSION['user_id']);   
     $count = count($res); 
+    echo "<br/><br/><br/><br/><br/><br/>".$res[0]['activity_id'];
 ?>
 <!DOCTYPE html>
 <html>

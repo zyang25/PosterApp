@@ -146,7 +146,7 @@
                         $query_combined .= " or " . "category_id = '$id'";
                     }
                 }
-                $query = "SELECT * FROM activities where user_id !='$user_id' and (" . $query_combined . ") order by activity_id DESC limit 5";
+                $query = "SELECT * FROM activities where activity_id not in (SELECT activity_id FROM following where user_id = '$user_id') and state = 1 and (" . $query_combined . ") order by activity_id DESC limit 5";
                 echo "<br/><br/>";
                 $activities_array = $dbConnection->send_sql($query)->fetch_all(MYSQLI_ASSOC);
                 return $activities_array;
@@ -166,13 +166,12 @@
             global $dbConnection;
 
             if($category_id!=0){
-                $query = "SELECT * FROM activities where user_id !='$user_id' and category_id = '$category_id' order by activity_id DESC limit 6";
+                $query = "SELECT * FROM activities where activity_id not in (SELECT activity_id FROM following where user_id = '$user_id') and state = 1 and category_id = '$category_id' order by activity_id DESC limit 6";
             }
             else{
-                $query = "SELECT * FROM activities where user_id !='$user_id' order by activity_id DESC limit 6";
+                $query = "SELECT * FROM activities where activity_id not in (SELECT activity_id FROM following where user_id = '$user_id') and state = 1 order by activity_id DESC limit 6";
             }
             
-            //echo "<br/><br/><br/>".$query;
             $activities_array = $dbConnection->send_sql($query)->fetch_all(MYSQLI_ASSOC);
             return $activities_array;
             
@@ -183,10 +182,10 @@
             global $dbConnection;
 
             if($category_id!=0){
-                $query = "SELECT * FROM activities where user_id !='$user_id' and category_id = '$category_id' order by activity_id DESC limit 6 offset ".$offset;
+                $query = "SELECT * FROM activities where activity_id not in (SELECT activity_id FROM following where user_id = '$user_id') and state = 1 and category_id = '$category_id' order by activity_id DESC limit 6 offset ".$offset;
             }
             else{
-                $query = "SELECT * FROM activities where user_id !='$user_id' order by activity_id DESC limit 6 offset ".$offset;
+                $query = "SELECT * FROM activities where activity_id not in (SELECT activity_id FROM following where user_id = '$user_id') and state = 1 order by activity_id DESC limit 6 offset ".$offset;
             }
             
             //echo "<br/><br/><br/>".$query;
