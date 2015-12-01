@@ -62,8 +62,8 @@ if(isset($_SESSION['user_id'])){
                             if(isset($_POST['email'])&&isset($_POST['password'])){
                             $user = new AuthSystem();
                             $status = $user -> login($_POST['email'],$_POST['password']);
-                         
-                            if($status == 1 || $status == 2 || $status ==3){
+                            
+                            if( $status == 1 ||$status == 2 || $status ==3){
                             echo "Login successfully";
                             header("Location: main");
                             }else{

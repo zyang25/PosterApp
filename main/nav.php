@@ -14,10 +14,14 @@
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
-            <li class="active"><a href="">Home</a></li>
 
-            <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">postManager <span class="caret"></span></a>
+          
+          <li class="active"><a href="./index.php">Home</a></li>
+          </ul>
+          <ul class="nav navbar-nav">
+             <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">activityManage <span class="caret"></span></a>
+
              <ul class="dropdown-menu">
                <li><a data-toggle="modal" data-target="#myModal">Post a activity</a></li>
                <li><a href="./editActivity.php">Manage my activities</a></li>
@@ -25,6 +29,24 @@
             </li>
             <li><a href="manageAppliedActivity.php">Applied Activities</a></li>
           </ul>
+            
+        <?php
+                $userModel = new UserModel();
+                $res = $userModel->getuserIsadminById($_SESSION['user_id']);
+                if($res[0]['is_admin']==1){
+                    echo " <ul class='nav navbar-nav'>";
+                    echo " <li class='dropdown'>";
+                    echo "  <a href='#' class='dropdown-toggle' data-toggle='dropdown' role='button' aria-haspopup='true' aria-expanded='false'>userManage <span class='caret'></span></a>";
+                    echo "<ul class='dropdown-menu'>";
+                    echo " <li><a href='../admin/UserList.php'>UserList</a></li>";
+                     echo " <li><a href='../admin/ActivList.php'>ActivList</a></li>";
+                    echo "</ul>";
+                    echo " </li>";
+                    echo " </ul>";
+                }
+              ?>
+
+>>>>>>> Stashed changes
           <ul class="nav navbar-nav navbar-right">
             <?php
             if(isset($_SESSION['user_id'])){

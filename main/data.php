@@ -14,6 +14,8 @@
         private $retrieveCate;  //get back all info depend on category
         //private $retrieveOne;   //one event
         private $retriveUnVerify;
+        private $getPartInfo;
+        private $updateActivity;
 
         public function addEvent($start_time, $location, $description, $image, $user_id, $category_id, $max_followers, $title) {    //state, following number    
             $follower = 0;
@@ -93,6 +95,39 @@
                 array_push($res, $newTuple);
             }
             return $res; 
+        }
+        public function Paging(&$paging){
+            global $dbConnection;
+            $row=$dbConnection->send_sql("SELECT COUNT(`activity_id`) FROM `activities`")->fetch_all(MYSQLI_NUM);
+            $paging->rowCount=$row[0][0];
+            $paging->pageCount=ceil($paging->rowCount/$paging->pageSize);
+            $sql="SELECT * FROM `activities` LIMIT ".($paging->pageNow-1)*$paging->pageSize.",$paging->pageSize";
+            return $dbConnection->send_sql($sql)->fetch_all(MYSQLI_ASSOC);
+        }
+        
+        public function Update($start_time,$location,$title,$max_followers,$state,$description,$activity_id){
+            $this->updateActivity->bind_param("ssssssi",$start_time, $location,$title,$max_followers,$state,$description,$activity_id);
+            $this->updateActivity->execute();
+        }
+        
+        public function getActivById($Activity_id){
+            $res = array();
+            $activity_id=null;
+            $start_time=null;
+            $location=null;
+            $title=null;
+            $max_followers=null;
+            $state=null;
+            $description=null;
+            $this->getPartInfo->bind_param("i", $Activity_id);
+            $this->getPartInfo->execute();
+            $this->getPartInfo->bind_result($activity_id,$start_time, $location,$title,$max_followers,$state,$description);
+            while($this->getPartInfo->fetch()){
+                $newTuple = array("activity_id"=>$activity_id,"start_time" => $start_time, "location" => $location,"title" => $title,"max_followers"=>$max_followers,"state" => $state,"description" => $description);
+                array_push($res, $newTuple);
+            }
+            return $res;
+            
         }
 
         // main/index.php query activity
@@ -177,7 +212,9 @@
             //$this->retrieveAll = $dbConnection->prepare_statement("SELECT * FROM `activities`");
             //$this->retrieveOne = $dbConnection->prepare_statement("SELECT * FROM `activities` WHERE `activity_id` = ?");
             $this->retrieveCate = $dbConnection->prepare_statement("SELECT * FROM `activities` WHERE `category_id` = ?");
-            $this->retriveUnVerify = $dbConnection->prepare_statement("SELECT * FROM `activities` WHERE `state` = 0");          
+            $this->retriveUnVerify = $dbConnection->prepare_statement("SELECT * FROM `activities` WHERE `state` = 0");       
+                        $this->updateActivity=$dbConnection->prepare_statement("UPDATE `activities` SET `start_time` = ?,`location`=?,`title`=?,`max_followers`=?,`state`=?,`description`=? WHERE `activity_id` = ?");
+            $this->getPartInfo=$dbConnection->prepare_statement("SELECT `activity_id`,`start_time`,`location`,`title`,`max_followers`,`state`,`description` FROM `activities` WHERE `activity_id` = ?");   
         }
         public function __destruct(){     
             $this->addActiv->close(); 
@@ -190,6 +227,9 @@
             $this->retrieveCate->close();
             //$this->retrieveOne->close();
             $this->retriveUnVerify->close();
+
+            $this->updateActivity->close();
+            $this->getPartInfo->close();
         }
     }
     class activity_images{
@@ -488,8 +528,75 @@ class UserModel{
         $query = "SELECT * FROM `USER`";
         return $this->db->send_sql($query)->fetch_all(MYSQLI_ASSOC);
     }
+    
+     public function getuserIsadminById($id){
+        $query = "SELECT `is_admin` FROM `USER` WHERE `user_id` = '$id'";
+        return $this->db->send_sql($query)->fetch_all(MYSQLI_ASSOC);
+    }
 
 
+
+}
+class User{
+    private $dbConnection;
+    private $deleteUserStatement;
+    private $deleteUserInfoStatement;
+    private $deleteUserActivStatement;
+    private $deleteFollowerStatement;
+    private $updateUserStatement;
+    
+    
+    public function getAllUsers(){
+        return $this->dbConnection->send_sql("SELECT * FROM `user`")->fetch_all(MYSQLI_ASSOC);
+    }
+    public function deleteUser($user_id){
+        $this->deleteUserStatement->bind_param("i", $user_id);
+        $this->deleteUserStatement->execute();
+    }
+    public function deleteUserInfo($user_id){
+        $this->deleteUserInfoStatement->bind_param("i", $user_id);
+        $this->deleteUserInfoStatement->execute();
+    }
+    public function deleteUserActiv($user_id){
+        $this->deleteUserActivStatement->bind_param("i", $user_id);
+        $this->deleteUserActivStatement->execute();
+    }
+    public function deleteFollower($user_id){
+        $this->deleteFollowerStatement->bind_param("i", $user_id);
+        $this->deleteFollowerStatement->execute();
+    }
+    
+    public function updateUser($user_id,$is_activated){
+        $this->updateUserStatement->bind_param("ii",$is_activated,$user_id);
+        $this->updateUserStatement->execute();
+    }
+    
+    public function Paging(&$paging){
+        $row=$this->dbConnection->send_sql("SELECT COUNT(`user_id`) FROM `user`")->fetch_all(MYSQLI_NUM);
+        $paging->rowCount=$row[0][0];
+        $paging->pageCount=ceil($paging->rowCount/$paging->pageSize);
+        $sql="SELECT * FROM `user` LIMIT ".($paging->pageNow-1)*$paging->pageSize.",$paging->pageSize";
+        return $this->dbConnection->send_sql($sql)->fetch_all(MYSQLI_ASSOC);
+    }
+    
+    public function __construct ()
+    {
+        $this->dbConnection = new DatabaseConnection();
+        $this->deleteUserStatement = $this->dbConnection->prepare_statement("DELETE FROM `user` WHERE `user_id` = ?");
+        $this->deleteUserInfoStatement = $this->dbConnection->prepare_statement("DELETE FROM `user_info` WHERE `user_id` = ?");
+        $this->deleteUserActivStatement = $this->dbConnection->prepare_statement("DELETE FROM `user_activation` WHERE `user_id` = ?");
+        $this->deleteFollowerStatement = $this->dbConnection->prepare_statement("DELETE FROM `following` WHERE `user_id` = ?");
+        $this->updateUserStatement=$this->dbConnection->prepare_statement("UPDATE `user` SET `is_activated`=? WHERE `user_id` = ?");
+    }
+    
+    // It's good practice to close your resources on destruct.
+    function __destruct(){
+        $this->deleteUserStatement->close();
+        $this->deleteUserInfoStatement->close();
+        $this->deleteUserActivStatement->close();
+        $this->deleteFollowerStatement->close();
+        $this->updateUserStatement->close();
+    }
 }
 
 // class UserModel{
