@@ -511,7 +511,7 @@ class UserModel{
     }
 
     public function getuserinfobyuserid($id){
-        $query = "SELECT * FROM `USER_INFO` WHERE `user_id` = '$id'";
+        $query = "SELECT * FROM `USER_INFO` WHERE `user_id` = ".$id;
         return $this->db->send_sql($query)->fetch_all(MYSQLI_ASSOC);
     }
 

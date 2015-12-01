@@ -158,7 +158,7 @@ class AuthSystem{
 
 	public function getuserinfobyuserid($id){
 		$this->model = new UserModel();
-		$userinfo = $this->model->getuserinfo($id);
+		$userinfo = $this->model->getuserinfobyuserid($id);
 		return $userinfo[0];
 	}
 

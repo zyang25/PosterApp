@@ -13,7 +13,7 @@ $allc = $c->getAllCategory();
 if($_SESSION['user_id']!=""){
 	
 	$user = new AuthSystem();
-	// Check profile update
+	//Check profile update
 	if(isset($_POST['last_name'])||
 	isset($_POST['first_name'])||
 		isset($_POST['address1'])||
@@ -54,7 +54,7 @@ if($_SESSION['user_id']!=""){
 	
 	}
 
-	// If there is nothing post, then get information from database
+	//If there is nothing post, then get information from database
 	$userinfo = $user->getuserinfobyuserid($_SESSION['user_id']);
 	$get_preference = explode($userinfo["preference"],',');
 
