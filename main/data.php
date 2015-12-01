@@ -403,7 +403,7 @@
             $this->deleteFollowersA = $dbConnection->prepare_statement("DELETE FROM `following` WHERE `activity_id` = ? ");                   
             $this->isFollow = $dbConnection->prepare_statement("SELECT count(*) as `count` FROM `following` WHERE `activity_id` = ? and `user_id` = ?");
             //check!!!! this sql modify later!!!!!!!
-            $this->getGroup = $dbConnection->prepare_statement("SELECT `email` from `user` NATURAL join (SELECT `user_id` from `following` WHERE `activity_id` = ?) as T");
+            $this->getGroup = $dbConnection->prepare_statement("SELECT `email`,`fname`,`lname` from `user` NATURAL JOIN `user_info` WHERE user.user_id IN (SELECT `user_id` from `following` WHERE `activity_id` = ?)");
             $this->getEventList = $dbConnection->prepare_statement("SELECT `activity_id`, `title`, `start_time` FROM `activities` NATURAL JOIN (SELECT `activity_id` from `following` where `user_id` = ?) as T ");      
         }
         public function __destruct(){     

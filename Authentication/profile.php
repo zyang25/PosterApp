@@ -1,11 +1,11 @@
 <?php
-include('../main/header.php');
+session_start();
 $title = 'vjoin';
 require_once('classes/auth_system.php');
-echo '<br/><br/><pre>Session_variable:<br/>';
-	var_dump($_SESSION);
-echo '</pre>';
-
+// echo '<br/><br/><pre>Session_variable:<br/>';
+// 	var_dump($_SESSION);
+// echo '</pre>';
+echo "<br/><br/><br/><br/>";
 $c = new category();
 $allc = $c->getAllCategory();
 
@@ -60,11 +60,24 @@ if($_SESSION['user_id']!=""){
 
 	
 }else{
-	header('Location: login.php');
+	header('Location: ../index.php');
 	echo "Login pls.";
 }
-	
+
 ?>
+
+<!DOCTYPE html>
+<html>
+<head>
+        <meta charset="utf-8">
+        <link href="../assets/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+        <!-- Custom CSS -->
+        <link href="../assets/css/half-slider.css" rel="stylesheet">
+    </head>
+    <body>
+        <?php
+        include("../main/nav.php");
+        ?>
 <form class="form-horizontal" method="POST" action="">
 	<fieldset>
 		<!-- Text input-->
