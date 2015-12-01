@@ -18,7 +18,6 @@ foreach ($activity_array as $key) {
     array_push($recommanded_title, $key['title']);
 };
 
-
 ?>
 <!DOCTYPE html>
 <html lang="en">
