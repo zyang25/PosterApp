@@ -14,10 +14,6 @@
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
-
-            <li class="active"><a href="http://localhost/vjoin/main/index.php">Home</a></li>
-
-
           
           <li class="active"><a href="./index.php">Home</a></li>
           </ul>
@@ -49,7 +45,6 @@
                 }
               ?>
 
->>>>>>> Stashed changes
           <ul class="nav navbar-nav navbar-right">
             <?php
             if(isset($_SESSION['user_id'])){
