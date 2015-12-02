@@ -69,7 +69,11 @@ if(!isset($_SESSION['user_id'])){
             echo "<td id='loaction".$activity_array[$i]['activity_id']."'>" . $activity_array[$i]['location']. "</td>";
             echo "<td id='max_followers".$activity_array[$i]['activity_id']."'>" . $activity_array[$i]['max_followers']. "</td>";
             echo "<input hidden id='description".$activity_array[$i]['activity_id']."' value = '".$activity_array[$i]['description']."'/>";
-            echo "<td>  <div class='btn-group' role='group' aria-label='...'><button type='button' onclick='edit(this)' id='edit".$activity_array[$i]['activity_id']."'' class='btn btn-default'>edit</button><button type='button' onclick='addimage(this);' id='image".$activity_array[$i]['activity_id']."' class='btn btn-default'>add more image</button> </div> </td>";
+            echo "<td>  <div class='btn-group' role='group' aria-label='...'>
+                      <button type='button' onclick='edit(this)' id='edit".$activity_array[$i]['activity_id']."'' class='btn btn-default'>edit</button>
+                      <button type='button' onclick='addimage(this);' id='image".$activity_array[$i]['activity_id']."' class='btn btn-default'>add more image</button>
+                       <button type='button' onclick='showfollower(this);' id='showfollower".$activity_array[$i]['activity_id']."' class='btn btn-default'>followers</button>
+                       </div> </td>";
             echo "</tr>";
         } 
 
@@ -115,6 +119,9 @@ if(!isset($_SESSION['user_id'])){
          $('#addmore').modal('show');
          document.getElementById('add_activity_id').value = a.id.substring(5,a.lenght);
 
+    }
+    function showfollower(a){
+       $('#showfollower').modal('show');
     }
 </script>
 </html>
@@ -165,7 +172,7 @@ if(!isset($_SESSION['user_id'])){
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="exampleModalLabel">Edit Activity</h4>
+        <h4 class="modal-title" id="exampleModalLabel">Add more image</h4>
       </div>
       <div class="modal-body">
         <form method="POST" id="addmoreform" action="./editActivity.php" name="addmoreform" enctype="multipart/form-data">
@@ -180,6 +187,21 @@ if(!isset($_SESSION['user_id'])){
           </div>
            
         </form>
+        
+      </div>
+
+    </div>
+  </div>
+</div>
+<div class="modal fade" id="showfollower" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="exampleModalLabel">Followers</h4>
+      </div>
+      <div class="modal-body">
+       a@stevens.edu
         
       </div>
 
