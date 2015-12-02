@@ -29,6 +29,11 @@ foreach ($activity_array as $key) {
         <link href="../assets/css/half-slider.css" rel="stylesheet">
     </head>
     <body>
+        <!-- jQuery -->
+        <script src="../assets/js/jquery-1.11.1.js"></script>
+        <!-- Bootstrap Core JavaScript -->
+        <script src="../assets/bootstrap/js/bootstrap.min.js"></script>
+        <!-- Script to Activate the Carousel -->
         <?php
         include("nav.php");
         ?>
@@ -124,11 +129,7 @@ foreach ($activity_array as $key) {
                 </div>
             </div>
         </div>
-        <!-- jQuery -->
-        <script src="../assets/js/jquery-1.11.1.js"></script>
-        <!-- Bootstrap Core JavaScript -->
-        <script src="../assets/bootstrap/js/bootstrap.min.js"></script>
-        <!-- Script to Activate the Carousel -->
+        
         <script>
         $('.carousel').carousel({
         interval: 5000 //changes the speed
