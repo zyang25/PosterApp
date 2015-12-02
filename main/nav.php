@@ -15,7 +15,7 @@
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
           
-          <li class="active"><a href="./index.php">Home</a></li>
+          <li class="active"><a href="index.php">Home</a></li>
           </ul>
           <ul class="nav navbar-nav">
              <li class="dropdown">
@@ -23,10 +23,10 @@
 
              <ul class="dropdown-menu">
                <li><a data-toggle="modal" data-target="#myModal">Post a activity</a></li>
-               <li><a href="./editActivity.php">Manage my activities</a></li>
+               <li><a href="editActivity.php">Manage my activities</a></li>
              </ul>             
             </li>
-            <li><a href="http://localhost/vjoin/main/manageAppliedActivity.php">Applied Activities</a></li>
+            <li><a href="manageAppliedActivity.php">Applied Activities</a></li>
           </ul>
             
         <?php
@@ -55,9 +55,9 @@
                     <li class="dropdown">
                       <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-user"></span>'.$_SESSION['email'].'</a>
                       <ul class="dropdown-menu">
-                        <li><a href="../authentication/profile.php">Edit Profile</a></li>
-                          <li><a href="../authentication/change_password.php">Change Password</a></li>
-                        <li><a href="../authentication/logout.php">Log out</a></li>
+                        <li><a href="profile.php">Edit Profile</a></li>
+                          <li><a href="change_password.php">Change Password</a></li>
+                        <li><a href="logout.php">Log out</a></li>
                       </ul>
                     </li>
                  </ul>
