@@ -34,20 +34,23 @@ body {
 }
 
 
-
 .hero-spacer {
     margin-top: 50px;
 }
 
 .hero-feature {
-    margin-bottom: 30px;
+    /*display: none;*/
+    margin-bottom: 100px;
+    height: 180px;
 }
 
 .activites_content {
     
 }
 
-
 footer {
     margin: 50px 0;
 }
+
+
+
