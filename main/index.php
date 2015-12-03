@@ -24,9 +24,11 @@ foreach ($activity_array as $key) {
 <html lang="en">
     <head>
         <meta charset="utf-8">
+
         <link href="../assets/bootstrap/css/bootstrap.min.css" rel="stylesheet">
         <!-- Custom CSS -->
         <link href="../assets/css/half-slider.css" rel="stylesheet">
+
     </head>
     <body>
         <!-- jQuery -->
@@ -111,11 +113,33 @@ foreach ($activity_array as $key) {
                         </ul>
                     </div>
                 </div>
+                
+                <div class="row">
+                <br/>
+                <br/>
+                    <div class="activites_content">
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col-xs-1"></div>
+                                    <div class="col-xs-10 activities"></div>
+                                    <div class="col-xs-1"></div>
+                                </div>
+                            </div>
+                        </div> 
+                </div>
 
-                <div class="tab-content">
+                <!-- <div class="tab-content">
                     <br/><br/>
                     <div class="tab-pane fade in active" id="tab1">             
-                        <div class="activites_content"></div>
+                        <div class="activites_content">
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col-xs-1"></div>
+                                    <div class="col-xs-10 activities"></div>
+                                    <div class="col-xs-1"></div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <div class="tab-pane fade" id="tab2">
                         <div class="activites_content"></div>
@@ -126,7 +150,8 @@ foreach ($activity_array as $key) {
                     <div class="tab-pane fade" id="tab4">
                         <div class="activites_content"></div>
                     </div>
-                </div>
+                </div> -->
+
             </div>
         </div>
         
