@@ -40,7 +40,7 @@ $(document).ready(function(){
 function index_activity(categoryId){
     $.ajax({
       url: 'ajax_query.php',
-      type: 'POST',
+      type: 'GET',
       cache: false,
       data: {'category_id': categoryId},
       success: function(data, status) {
@@ -77,12 +77,6 @@ function index_activity(categoryId){
             //console.log(row_page);
         });
         
-        // $(".tab-pane.fade.in.active .activites_content").append(
-        //     '<div class="more_activites_content"></div><center><button type="button" class="btn btn-success" id="load_more">Loading more</button></center>'
-        // );
-
-        
-
       },
       error: function(xhr, desc, err) {
         console.log(xhr);
@@ -94,7 +88,7 @@ function index_activity(categoryId){
 function index_more_activity(categoryId, offset){
     $.ajax({
       url: 'ajax_query.php',
-      type: 'POST',
+      type: 'GET',
       cache: false,
       data: {'category_id': categoryId, 'current_activity_number': offset},
       success: function(data, status) {

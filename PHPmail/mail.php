@@ -2,49 +2,6 @@
 
 require 'PHPMailerAutoload.php';
 
-// $mail = new PHPMailer;
-
-//$mail->SMTPDebug = 3;                               // Enable verbose debug output
-
-// $mail->isSMTP();                                      // Set mailer to use SMTP
-// $mail->Host = 'smtp.gmail.com';  // Specify main and backup SMTP servers
-// $mail->SMTPAuth = true;                               // Enable SMTP authentication
-// $mail->Username = 'vjoin.stevens@gmail.com';                 // SMTP username
-// $mail->Password = 'charles9129';                           // SMTP password
-// $mail->SMTPSecure = 'tls';                            // Enable TLS encryption, `ssl` also accepted
-// $mail->Port = 587;                                    // TCP port to connect to
-
-// $mail->setFrom('vjoin.stevens@gmail.com', 'Mailer');
-//$mail->addAddress('vjoin.stevens@gmail.com', '');     // Add a recipient
-//$mail->addAddress('ellen@example.com');               // Name is optional
-//$mail->addReplyTo('info@example.com', 'Information');
-//$mail->addCC('cc@example.com');
-//$mail->addBCC('bcc@example.com');
-
-//$mail->addAttachment('/var/tmp/file.tar.gz');         // Add attachments
-//$mail->addAttachment('/tmp/image.jpg', 'new.jpg');    // Optional name
-//$mail->isHTML(true);                                  // Set email format to HTML
-
-//$mail->Subject = 'Thank you for registeration';
-// $mail->Body    = '
-
-// Dear sir/madam,<br/><br/>'.
-
-// 'Vjoin received a request to create an account for you. To verify your account, please click the following link:<br/>' . 
-
-// 'Best regards,<br/>' .
-// 'The Team at Vjoin<br/>';
-
-
-// $mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
-
-// if(!$mail->send()) {
-//     echo 'Message could not be sent.';
-//     echo 'Mailer Error: ' . $mail->ErrorInfo;
-// } else {
-//     echo 'Message has been sent';
-// }
-
 class Gmail{
 	
 	private $mail;
@@ -60,7 +17,7 @@ class Gmail{
 		$this->mail->SMTPSecure = 'tls';                            // Enable TLS encryption, `ssl` also accepted
 		$this->mail->Port = 587;                                    // TCP port to connect to
 
-		$this->mail->setFrom('vjoin.stevens@gmail.com', 'Mailer');
+		$this->mail->setFrom('vjoin.stevens@gmail.com', 'Vjoin Team');
 		$this->mail->isHTML(true);                                  // Set email format to HTML
 	}
 
