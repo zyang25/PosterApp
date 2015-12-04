@@ -132,7 +132,7 @@ if($_SESSION['user_id']!=""){
 			</div>
 		</div>
 
-		<div class="form-group">
+		<!-- <div class="form-group">
 		  <label class="col-md-4 control-label" for="selectmultiple">Preference</label>
 		  <div class="col-md-4">
 		    <select id="selectmultiple" name="introduction[]" class="form-control" multiple="multiple">
@@ -145,7 +145,7 @@ if($_SESSION['user_id']!=""){
 		      ?>
 		    </select>
 		  </div>
-		</div>
+		</div> -->
 		
 
 		<!-- Multiple Checkboxes -->

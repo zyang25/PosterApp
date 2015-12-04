@@ -38,10 +38,14 @@ body {
     margin-top: 50px;
 }
 
-.hero-feature {
+.hero-feature{
     /*display: none;*/
     margin-bottom: 100px;
-    height: 180px;
+    height: 183px;
+}
+.hero-feature img{
+    
+    height: 183px;
 }
 
 .activites_content {
