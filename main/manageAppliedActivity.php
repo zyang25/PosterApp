@@ -1,6 +1,5 @@
 <?php 
     session_start();
-    require_once('addActivity.php');  //question!!
     require_once('data.php');
     if(!isset($_SESSION['user_id'])){
         header('Location: ../index.php');
