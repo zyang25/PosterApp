@@ -6,8 +6,11 @@
         header('Location: ../index.php');
     }
     $images = new activity_images();
-    $res = $images->retrieveImage($_GET['activity_id']);
-    $count_image = count($res);
+    $act_image = new activity();
+    $result = $images->retrieveImage($_GET['activity_id']);
+    $oneImage = $act_image->getOneImage($_GET['activity_id']);
+    $image_path = '../assets/img/activities-large-pic/'.$oneImage['image'];
+    $count_image = count($result) + 1;
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -26,14 +29,17 @@
     <?php
         include('nav.php');
     ?>
-    
+
+    <input id = "0" type="hidden" value= "<?php echo $image_path?>">
+
     <table>
     <?php
-    for($i = 0; $i < $count_image; $i++){
+    for($i = 1; $i < $count_image; $i++){
+        $real_i = $i - 1;
     ?>    
         <tr>
             <td>
-                <input id = "<?php echo $i ?>" type="hidden" value= "<?php echo $res[$i]['image']?>">
+                <input id = "<?php echo $i ?>" type="hidden" value= "<?php echo $result[$real_i]['image']?>">
             </td>
         </tr>
         <?php
@@ -56,8 +62,8 @@
                 
                 <div class="row">
                     <div class="col-md-7">
-                            <img height="600" width="600" class="img-responsive" id = "image_area" src="data:image;base64,<?php echo $res[0]['image']?>" alt="">                            
-                            <!--  echo '<img height="300" width="300" src="data:image;base64,'.$res[1]['image'].' ">  '; -->
+                            <img height="600" width="600" class="img-responsive" id = "image_area" src="<?php echo $image_path?>" alt="">                            
+                            <!-- <img height="600" width="600" class="img-responsive" id = "image_area" src="data:image;base64,<?php echo $result[0]['image']?>" alt="">  -->  
                             <!-- handle no image upload -->
                     </div>
                     <div class="col-md-5">

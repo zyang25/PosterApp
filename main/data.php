@@ -49,6 +49,10 @@
             $this->removeFollow->bind_param("i", $activity_id);
             $this->removeFollow->execute();
         }
+        public function getOneImage($activity_id){
+            global $dbConnection;
+            return $dbConnection->send_sql("SELECT `image` FROM `activities` WHERE `activity_id` = $activity_id ")->fetch_all(MYSQLI_ASSOC)[0];
+        }
 
         public function getAllEvent(){
             // $res = array();
@@ -375,9 +379,9 @@
             $res = array();
             $this->getGroup->bind_param("i", $activity_id);
             $this->getGroup->execute();
-            $this->getGroup->bind_result($email);
+            $this->getGroup->bind_result($email, $fname, $lname);
             while($this->getGroup->fetch()){
-                $newTuple = array("email" => $email);
+                $newTuple = array("email" => $email, "fname" => $fname, "lname" => $lname);
                 array_push($res, $newTuple);               
             }
             return $res; 

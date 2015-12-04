@@ -6,8 +6,16 @@
         header('Location: ../index.php');
     }
     $follow = new following();
-    $res = $follow->getPersonalEventList($_SESSION['user_id']);   
-    $count = count($res); 
+    $res = $follow->getPersonalEventList($_SESSION['user_id']);
+    $result = array();
+    $date = date('Y-m-d H:i:s');
+ 
+    foreach ($res as $value) {
+        if($value['start_time'] >= $date)
+            array_push($result, $value);
+    }
+    $count = count($result);
+
 ?>
 <!DOCTYPE html>
 <html>
@@ -27,17 +35,12 @@
                 echo '<h2>The Following Activity is coming </h2>';
             else 
                 echo '<h2>You haven\'t chosen any activities yet!</h2>';
+            echo '<br>';   
+            for($i = 0; $i < $count; ++$i){                           
+                echo '<ul><a href="activities.php?activity_id='.$result[$i]['activity_id'].'"><h4>Event Title:&nbsp;&nbsp;&nbsp; ' .$result[$i]['title']. '</h4></a>&nbsp;&nbsp;&nbsp;&nbsp;Start Time: &nbsp;&nbsp;&nbsp;&nbsp;'.$result[$i]['start_time'].'</ul>';
+                echo '<br/>';        
+            }
         ?>
-        <br/>
-        <ul>
-            <?php    
-                for($i = 0; $i < $count; ++$i){                           
-                    echo '<ul><a href="activities.php?activity_id='.$res[$i]['activity_id'].'"><h4>Event Title:&nbsp;&nbsp;&nbsp; ' .$res[$i]['title']. '</h4></a>&nbsp;&nbsp;&nbsp;&nbsp;Start Time: &nbsp;&nbsp;&nbsp;&nbsp;'.$res[$i]['start_time'].'</ul>';
-                    echo '<br/>';        
-                }
-            ?>
-        </ul>
-
         <!-- Footer -->
         <footer>
             <div class="row">
