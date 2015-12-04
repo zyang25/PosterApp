@@ -28,22 +28,18 @@ foreach ($activity_array as $key) {
         <link href="../assets/bootstrap/css/bootstrap.min.css" rel="stylesheet">
         <!-- Custom CSS -->
         <link href="../assets/css/half-slider.css" rel="stylesheet">
-<<<<<<< HEAD
-=======
+
          <!-- jQuery -->
         <script src="../assets/js/moment-with-locales.js"></script>
         <script src="../assets/js/jquery-1.11.1.js"></script>
         <!-- Bootstrap Core JavaScript -->
         <script src="../assets/bootstrap/js/bootstrap.min.js"></script>
         <script src="../assets/js/bootstrap-datetimepicker.js"></script>
->>>>>>> boyu
 
     </head>
     <body>
-        <!-- jQuery -->
-        <script src="../assets/js/jquery-1.11.1.js"></script>
+        
         <!-- Bootstrap Core JavaScript -->
-        <script src="../assets/bootstrap/js/bootstrap.min.js"></script>
         <!-- Script to Activate the Carousel -->
         <?php
         include("nav.php");
@@ -163,9 +159,6 @@ foreach ($activity_array as $key) {
 
             </div>
         </div>
-<<<<<<< HEAD
-        
-=======
         +<?php
         if(isset($_POST['title'])){
             if ($_FILES["image"]["error"] > 0)
@@ -186,7 +179,6 @@ foreach ($activity_array as $key) {
 ?>
        
         <!-- Script to Activate the Carousel -->
->>>>>>> boyu
         <script>
         $('.carousel').carousel({
         interval: 5000 //changes the speed
