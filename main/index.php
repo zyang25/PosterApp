@@ -7,7 +7,6 @@ if(!isset($_SESSION['user_id'])){
 header('Location: ../index.php');
 }
 $activity = new activity();
-
 // Query recommanded activity
 
 $activity_array = $activity->getActivityByCategory($_SESSION['user_id'],$_SESSION['preference']);

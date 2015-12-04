@@ -19,6 +19,9 @@
     <script src="http://code.jquery.com/jquery-latest.min.js"></script>
     <link href="../assets/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link href="../assets/css/bootstrap-datetimepicker.css" rel="stylesheet">
+    <script src="../assets/js/jquery-1.11.1.js"></script>
+    <script src="../assets/bootstrap/js/bootstrap.min.js"></script>
+    <script src="../assets/js/bootstrap-datetimepicker.js"></script>
     <!-- Custom CSS -->
     <link href="../assets/css/1-col-portfolio.css" rel="stylesheet">
 
@@ -106,12 +109,16 @@
                             <p>Copyright &copy; Vjoin 2015</p>
                         </div>
                     </div>
-                    <!-- /.row -->
+                    <!-- /.row -->    
                 </footer>
 
             </div>
             <!-- /.container -->
+            
     </body>
     <!-- jQuery -->                
         <script src="../assets/js/load_activity.js"></script>
+        <?php
+            require_once('addActivity.php');
+        ?>
 </html>
