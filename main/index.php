@@ -28,6 +28,15 @@ foreach ($activity_array as $key) {
         <link href="../assets/bootstrap/css/bootstrap.min.css" rel="stylesheet">
         <!-- Custom CSS -->
         <link href="../assets/css/half-slider.css" rel="stylesheet">
+<<<<<<< HEAD
+=======
+         <!-- jQuery -->
+        <script src="../assets/js/moment-with-locales.js"></script>
+        <script src="../assets/js/jquery-1.11.1.js"></script>
+        <!-- Bootstrap Core JavaScript -->
+        <script src="../assets/bootstrap/js/bootstrap.min.js"></script>
+        <script src="../assets/js/bootstrap-datetimepicker.js"></script>
+>>>>>>> boyu
 
     </head>
     <body>
@@ -154,7 +163,30 @@ foreach ($activity_array as $key) {
 
             </div>
         </div>
+<<<<<<< HEAD
         
+=======
+        +<?php
+        if(isset($_POST['title'])){
+            if ($_FILES["image"]["error"] > 0)
+            {
+              echo "Error: " . $_FILES["image"]["error"] . "<br />";
+            }
+            else
+            {
+              $imagename = md5(uniqid(rand()));
+              move_uploaded_file($_FILES["image"]["tmp_name"],"../assets/img/activites/" . $imagename);
+              echo 'enter'.$_POST['title'].$_POST['post_location'].$_POST['start_time'].$_POST['post_description'].$_POST['max_followers'].$_POST['category'];
+
+              $activity = new activity();
+              $activity -> addEvent($_POST['start_time'], $_POST['post_location'], $_POST['post_description'], "../assets/img/activites/". $imagename, $_SESSION['user_id'], $_POST['category'], $_POST['max_followers'], $_POST['title']);
+            }
+            return;
+        }
+?>
+       
+        <!-- Script to Activate the Carousel -->
+>>>>>>> boyu
         <script>
         $('.carousel').carousel({
         interval: 5000 //changes the speed
