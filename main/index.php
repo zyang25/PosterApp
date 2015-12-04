@@ -2,6 +2,7 @@
 session_start();
 require_once('data.php');
 require_once('addActivity.php');
+
 if(!isset($_SESSION['user_id'])){
 header('Location: ../index.php');
 }
@@ -159,7 +160,7 @@ foreach ($activity_array as $key) {
 
             </div>
         </div>
-        +<?php
+        <?php
         if(isset($_POST['title'])){
             if ($_FILES["image"]["error"] > 0)
             {
@@ -172,11 +173,11 @@ foreach ($activity_array as $key) {
               echo 'enter'.$_POST['title'].$_POST['post_location'].$_POST['start_time'].$_POST['post_description'].$_POST['max_followers'].$_POST['category'];
 
               $activity = new activity();
-              $activity -> addEvent($_POST['start_time'], $_POST['post_location'], $_POST['post_description'], $imagename, $_SESSION['user_id'], $_POST['category'], $_POST['max_followers'], $_POST['title']);
+              $activity -> addEvent(strip_tags($_POST['start_time']), strip_tags($_POST['post_location']), strip_tags($_POST['post_description']), $imagename, $_SESSION['user_id'], strip_tags($_POST['category']), strip_tags($_POST['max_followers']), strip_tags($_POST['title']));
             }
             return;
         }
-?>
+?>)
        
         <!-- Script to Activate the Carousel -->
         <script>
