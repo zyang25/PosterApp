@@ -31,11 +31,7 @@ foreach ($activity_array as $key) {
 
     </head>
     <body>
-        <!-- jQuery -->
-        <script src="../assets/js/jquery-1.11.1.js"></script>
-        <!-- Bootstrap Core JavaScript -->
-        <script src="../assets/bootstrap/js/bootstrap.min.js"></script>
-        <!-- Script to Activate the Carousel -->
+        
         <?php
         include("nav.php");
         ?>
@@ -154,6 +150,11 @@ foreach ($activity_array as $key) {
 
             </div>
         </div>
+        <!-- jQuery -->
+        <script src="../assets/js/jquery-1.11.1.js"></script>
+        <!-- Bootstrap Core JavaScript -->
+        <script src="../assets/bootstrap/js/bootstrap.min.js"></script>
+        <!-- Script to Activate the Carousel -->
         
         <script>
         $('.carousel').carousel({

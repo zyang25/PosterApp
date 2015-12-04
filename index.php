@@ -1,9 +1,6 @@
 <?php
 session_start();
 require_once('./Authentication/classes/auth_system.php');
-echo '<br/><br/><pre>Session_variable:<br/>';
-var_dump($_SESSION);
-echo '</pre>';
 $title = 'vjoin';
 if(isset($_SESSION['user_id'])){
     header('Location: main');
