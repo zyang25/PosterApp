@@ -89,10 +89,10 @@ if(isset($_SESSION['user_id'])){
                                     
                                     <div  class="col-sm-12">
                                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                        <a href="./Authentication/forgot_password.php">forget password</a> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                        <a href="./Authentication/change_password.php">reset password</a>
+                                        <a href="main/forgot_password.php">forget password</a> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                        <a href="main/change_password.php">reset password</a>
                                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                        <a href="./Authentication/register.php">signup</a>
+                                        <a href="main/register.php">signup</a>
                                     </div>
                                     
                                 </div>

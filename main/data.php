@@ -150,8 +150,12 @@
                         $query_combined .= " or " . "category_id = '$id'";
                     }
                 }
-                $query = "SELECT * FROM activities where user_id !='$user_id' and (" . $query_combined . ") order by activity_id DESC limit 5";
-                echo "<br/><br/>";
+                $query = "SELECT * FROM activities where activity_id not in (SELECT activity_id FROM following where user_id = '$user_id') and state = 1 and (" . $query_combined . ") order by activity_id DESC limit 5";
+                //echo "<br/><br/>";
+                $activities_array = $dbConnection->send_sql($query)->fetch_all(MYSQLI_ASSOC);
+                return $activities_array;
+            }else{
+                $query = "SELECT * FROM activities where activity_id not in (SELECT activity_id FROM following where user_id = '$user_id') and state = 1 order by activity_id DESC limit 5";
                 $activities_array = $dbConnection->send_sql($query)->fetch_all(MYSQLI_ASSOC);
                 return $activities_array;
             }
@@ -170,13 +174,12 @@
             global $dbConnection;
 
             if($category_id!=0){
-                $query = "SELECT * FROM activities where user_id !='$user_id' and category_id = '$category_id' order by activity_id DESC limit 6";
+                $query = "SELECT * FROM activities where activity_id not in (SELECT activity_id FROM following where user_id = '$user_id') and state = 1 and category_id = '$category_id' order by activity_id DESC limit 6";
             }
             else{
-                $query = "SELECT * FROM activities where user_id !='$user_id' order by activity_id DESC limit 6";
+                $query = "SELECT * FROM activities where activity_id not in (SELECT activity_id FROM following where user_id = '$user_id') and state = 1 order by activity_id DESC limit 6";
             }
             
-            //echo "<br/><br/><br/>".$query;
             $activities_array = $dbConnection->send_sql($query)->fetch_all(MYSQLI_ASSOC);
             return $activities_array;
             
@@ -187,10 +190,10 @@
             global $dbConnection;
 
             if($category_id!=0){
-                $query = "SELECT * FROM activities where user_id !='$user_id' and category_id = '$category_id' order by activity_id DESC limit 6 offset ".$offset;
+                $query = "SELECT * FROM activities where activity_id not in (SELECT activity_id FROM following where user_id = '$user_id') and state = 1 and category_id = '$category_id' order by activity_id DESC limit 6 offset ".$offset;
             }
             else{
-                $query = "SELECT * FROM activities where user_id !='$user_id' order by activity_id DESC limit 6 offset ".$offset;
+                $query = "SELECT * FROM activities where activity_id not in (SELECT activity_id FROM following where user_id = '$user_id') and state = 1 order by activity_id DESC limit 6 offset ".$offset;
             }
             
             //echo "<br/><br/><br/>".$query;
@@ -376,13 +379,16 @@
             $res = array();
             $this->getGroup->bind_param("i", $activity_id);
             $this->getGroup->execute();
+
             $this->getGroup->bind_result($email, $fname, $lname);
+
             while($this->getGroup->fetch()){
                 $newTuple = array("email" => $email, "fname" => $fname, "lname" => $lname);
                 array_push($res, $newTuple);               
             }
             return $res; 
         }
+
         public function getPersonalEventList($user_id){
             $res = array();
             $this->getEventList->bind_param("i", $user_id);
@@ -602,127 +608,6 @@ class User{
         $this->updateUserStatement->close();
     }
 }
-
-// class UserModel{
-	
-// 	private $dbConnection;
-// 	private $createuser;
-// 	private $createavtivationcode;
-// 	private $getuser;
-// 	private $vertifycode;
-// 	private $updateuserinfo;
-// 	private $changepassword;
-
-// 	public function __construct(){
-//         // global $dbConnection;
-//         // if($$dbConnection == null) 
-//         //     $dbConnection = new DatabaseConnection();
-//         // global $dbConnection;
-//         //if($this->dbConnection == null) 
-//         $this->dbConnection = new DatabaseConnection();
-// 		//$this->db = new DatabaseConnection();
-// 		$this->createuser = $dbConnection->prepare_statement("INSERT INTO `USER` (email, password, salt) VALUES (?,?,?)");
-// 		$this->createavtivationcode = $dbConnection->prepare_statement("INSERT INTO `User_activation` (user_id, activation_key,expire) VALUES (?,?,?)");
-// 		$this->createuserinfo = $dbConnection->prepare_statement("INSERT INTO `User_Info` (user_id) VALUES (?)");
-// 		$this->getuser = $dbConnection->prepare_statement("SELECT * FROM `USER` WHERE `email` = ?");
-		
-// 		$this->vertifycode = $dbConnection->prepare_statement(
-// 			"UPDATE `USER` SET `is_activated` = '1' WHERE `USER_ID` = (SELECT `USER_ID` FROM `USER_ACTIVATION` WHERE `activation_key` = ? LIMIT 1)"
-// 		);
-// 		$this->updateuserinfo = $dbConnection->prepare_statement(
-// 			"UPDATE `User_Info` SET `lname`=?, `fname`=?, `address1`=?, `address2`=?, `zip`=?, `tel`=?, `preference`=? WHERE `user_id`=?"
-// 		);
-// 		$this->changepassword = $dbConnection->prepare_statement(
-// 			"UPDATE `USER` SET `password` = ?, `SALT`=? WHERE `user_id` = ?"
-// 		);
-// 	}
-
-// 	public function __destruct(){
-// 		$this->createuser->close();
-//         $this->createavtivationcode->close();
-//         $this->getuser->close();
-//         $this->vertifycode->close();
-//         $this->updateuserinfo->close();
-//         $this->changepassword->close();
-// 	}
-
-// 	public function createuser($email,$password,$salt,$code){
-// 		$this->createuser->bind_param("sss",$email,$password,$salt);
-// 		$success = $this->createuser->execute();
-// 		if($success == true){
-//             // global $dbConnection;
-// 			// Last insert id
-// 			$last_pk = $dbConnection->last_insert_id();
-// 			// Insert activation key
-// 			$dateTime = date("Y-m-d H:i:s",strtotime("+24 hours"));
-// 			$this->createavtivationcode->bind_param("sss",$last_pk,$code, $dateTime);
-// 			$this->createavtivationcode->execute();
-// 			// Insert userinfo
-// 			$this->createuserinfo->bind_param("s",$last_pk);
-// 			$this->createuserinfo->execute();
-// 			return true;
-// 		}else
-// 			return false;
-
-// 	}
-
-// 	public function getuser($email){
-// 		$user_array = array();
-// 		$this->getuser->bind_param("s", $email);
-// 		if($this->getuser->execute()){
-// 			$this->getuser->bind_result($id, $email, $pass, $admin,$act, $postnum,$salt);
-// 			$this->getuser->fetch();
-// 			$user_array[] = array(
-// 				'id' => $id,
-// 				'email' => $email,
-// 				'password' => $pass,
-// 				'admin' => $admin,
-// 				'activated' => $act,
-// 				'postnum' => $postnum,
-// 				'salt' => $salt,
-// 			);
-// 			if($id != NULL){
-// 				return $user_array;
-// 			}else{
-// 				return NULL;
-// 			}
-// 		}
-// 	}
-
-// 	public function vertifycode($email,$code){
-
-// 		$this->vertifycode->bind_param("s",$code);
-// 		$this->vertifycode->execute();
-// 		return $this->vertifycode->affected_rows;
-
-// 	}
-
-// 	public function updateuserinfo($lname,$fname,$address1,$address2,$tel,$zip,$preference,$user_id){
-// 		$this->updateuserinfo->bind_param("ssssssss",$lname,$fname,$address1,$address2,$tel,$zip,$preference,$user_id);
-// 		$this->updateuserinfo->execute();
-// 	}
-
-// 	public function getuserinfo(){
-// 		$query = "SELECT * FROM `USER_INFO`";
-// 		return $dbConnection->send_sql($query)->fetch_all(MYSQLI_ASSOC);
-// 	}
-
-// 	public function changepassword($password,$salt,$user_id){
-// 		echo $password;
-// 		$this->changepassword->bind_param("sss",$password,$salt,$user_id);
-// 		$this->changepassword->execute();
-
-// 	}
-// 	// Admin
-// 	public function getalluser(){
-// 		$query = "SELECT * FROM `USER`";
-// 		return $dbConnection->send_sql($query)->fetch_all(MYSQLI_ASSOC);
-// 	}
-
-
-// }
-
-
 
 
 ?>

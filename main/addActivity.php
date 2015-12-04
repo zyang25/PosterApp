@@ -40,12 +40,18 @@
             <input type="file" class="form-control-file" name="image" id="image">
           </div>
           <div class="form-group"> 
-            <label for="category" class="control-label">Category:</label>
-            <select class="c-select" id="category" name="category">
-                <option value="1">food</option>
-                <option value="2">study</option>
-            </select>
-            </div>
+             <label for="category" class="control-label">Category:</label>
+               
+           <?php
+           $category = new category();
+           $allCategory = $category -> getAllCategory();
+           echo "<select class='c-select' id='category' name='category'>";
+             for ($i=0; $i < count($allCategory); $i++) { 
+                  echo "<option value='".$allCategory[$i]['category_id']."'>".$allCategory[$i]['category_name']."</option>";
+              }
+            ?>
+             </select>
+             </div>
             <div class="form-group">
               <div id="errorMsg" class="alert alert-danger" role="alert" style="display:none;"></div>
             </div>

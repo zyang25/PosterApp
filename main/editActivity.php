@@ -61,15 +61,30 @@ if(!isset($_SESSION['user_id'])){
         <tbody>
         <?php
         $activity = new activity();
+        $following = new following();
         $activity_array = $activity->getActivityByUserId($_SESSION['user_id']);
+
         for ($i= 0;$i< count($activity_array); $i++){ 
             echo "<tr>";
             echo "<td id='title".$activity_array[$i]['activity_id']."'>" . $activity_array[$i]['title']. "</td>"; 
             echo "<td>" . $activity_array[$i]['start_time']. "</td>";
             echo "<td id='loaction".$activity_array[$i]['activity_id']."'>" . $activity_array[$i]['location']. "</td>";
             echo "<td id='max_followers".$activity_array[$i]['activity_id']."'>" . $activity_array[$i]['max_followers']. "</td>";
+            $followers = $following->getGroupPeople($activity_array[$i]['activity_id']);
+            $number = count($followers);
+            for($j=0;$j<$number;$j++){
+              
+              echo "<input hidden name='follower".$activity_array[$i]['activity_id']."' value=". $followers[$j]['email'] .">";
+              echo "<input hidden name='followerfname".$activity_array[$i]['activity_id']."' value=". $followers[$j]['fname'] .">";
+              echo "<input hidden name='followerlname".$activity_array[$i]['activity_id']."' value=". $followers[$j]['lname'] .">";
+            }
+           
             echo "<input hidden id='description".$activity_array[$i]['activity_id']."' value = '".$activity_array[$i]['description']."'/>";
-            echo "<td>  <div class='btn-group' role='group' aria-label='...'><button type='button' onclick='edit(this)' id='edit".$activity_array[$i]['activity_id']."'' class='btn btn-default'>edit</button><button type='button' onclick='addimage(this);' id='image".$activity_array[$i]['activity_id']."' class='btn btn-default'>add more image</button> </div> </td>";
+            echo "<td>  <div class='btn-group' role='group' aria-label='...'>
+                      <button type='button' onclick='edit(this)' id='edit".$activity_array[$i]['activity_id']."'' class='btn btn-default'>edit</button>
+                      <button type='button' onclick='addimage(this);' id='image".$activity_array[$i]['activity_id']."' class='btn btn-default'>add more image</button>
+                      <button type='button' onclick='showfollower(this);' id='showfollower".$activity_array[$i]['activity_id']."' class='btn btn-default'>followers</button>
+                       </div> </td>";
             echo "</tr>";
         } 
 
@@ -115,6 +130,22 @@ if(!isset($_SESSION['user_id'])){
          $('#addmore').modal('show');
          document.getElementById('add_activity_id').value = a.id.substring(5,a.lenght);
 
+    }
+    function showfollower(a){
+       $('#showfollower').modal('show');
+       if(document.getElementsByName('follower'+a.id.substring(12,a.lenght)).length>0){
+        var info = "";
+         for (var i = 0; i < document.getElementsByName('follower'+a.id.substring(12,a.lenght)).length; i++) {
+           info = info + document.getElementsByName('follower'+a.id.substring(12,a.length))[i].value +"  "+ document.getElementsByName('followerfname'+a.id.substring(12,a.length))[i].value+"  "+document.getElementsByName('followerlname'+a.id.substring(12,a.length))[i].value;
+          info = info + "</br>";
+         }
+
+         document.getElementById('body_follower').innerHTML = info;
+          
+       }else{
+          document.getElementById('body_follower').innerHTML =  "";
+       }
+       
     }
 </script>
 </html>
@@ -165,7 +196,7 @@ if(!isset($_SESSION['user_id'])){
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="exampleModalLabel">Edit Activity</h4>
+        <h4 class="modal-title" id="exampleModalLabel">Add more image</h4>
       </div>
       <div class="modal-body">
         <form method="POST" id="addmoreform" action="./editActivity.php" name="addmoreform" enctype="multipart/form-data">
@@ -180,6 +211,20 @@ if(!isset($_SESSION['user_id'])){
           </div>
            
         </form>
+        
+      </div>
+
+    </div>
+  </div>
+</div>
+<div class="modal fade" id="showfollower" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="exampleModalLabel">Followers</h4>
+      </div>
+      <div class="modal-body" id="body_follower">
         
       </div>
 

@@ -2,11 +2,11 @@
 session_start();
 require_once('data.php');
 require_once('addActivity.php');
+
 if(!isset($_SESSION['user_id'])){
 header('Location: ../index.php');
 }
 $activity = new activity();
-
 // Query recommanded activity
 
 $activity_array = $activity->getActivityByCategory($_SESSION['user_id'],$_SESSION['preference']);
@@ -24,11 +24,23 @@ foreach ($activity_array as $key) {
 <html lang="en">
     <head>
         <meta charset="utf-8">
+
         <link href="../assets/bootstrap/css/bootstrap.min.css" rel="stylesheet">
         <!-- Custom CSS -->
         <link href="../assets/css/half-slider.css" rel="stylesheet">
+
+         <!-- jQuery -->
+        <script src="../assets/js/moment-with-locales.js"></script>
+        <script src="../assets/js/jquery-1.11.1.js"></script>
+        <!-- Bootstrap Core JavaScript -->
+        <script src="../assets/bootstrap/js/bootstrap.min.js"></script>
+        <script src="../assets/js/bootstrap-datetimepicker.js"></script>
+
     </head>
     <body>
+        
+        <!-- Bootstrap Core JavaScript -->
+        <!-- Script to Activate the Carousel -->
         <?php
         include("nav.php");
         ?>
@@ -106,11 +118,33 @@ foreach ($activity_array as $key) {
                         </ul>
                     </div>
                 </div>
+                
+                <div class="row">
+                <br/>
+                <br/>
+                    <div class="activites_content">
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col-xs-1"></div>
+                                    <div class="col-xs-10 activities"></div>
+                                    <div class="col-xs-1"></div>
+                                </div>
+                            </div>
+                        </div> 
+                </div>
 
-                <div class="tab-content">
+                <!-- <div class="tab-content">
                     <br/><br/>
                     <div class="tab-pane fade in active" id="tab1">             
-                        <div class="activites_content"></div>
+                        <div class="activites_content">
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col-xs-1"></div>
+                                    <div class="col-xs-10 activities"></div>
+                                    <div class="col-xs-1"></div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <div class="tab-pane fade" id="tab2">
                         <div class="activites_content"></div>
@@ -121,13 +155,29 @@ foreach ($activity_array as $key) {
                     <div class="tab-pane fade" id="tab4">
                         <div class="activites_content"></div>
                     </div>
-                </div>
+                </div> -->
+
             </div>
         </div>
-        <!-- jQuery -->
-        <script src="../assets/js/jquery-1.11.1.js"></script>
-        <!-- Bootstrap Core JavaScript -->
-        <script src="../assets/bootstrap/js/bootstrap.min.js"></script>
+        <?php
+        if(isset($_POST['title'])){
+            if ($_FILES["image"]["error"] > 0)
+            {
+              echo "Error: " . $_FILES["image"]["error"] . "<br />";
+            }
+            else
+            {
+              $imagename = md5(uniqid(rand()));
+              move_uploaded_file($_FILES["image"]["tmp_name"],"../assets/img/activities-large-pic/" . $imagename);
+              echo 'enter'.$_POST['title'].$_POST['post_location'].$_POST['start_time'].$_POST['post_description'].$_POST['max_followers'].$_POST['category'];
+
+              $activity = new activity();
+              $activity -> addEvent(strip_tags($_POST['start_time']), strip_tags($_POST['post_location']), strip_tags($_POST['post_description']), $imagename, $_SESSION['user_id'], strip_tags($_POST['category']), strip_tags($_POST['max_followers']), strip_tags($_POST['title']));
+            }
+            return;
+        }
+?>)
+       
         <!-- Script to Activate the Carousel -->
         <script>
         $('.carousel').carousel({

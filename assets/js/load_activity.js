@@ -24,7 +24,7 @@ $("#follow_status").click(function(){
         });    
     }
     else if(value == 0){ //jump to personal page to manage this event   modify!!!!!!!!!!!!!!!!!
-        window.location.replace("http://www.google.com");       
+        window.location.replace("editActivity.php");       
     }
 });
 

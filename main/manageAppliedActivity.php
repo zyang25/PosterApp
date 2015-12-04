@@ -1,6 +1,5 @@
 <?php 
     session_start();
-    require_once('addActivity.php');  //question!!
     require_once('data.php');
     if(!isset($_SESSION['user_id'])){
         header('Location: ../index.php');
@@ -24,6 +23,10 @@
         <link href="../assets/bootstrap/css/bootstrap.min.css" rel="stylesheet">
         <link href="../assets/css/bootstrap-datetimepicker.css" rel="stylesheet">
         <!-- Custom CSS -->
+        <script src="../assets/js/jquery-1.11.1.js"></script>
+        <!-- Bootstrap Core JavaScript -->
+        <script src="../assets/bootstrap/js/bootstrap.min.js"></script>
+        <script src="../assets/js/bootstrap-datetimepicker.js"></script>
         <link href="../assets/css/1-col-portfolio.css" rel="stylesheet">
     </head>
     <body align="center">
@@ -50,5 +53,8 @@
             </div>
             <!-- /.row -->
         </footer> 
+        <?php
+            require_once('addActivity.php');
+        ?>
     </body>
 </html>
