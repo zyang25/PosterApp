@@ -23,7 +23,7 @@ $("#follow_status").click(function(){
             $("#remaining").html(' <h5> Remaining :' + remain + '&nbsp;/&nbsp;' + data['max_followers'] + '</h5>' );
         });    
     }
-    else if(value == 0){ //jump to personal page to manage this event
+    else if(value == 0){ //jump to personal page to manage this event   modify!!!!!!!!!!!!!!!!!
         window.location.replace("http://www.google.com");       
     }
 });
@@ -32,18 +32,28 @@ $(".reply").click(function(){
     var sp = $(this).text();
     $(this).attr("class", "active");
     var tableId;
+    var index;
     if(sp == "«"){
         tableId = "#0";
+        index = 0;
     }
     else if(sp == "»"){
         var lastImage = $('#image_number').val() - 1;
         tableId = "#".concat(lastImage);
+        index = lastImage;
     }
     else{
-        tableId = "#".concat(sp - 1 + "");              
+        tableId = "#".concat(sp - 1 + "");   
+        index = sp - 1;           
     }
+    var src;
     var image = $(tableId).val();
-    var src = "data:image;base64,".concat(image);
+    if(index == 0){
+        src = image;
+    }
+    else{
+        src = "data:image;base64,".concat(image);
+    }
     $('#image_area').attr("src", src);
 });
 
@@ -56,30 +66,41 @@ $(function(){
         $("#location").html(data['location']); 
         $("#time_stamp").html(data['start_time']);
         $("#description").html(data['description']);
-        if(data.count === undefined){
-            $("#follow_status").html("Managing This Activity");
-            $("#follow_status").attr("key","0");        // to manage this event   
+        var start_t = data['start_time'];
+
+        var now = new Date();
+        var month = now.getMonth() + 1;
+        var time_stamp = now.getFullYear() + '-' + month + '-' + now.getDate() + ' ' + now.getHours()+':'+now.getMinutes()+':'+now.getSeconds();
+        console.log(start_t);
+        console.log(time_stamp);
+        if(start_t < time_stamp){
+            $("#follow_status").html("This event is Expired!!!");
         }
         else{
-            var remain = data['max_followers'] - data['followers'];            
-
-            $("#remaining").html(' <h5> Remaining :' + remain + '&nbsp;/&nbsp;' + data['max_followers'] + '</h5>' );
-
-            if(data.count == 1){
-                $("#follow_status").html("Unfollow");
-                $("#follow_status").attr("key","1");    // to unfollow this event
+            if(data.count === undefined){
+                $("#follow_status").html("Managing This Activity");
+                $("#follow_status").attr("key","0");        // to manage this event   
             }
             else{
-                if(data.followers >= data.max_followers){
-                    $("#follow_status").html("This Activity is Full, Please Check later");  //or directly contact with event poster
+                var remain = data['max_followers'] - data['followers'];            
+
+                $("#remaining").html(' <h5> Remaining :' + remain + '&nbsp;/&nbsp;' + data['max_followers'] + '</h5>' );
+
+                if(data.count == 1){
+                    $("#follow_status").html("Unfollow");
+                    $("#follow_status").attr("key","1");    // to unfollow this event
                 }
                 else{
-                    $("#follow_status").html("Follow!!");
-                    $("#follow_status").attr("key","2"); // to follow this event
+                    if(data.followers >= data.max_followers){
+                        $("#follow_status").html("This Activity is Full, Please Check later");  //or directly contact with event poster
+                    }
+                    else{
+                        $("#follow_status").html("Follow!!");
+                        $("#follow_status").attr("key","2"); // to follow this event
+                    }
                 }
             }
         }
-
     }); 
 });
 

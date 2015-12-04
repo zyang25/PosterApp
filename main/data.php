@@ -49,6 +49,10 @@
             $this->removeFollow->bind_param("i", $activity_id);
             $this->removeFollow->execute();
         }
+        public function getOneImage($activity_id){
+            global $dbConnection;
+            return $dbConnection->send_sql("SELECT `image` FROM `activities` WHERE `activity_id` = $activity_id ")->fetch_all(MYSQLI_ASSOC)[0];
+        }
 
         public function getAllEvent(){
             // $res = array();
