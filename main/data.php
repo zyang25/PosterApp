@@ -379,11 +379,9 @@
             $res = array();
             $this->getGroup->bind_param("i", $activity_id);
             $this->getGroup->execute();
-<<<<<<< HEAD
+
             $this->getGroup->bind_result($email, $fname, $lname);
-=======
-            $this->getGroup->bind_result($email,$fname,$lname);
->>>>>>> boyu
+
             while($this->getGroup->fetch()){
                 $newTuple = array("email" => $email, "fname" => $fname, "lname" => $lname);
                 array_push($res, $newTuple);               
