@@ -36,6 +36,7 @@ foreach ($activity_array as $key) {
 </head>
 
 <body>
+    
 
     <?php
         require_once('nav.php');
@@ -140,10 +141,12 @@ foreach ($activity_array as $key) {
     ?>
 
     <!-- jQuery -->
+    <script src="../assets/js/moment-with-locales.js"></script>
     <script src="../assets/js/jquery-1.11.1.js"></script>
     <!-- Bootstrap Core JavaScript -->
     <script src="../assets/bootstrap/js/bootstrap.min.js"></script>
-    <!-- Script to Activate the Carousel -->
+    <script src="../assets/js/bootstrap-datetimepicker.js"></script>
+
 
     <!-- Script to Activate the Carousel -->
     <script>
