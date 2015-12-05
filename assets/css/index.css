@@ -15,11 +15,11 @@ body {
     height: 50%;
 }
 
-/*.item,
+.item,
 .active,
 .carousel-inner {
-    height: 10%;
-}*/
+    height: 100%;
+}
 
 /* Background images are set within the HTML using inline CSS, not here */
 
@@ -33,24 +33,21 @@ body {
     -o-background-size: cover;
 }
 
-
 .hero-spacer {
     margin-top: 50px;
 }
 
-.hero-feature {
+.hero-feature{
     /*display: none;*/
     margin-bottom: 100px;
-    height: 180px;
+    height: 183px;
 }
 
-.activites_content {
+.hero-feature img{
     
+    height: 183px;
 }
 
 footer {
     margin: 50px 0;
 }
-
-
-

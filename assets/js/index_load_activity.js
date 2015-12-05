@@ -1,3 +1,4 @@
+
 window.page = 0;
 window.current_category_id = 'all';
 window.current_activity_number = 0;
@@ -21,7 +22,8 @@ $(document).ready(function(){
     });
 
     // Load automatically
-    $(window).scroll(function() {   
+    $(window).scroll(function() { 
+        console.log('Scrolling');  
        if($(window).scrollTop() + $(window).height() >= $(document).height()) {
            index_more_activity(current_category_id, window.current_activity_number);
        }
@@ -58,6 +60,8 @@ function index_activity(categoryId){
                 '</div>'
                 );
             }
+            // Remove all html tag
+            //activity.title = "Hello";
             
             $('.activities .row'+window.page).append(
             '<div class="_activity">'+
@@ -110,7 +114,6 @@ function index_more_activity(categoryId, offset){
                 '</div>'
                 );
             }
-
 
             $('.activities .row'+window.page).append(
             '<div class="_activity">'+   
