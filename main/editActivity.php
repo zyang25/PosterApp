@@ -134,10 +134,11 @@ if(!isset($_SESSION['user_id'])){
     function showfollower(a){
        $('#showfollower').modal('show');
        if(document.getElementsByName('follower'+a.id.substring(12,a.lenght)).length>0){
-        var info = "";
+        var info = "<tr><td>email</td><td>last name</td><td>first name</td></tr>";
+         info =info + "<tr>";
          for (var i = 0; i < document.getElementsByName('follower'+a.id.substring(12,a.lenght)).length; i++) {
-           info = info + document.getElementsByName('follower'+a.id.substring(12,a.length))[i].value +"  "+ document.getElementsByName('followerfname'+a.id.substring(12,a.length))[i].value+"  "+document.getElementsByName('followerlname'+a.id.substring(12,a.length))[i].value;
-          info = info + "</br>";
+           info = info +"<td>"+ document.getElementsByName('follower'+a.id.substring(12,a.length))[i].value +" </td> <td>"+ document.getElementsByName('followerfname'+a.id.substring(12,a.length))[i].value+" </td><td> "+document.getElementsByName('followerlname'+a.id.substring(12,a.length))[i].value;
+          info = info + "</td></tr>";
          }
 
          document.getElementById('body_follower').innerHTML = info;
@@ -224,8 +225,10 @@ if(!isset($_SESSION['user_id'])){
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
         <h4 class="modal-title" id="exampleModalLabel">Followers</h4>
       </div>
-      <div class="modal-body" id="body_follower">
-        
+      <div class="modal-body" >
+        <table class = "table" id="body_follower">
+
+        </table>
       </div>
 
     </div>
