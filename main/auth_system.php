@@ -58,7 +58,14 @@ class AuthSystem{
 				$_SESSION['admin'] = $user[0]['admin'];
 				$_SESSION['login'] = true;
 				$_SESSION['zipcode'] = $userinfo['zip'];
-				$_SESSION['preference'] = $userinfo['preference'];
+				//$_SESSION['preference'] = $userinfo['preference'];
+
+				if($userinfo['preference']=="" || $userinfo['preference']==null){
+					$_SESSION['preference'] = "all";
+				}else
+					$_SESSION['preference'] = $userinfo['preference'];
+
+
 
 				if($user[0]['admin']==true){
 					// Admin user
