@@ -74,8 +74,7 @@ if($_SESSION['user_id']!=""){
 <head>
         <meta charset="utf-8">
         <link href="../assets/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-        <!-- Custom CSS -->
-        <link href="../assets/css/half-slider.css" rel="stylesheet">
+        
     </head>
     <body>
         <?php
