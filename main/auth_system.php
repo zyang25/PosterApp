@@ -26,6 +26,7 @@ class AuthSystem{
 			//$this->sendVerification($email,$code);
 			$gmail = new Gmail();
 			$gmail->sendVertifiedEmail($email,urlencode($code));
+			return true;
 
 		}else
 			return false;
@@ -106,12 +107,12 @@ class AuthSystem{
 		$this->model = new UserModel();
 		// $random_password = "charles9129";
 		$random_password = $this->randomString(8);
-		echo $random_password."<br/>";
+		
 		$cost = 10;
 		$salt = strtr(base64_encode(mcrypt_create_iv(16, MCRYPT_DEV_URANDOM)), '+', '.');
 		$salt = sprintf("$2a$%02d$", $cost) . $salt;
 		$hashed_password = crypt($random_password,$salt);
-		echo $hashed_password."<br/>".$salt."<br/>";
+		
 		$this->model->changepassword($hashed_password,$salt,$user_id);
 
 		// Send mail
@@ -133,13 +134,12 @@ class AuthSystem{
 
 	public function changepassword($email,$org_password,$new_password,$user_id){
 		$this->model = new UserModel();
-		// echo $org_password."<br/>".$new_password."<br/>";
+		
 		$cost = 10;
 		$salt = strtr(base64_encode(mcrypt_create_iv(16, MCRYPT_DEV_URANDOM)), '+', '.');
 		$salt = sprintf("$2a$%02d$", $cost) . $salt;
 		$hashed_password = crypt($new_password,$salt);
 		
-		echo $hashed_password."<br/>".$salt."<br/>";
 		$this->model->changepassword($hashed_password,$salt,$user_id);
 
 	}
