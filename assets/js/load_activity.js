@@ -71,8 +71,11 @@ $(function(){
         var now = new Date();
         var month = now.getMonth() + 1;
         var time_stamp = now.getFullYear() + '-' + month + '-' + now.getDate() + ' ' + now.getHours()+':'+now.getMinutes()+':'+now.getSeconds();
-        console.log(start_t);
-        console.log(time_stamp);
+        // console.log(start_t);
+        // console.log(time_stamp);
+        start_t = Date.parse(start_t);
+        time_stamp = Date.parse(time_stamp);
+
         if(start_t < time_stamp){
             $("#follow_status").html("This event is Expired!!!");
         }
