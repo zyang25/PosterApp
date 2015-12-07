@@ -9,10 +9,12 @@ $activity = new activity();
 // Query recommanded activity
 
 $activity_array = $activity->getActivityByCategory($_SESSION['user_id'],$_SESSION['preference']);
+$recommanded_activity_id = array();
 $recommanded_title = array();
 $recommanded_img = array();
 foreach ($activity_array as $key) {
     $img_path = '../assets/img/activities-large-pic/' . $key['image'];
+    array_push($recommanded_activity_id, $key['activity_id']);
     array_push($recommanded_img, $img_path);
     array_push($recommanded_title, $key['title']);
 };
@@ -58,35 +60,48 @@ foreach ($activity_array as $key) {
                 <div class="carousel-inner">
                     <div class="item active">
                         <!-- Set the first background image using inline CSS below. -->
-                        <div class="fill" style="background-image:url('<?php echo $recommanded_img[0]; ?>');"></div>
+                        <a href='activities.php?activity_id=<?php echo $recommanded_activity_id[0]; ?>'>
+                                <div class="fill" style="background-image:url('<?php echo $recommanded_img[0]; ?>');"></div>
+                            </a>
+
+
                         <div class="carousel-caption">
+                            
                             <h2><?php echo $recommanded_title[0]; ?></h2>
                         </div>
                     </div>
                     <div class="item">
                         <!-- Set the second background image using inline CSS below. -->
-                        <div class="fill" style="background-image:url('<?php echo $recommanded_img[1]; ?>');"></div>
+                        <a href='activities.php?activity_id=<?php echo $recommanded_activity_id[1]; ?>'>
+                            <div class="fill" style="background-image:url('<?php echo $recommanded_img[1]; ?>');"></div>
+                        </a>
                         <div class="carousel-caption">
                             <h2><?php echo $recommanded_title[1]; ?></h2>
                         </div>
                     </div>
                     <div class="item">
                         <!-- Set the third background image using inline CSS below. -->
-                        <div class="fill" style="background-image:url('<?php echo $recommanded_img[2]; ?>');"></div>
+                        <a href='activities.php?activity_id=<?php echo $recommanded_activity_id[2]; ?>'>
+                            <div class="fill" style="background-image:url('<?php echo $recommanded_img[2]; ?>');"></div>
+                        </a>
                         <div class="carousel-caption">
                             <h2><?php echo $recommanded_title[2]; ?></h2>
                         </div>
                     </div>
                     <div class="item">
                         <!-- Set the third background image using inline CSS below. -->
-                        <div class="fill" style="background-image:url('<?php echo $recommanded_img[3]; ?>');"></div>
+                        <a href='activities.php?activity_id=<?php echo $recommanded_activity_id[3]; ?>'>
+                            <div class="fill" style="background-image:url('<?php echo $recommanded_img[3]; ?>');"></div>
+                        </a>
                         <div class="carousel-caption">
                             <h2><?php echo $recommanded_title[3]; ?></h2>
                         </div>
                     </div>
                     <div class="item">
                         <!-- Set the third background image using inline CSS below. -->
-                        <div class="fill" style="background-image:url('<?php echo $recommanded_img[4]; ?>');"></div>
+                        <a href='activities.php?activity_id=<?php echo $recommanded_activity_id[4]; ?>'>
+                            <div class="fill" style="background-image:url('<?php echo $recommanded_img[4]; ?>');"></div>
+                        </a>
                         <div class="carousel-caption">
                             <h2><?php echo $recommanded_title[4]; ?></h2>
                         </div>
@@ -131,30 +146,6 @@ foreach ($activity_array as $key) {
                             </div>
                         </div> 
                 </div>
-
-                <!-- <div class="tab-content">
-                    <br/><br/>
-                    <div class="tab-pane fade in active" id="tab1">             
-                        <div class="activites_content">
-                            <div class="container">
-                                <div class="row">
-                                    <div class="col-xs-1"></div>
-                                    <div class="col-xs-10 activities"></div>
-                                    <div class="col-xs-1"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="tab-pane fade" id="tab2">
-                        <div class="activites_content"></div>
-                    </div>
-                    <div class="tab-pane fade" id="tab3">
-                        <div class="activites_content"></div>
-                    </div>
-                    <div class="tab-pane fade" id="tab4">
-                        <div class="activites_content"></div>
-                    </div>
-                </div> -->
 
             </div>
         </div>
