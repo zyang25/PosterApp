@@ -5,9 +5,7 @@ $title = 'vjoin';
 
 require_once('auth_system.php');
 
-echo '<br/><br/><pre>Session_variable:<br/>';
-var_dump($_SESSION);
-echo '</pre>';
+
 
 if(isset($_POST['email'])){
 
@@ -16,6 +14,7 @@ $user_array = $user->getuser($_POST['email']);
 if($user_array!=""){
 echo $user_array['id'];
 $user->newpassword($user_array['email'],$user_array['id']);
+
 }else{
 echo "Bad email request.";
 }

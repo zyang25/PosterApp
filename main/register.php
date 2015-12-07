@@ -3,9 +3,6 @@ session_start();
 $title = 'vjoin';
 require_once('auth_system.php');
 
-echo '<br/><br/><pre>Session_variable:<br/>';
-var_dump($_SESSION);
-echo '</pre>';
 
 if(isset($_POST['email'])&&isset($_POST['password'])){
 $user = new AuthSystem();
@@ -88,7 +85,7 @@ echo "</div>";
     };
 
     $('#register_form').bind("submit",function(e){
-        if(check_email()&&check_password()){
+        if(check_password()){
             console.log("Hello");
             $(this).unbind('submit').submit();
         }else{

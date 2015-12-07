@@ -1,9 +1,7 @@
 <?php
 session_start();
 require_once('./Authentication/classes/auth_system.php');
-echo '<br/><br/><pre>Session_variable:<br/>';
-var_dump($_SESSION);
-echo '</pre>';
+
 $title = 'vjoin';
 if(isset($_SESSION['user_id'])){
     header('Location: main');
@@ -116,36 +114,36 @@ if(isset($_SESSION['user_id'])){
         
 
         <script>
-        // function check_email(){
-        //     var pattern = /^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/;
-        //     var stevens_email = /^\w+@(stevens.edu)$/;
-        //     var email = document.getElementById("email").value;
-        //     var r = stevens_email.test(email);
-        //     if (r == false)
-        //         document.getElementById("email_error").innerHTML = "Please use Stevens edu email.";
-        //     console.log(r);
-        //     return r;
-        // };
-        // function check_password(){
+        function check_email(){
+            var pattern = /^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/;
+            var stevens_email = /^\w+@(stevens.edu)$/;
+            var email = document.getElementById("email").value;
+            var r = stevens_email.test(email);
+            if (r == false)
+                document.getElementById("email_error").innerHTML = "Please use Stevens edu email.";
+            console.log(r);
+            return r;
+        };
+        function check_password(){
 
-        //     var password1 = document.getElementById("password").value;
-        //     console.log("Checking.");
-        //     if(password1.length<6){
-        //         document.getElementById("password_error").innerHTML = "Password error";
-        //         return false;
-        //     }
-        //     return true;
-        // };
-        // $('#login_form').bind("submit",function(e){
+            var password1 = document.getElementById("password").value;
+            console.log("Checking.");
+            if(password1.length<6){
+                document.getElementById("password_error").innerHTML = "Password error";
+                return false;
+            }
+            return true;
+        };
+        $('#login_form').bind("submit",function(e){
             
-        //     if(check_email()&&check_password()){
-        //         $(this).unbind("submit");
-        //         $('#login_form').submit();
-        //     }else{
-        //          e.preventDefault();
-        //     }
+            if(check_password()){
+                $(this).unbind("submit");
+                $('#login_form').submit();
+            }else{
+                 e.preventDefault();
+            }
             
-        // });
+        });
         </script>
         
     </body>
