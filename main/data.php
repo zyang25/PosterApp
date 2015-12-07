@@ -76,6 +76,11 @@
             }
             return $res;
         }
+        public function updateEvent($activity_id, $title, $description, $location, $max_followers){
+            global $dbConnection;       
+            $query = "UPDATE activities SET title='$title', description='$description',location='$location', max_followers='$max_followers' WHERE activity_id ='$activity_id'";
+            $dbConnection->send_sql($query);
+        }
         public function getOneEvent($activity_id){
             global $dbConnection;
             return $dbConnection->send_sql("SELECT * FROM `activities` WHERE `activity_id` = $activity_id ")->fetch_all(MYSQLI_ASSOC)[0];
