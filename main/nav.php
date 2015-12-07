@@ -13,11 +13,11 @@
           <a class="navbar-brand" href="index.php">Vjoin</a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
-          <ul class="nav navbar-nav">
+          <ul id="nav_home" class="nav navbar-nav">
           
           <li class="active"><a href="index.php">Home</a></li>
           </ul>
-          <ul class="nav navbar-nav">
+          <ul id="nav_post" class="nav navbar-nav">
              <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">activityManage <span class="caret"></span></a>
 
@@ -42,6 +42,7 @@
                     echo "</ul>";
                     echo " </li>";
                     echo " </ul>";
+                    echo "<script>document.getElementById('nav_home').style.display='none';document.getElementById('nav_post').style.display='none';</script>";
                 }
               ?>
 
