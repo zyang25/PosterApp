@@ -19,7 +19,7 @@
           </ul>
           <ul id="nav_post" class="nav navbar-nav">
              <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">activityManage <span class="caret"></span></a>
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">ActivityManage <span class="caret"></span></a>
 
              <ul class="dropdown-menu">
                <li><a data-toggle="modal" data-target="#myModal">Post a activity</a></li>
@@ -27,6 +27,9 @@
              </ul>             
             </li>
             <li><a href="manageAppliedActivity.php">Applied Activities</a></li>
+          </ul>
+          <ul id="nav_chat" class="nav navbar-nav">
+            <li><a href="../chat/friendList.php">Chat</a></li>
           </ul>
             
         <?php
@@ -45,6 +48,7 @@
                     echo "<script>document.getElementById('nav_home').style.display='none';document.getElementById('nav_post').style.display='none';</script>";
                 }
               ?>
+
 
           <ul class="nav navbar-nav navbar-right">
             <?php

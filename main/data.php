@@ -558,6 +558,40 @@ class User{
     private $deleteUserActivStatement;
     private $deleteFollowerStatement;
     private $updateUserStatement;
+    private $getUsersByStatement;
+    private $getUserNameByStatement;
+
+    public function getUsersByPreference($preference){
+        $ret = array();
+        $fname=null;
+        $lname=null;
+        //echo $preference;
+        //$this->getUsersByStatement->bind_param("i", $preference);
+        $this->getUsersByStatement->bind_param("s", $preference);
+        $this->getUsersByStatement->execute();
+        $this->getUsersByStatement->bind_result($fname,$lname);
+        
+        while($this->getUsersByStatement->fetch()) {
+            $newEntry = array ("fname" => $fname, "lname" => $lname);
+            //var_dump($newEntry);
+            array_push($ret, $newEntry);
+        }
+        return $ret;
+    }
+    public function getUserNameById($Id){
+        $ret = array ();
+        $fname=null;
+        $lname=null;
+        $this->getUserNameByStatement->bind_param("s", $Id);
+        $this->getUserNameByStatement->execute();
+        $this->getUserNameByStatement->bind_result($fname,$lname);
+        
+        while($this->getUserNameByStatement->fetch()) {
+            $newEntry = array ("fname" => $fname, "lname" => $lname);
+            array_push($ret, $newEntry);
+        }
+        return $ret;
+    }
     
     
     public function getAllUsers(){
@@ -601,6 +635,8 @@ class User{
         $this->deleteUserActivStatement = $this->dbConnection->prepare_statement("DELETE FROM `user_activation` WHERE `user_id` = ?");
         $this->deleteFollowerStatement = $this->dbConnection->prepare_statement("DELETE FROM `following` WHERE `user_id` = ?");
         $this->updateUserStatement=$this->dbConnection->prepare_statement("UPDATE `user` SET `is_activated`=? WHERE `user_id` = ?");
+        $this->getUsersByStatement=$this->dbConnection->prepare_statement("SELECT `fname`,`lname` FROM `user_info` WHERE `preference`=?");
+        $this->getUserNameByStatement=$this->dbConnection->prepare_statement("SELECT `fname`,`lname` FROM `user_info`  WHERE `user_id`=?");
     }
     
     // It's good practice to close your resources on destruct.
@@ -610,8 +646,78 @@ class User{
         $this->deleteUserActivStatement->close();
         $this->deleteFollowerStatement->close();
         $this->updateUserStatement->close();
+        $this->getUsersByStatement->close();
+        $this->getUserNameByStatement->close();
     }
 }
 
+class MessageService
+    {
+        private $dbConnection;
+        private $addMessageStatement;
+        private $getMessagesStatement;
+        private $updateMessageStatement;
+        private $deleteMessageStatement;
 
+        public function getMessage($Sender,$Getter)
+        {
+            $ret = array ();
+            $id = null;
+            $sender = null;
+            $getter = null;
+            $content = null;
+            $sendTime=null;
+            $isGet=null;
+            $this->getMessagesStatement->bind_param("ss",$Sender,$Getter);
+            $this->getMessagesStatement->execute();
+            $this->getMessagesStatement->bind_result($id, $sender, $getter, $content,$sendTime,$isGet);
+            while ($this->getMessagesStatement->fetch()) {
+                $newEntry = array ("id" => $id, "sender" => $sender, "getter" => $getter, "content" => $content,"sendTime"=>$sendTime,"isGet"=>$isGet);
+                array_push($ret, $newEntry);
+            }
+            $this->updateMessage($Sender, $Getter);
+            return $ret;
+        }
+
+        public function updateMessage($sender, $getter)
+        {
+            $this->updateMessageStatement->bind_param("ss",$sender,$getter);
+            $this->updateMessageStatement->execute();
+        }
+
+        public function deleteMessage ($id)
+        {
+            $this->deleteMessageStatement->bind_param("i", $id);
+            $this->deleteMessageStatement->execute();
+        }
+
+        public function getAll_information ()
+        {
+            return $this->dbConnection->send_sql("SELECT * FROM `track_expense`")->fetch_all(MYSQLI_ASSOC);
+        }
+
+        public function storeMessage ($sender,$getter,$content)
+        {
+            $this->addMessageStatement->bind_param("sss", $sender,$getter,$content);
+            $this->addMessageStatement->execute();
+        }
+
+        // This is your constructor
+        public function __construct ()
+        {
+            $this->dbConnection = new DatabaseConnection();
+            $this->addMessageStatement = $this->dbConnection->prepare_statement("INSERT INTO `messages` (`sender`,`getter`,`content`,`sendTime`,`isGet`) VALUES (?,?,?,now(),0)");
+            $this->getMessagesStatement = $this->dbConnection->prepare_statement("SELECT * FROM `messages` WHERE `sender`=? and `getter`=? and `isGet`=0");
+            $this->updateMessageStatement = $this->dbConnection->prepare_statement("UPDATE `messages` SET `isGet` =1 WHERE `sender`=? and `getter`=?");
+            $this->deleteMessageStatement = $this->dbConnection->prepare_statement("DELETE FROM `messages` WHERE `id` = ?");
+        }
+
+        // It's good practice to close your resources on destruct.
+        function __destruct(){
+            $this->addMessageStatement->close();
+            $this->getMessagesStatement->close();
+            $this->updateMessageStatement->close();
+            $this->deleteMessageStatement->close();
+        }
+    }
 ?>
