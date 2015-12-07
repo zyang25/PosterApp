@@ -6,7 +6,9 @@ require_once('auth_system.php');
 echo "<br/><br/><br/><br/>";
 $c = new category();
 $allc = $c->getAllCategory();
-
+echo '<br/><br/><pre>Session_variable:<br/>';
+var_dump($_SESSION);
+echo '</pre>';
 
 if($_SESSION['user_id']!=""){
 	
