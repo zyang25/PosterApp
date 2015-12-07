@@ -59,6 +59,8 @@ function index_activity(categoryId){
                 );
             }
             
+            title = strip(activity.title);
+
             $('.activities .row'+window.page).append(
             '<div class="_activity">'+
                 '<div class="col-md-4 hero-feature">'+
@@ -68,7 +70,7 @@ function index_activity(categoryId){
                                 '<figure><img class="img-responsive" src="'+ image_path +'"></figure>'+
                             '</a>'+
                             '<div class="caption">'+
-                                '<h5>'+activity.title+'</h5>'+
+                                '<h5>'+title+'</h5>'+
                             '</div>'+
                         '</div>'+
                     '</div>'+
@@ -111,6 +113,7 @@ function index_more_activity(categoryId, offset){
                 );
             }
 
+            title = strip(activity.title);
 
             $('.activities .row'+window.page).append(
             '<div class="_activity">'+   
@@ -121,7 +124,7 @@ function index_more_activity(categoryId, offset){
                                 '<figure><img class="img-responsive" src="'+ image_path +'"></figure>'+
                             '</a>'+
                             '<div class="caption">'+
-                                '<h5>'+activity.title+'</h5>'+
+                                '<h5>'+title+'</h5>'+
                             '</div>'+
                         '</div>'+
                     '</div>'+
@@ -136,3 +139,12 @@ function index_more_activity(categoryId, offset){
       }
     }); // end ajax call
 }
+
+function strip(html)
+{
+   var tmp = document.createElement("DIV");
+   tmp.innerHTML = html;
+   return tmp.textContent || tmp.innerText || "";
+}
+
+

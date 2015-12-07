@@ -3,7 +3,7 @@ session_start();
 require_once('data.php');
 require_once('addActivity.php');
 if(!isset($_SESSION['user_id'])){
-header('Location: ../index.php');
+    header('Location: ../index.php');
 }
 $activity = new activity();
 // Query recommanded activity
