@@ -1,12 +1,13 @@
 <?php
 session_start();
 require_once('data.php');
-
+require_once('addActivity.php');
 if(!isset($_SESSION['user_id'])){
 header('Location: ../index.php');
 }
 $activity = new activity();
 // Query recommanded activity
+
 $activity_array = $activity->getActivityByCategory($_SESSION['user_id'],$_SESSION['preference']);
 $recommanded_title = array();
 $recommanded_img = array();
@@ -16,96 +17,93 @@ foreach ($activity_array as $key) {
     array_push($recommanded_title, $key['title']);
 };
 
-?>
 
+?>
 <!DOCTYPE html>
 <html lang="en">
+    <head>
+        <meta charset="utf-8">
 
+        <link href="../assets/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+        <!-- Custom CSS -->
+        <link href="../assets/css/half-slider.css" rel="stylesheet">
 
-<head>
+         <!-- jQuery -->
+        <script src="../assets/js/moment-with-locales.js"></script>
+        <script src="../assets/js/jquery-1.11.1.js"></script>
+        <!-- Bootstrap Core JavaScript -->
+        <script src="../assets/bootstrap/js/bootstrap.min.js"></script>
+        <script src="../assets/js/bootstrap-datetimepicker.js"></script>
 
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <title>Vjoin</title>
-
-    <link href="../assets/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Custom CSS -->
-    <link href="../assets/css/index.css" rel="stylesheet">
-
-</head>
-
-<body>
-    
-
-    <?php
-        require_once('nav.php');
-
-    ?>
-
-    <!-- Half Page Image Background Carousel Header -->
+    </head>
+    <body>
         
-        <header id="myCarousel" class="carousel slide">
-            <ol class="carousel-indicators">
-                <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
-                <li data-target="#myCarousel" data-slide-to="1"></li>
-                <li data-target="#myCarousel" data-slide-to="2"></li>
-                <li data-target="#myCarousel" data-slide-to="3"></li>
-                <li data-target="#myCarousel" data-slide-to="5"></li>
-            </ol>
-            
-            <!-- Wrapper for Slides -->
-            <div class="carousel-inner">
-                <div class="item active">
-                    <!-- Set the first background image using inline CSS below. -->
-                    <div class="fill" style="background-image:url('<?php echo $recommanded_img[0]; ?>');"></div>
-                    <div class="carousel-caption">
-                        <h2><?php echo $recommanded_title[0]; ?></h2>
-
+        <!-- Bootstrap Core JavaScript -->
+        <!-- Script to Activate the Carousel -->
+        <?php
+        include("nav.php");
+        ?>
+        <!-- Half Page Image Background Carousel Header -->
+        <div class="row">
+            <header id="myCarousel" class="carousel slide">
+                <ol class="carousel-indicators">
+                    <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+                    <li data-target="#myCarousel" data-slide-to="1"></li>
+                    <li data-target="#myCarousel" data-slide-to="2"></li>
+                    <li data-target="#myCarousel" data-slide-to="3"></li>
+                    <li data-target="#myCarousel" data-slide-to="5"></li>
+                </ol>
+                
+                <!-- Wrapper for Slides -->
+                <div class="carousel-inner">
+                    <div class="item active">
+                        <!-- Set the first background image using inline CSS below. -->
+                        <div class="fill" style="background-image:url('<?php echo $recommanded_img[0]; ?>');"></div>
+                        <div class="carousel-caption">
+                            <h2><?php echo $recommanded_title[0]; ?></h2>
+                        </div>
+                    </div>
+                    <div class="item">
+                        <!-- Set the second background image using inline CSS below. -->
+                        <div class="fill" style="background-image:url('<?php echo $recommanded_img[1]; ?>');"></div>
+                        <div class="carousel-caption">
+                            <h2><?php echo $recommanded_title[1]; ?></h2>
+                        </div>
+                    </div>
+                    <div class="item">
+                        <!-- Set the third background image using inline CSS below. -->
+                        <div class="fill" style="background-image:url('<?php echo $recommanded_img[2]; ?>');"></div>
+                        <div class="carousel-caption">
+                            <h2><?php echo $recommanded_title[2]; ?></h2>
+                        </div>
+                    </div>
+                    <div class="item">
+                        <!-- Set the third background image using inline CSS below. -->
+                        <div class="fill" style="background-image:url('<?php echo $recommanded_img[3]; ?>');"></div>
+                        <div class="carousel-caption">
+                            <h2><?php echo $recommanded_title[3]; ?></h2>
+                        </div>
+                    </div>
+                    <div class="item">
+                        <!-- Set the third background image using inline CSS below. -->
+                        <div class="fill" style="background-image:url('<?php echo $recommanded_img[4]; ?>');"></div>
+                        <div class="carousel-caption">
+                            <h2><?php echo $recommanded_title[4]; ?></h2>
+                        </div>
                     </div>
                 </div>
-                <div class="item">
-                    <!-- Set the second background image using inline CSS below. -->
-                    <div class="fill" style="background-image:url('<?php echo $recommanded_img[1]; ?>');"></div>
-                    <div class="carousel-caption">
-                        <h2><?php echo $recommanded_title[1]; ?></h2>
-                    </div>
-                </div>
-                <div class="item">
-                    <!-- Set the third background image using inline CSS below. -->
-                    <div class="fill" style="background-image:url('<?php echo $recommanded_img[2]; ?>');"></div>
-                    <div class="carousel-caption">
-                        <h2><?php echo $recommanded_title[2]; ?></h2>
-                    </div>
-                </div>
-                <div class="item">
-                    <!-- Set the third background image using inline CSS below. -->
-                    <div class="fill" style="background-image:url('<?php echo $recommanded_img[3]; ?>');"></div>
-                    <div class="carousel-caption">
-                        <h2><?php echo $recommanded_title[3]; ?></h2>
-                    </div>
-                </div>
-                <div class="item">
-                    <!-- Set the third background image using inline CSS below. -->
-                    <div class="fill" style="background-image:url('<?php echo $recommanded_img[4]; ?>');"></div>
-                    <div class="carousel-caption">
-                        <h2><?php echo $recommanded_title[4]; ?></h2>
-                    </div>
-                </div>
-            </div>
-            <!-- Controls -->
-            <a class="left carousel-control" href="#myCarousel" data-slide="prev">
-                <span class="icon-prev"></span>
-            </a>
-            <a class="right carousel-control" href="#myCarousel" data-slide="next">
-                <span class="icon-next"></span>
-            </a>
-        </header>
-
-    <!-- Page Content -->
-    <div class="container">
-
+                <!-- Controls -->
+                <a class="left carousel-control" href="#myCarousel" data-slide="prev">
+                    <span class="icon-prev"></span>
+                </a>
+                <a class="right carousel-control" href="#myCarousel" data-slide="next">
+                    <span class="icon-next"></span>
+                </a>
+            </header>
+        </div>
+        
+        
+        
         <div class="row">
             <div class="col-md-12">
                 <br/><br/>
@@ -133,34 +131,62 @@ foreach ($activity_array as $key) {
                             </div>
                         </div> 
                 </div>
+
+                <!-- <div class="tab-content">
+                    <br/><br/>
+                    <div class="tab-pane fade in active" id="tab1">             
+                        <div class="activites_content">
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col-xs-1"></div>
+                                    <div class="col-xs-10 activities"></div>
+                                    <div class="col-xs-1"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="tab2">
+                        <div class="activites_content"></div>
+                    </div>
+                    <div class="tab-pane fade" id="tab3">
+                        <div class="activites_content"></div>
+                    </div>
+                    <div class="tab-pane fade" id="tab4">
+                        <div class="activites_content"></div>
+                    </div>
+                </div> -->
+
             </div>
         </div>
+        <?php
+        if(isset($_POST['title'])){
+            if ($_FILES["image"]["error"] > 0)
+            {
+              echo "Error: " . $_FILES["image"]["error"] . "<br />";
+            }
+            else
+            {
+              $imagename = md5(uniqid(rand()));
+              move_uploaded_file($_FILES["image"]["tmp_name"],"../assets/img/activities-large-pic/" . $imagename);
+              echo 'enter'.$_POST['title'].$_POST['post_location'].$_POST['start_time'].$_POST['post_description'].$_POST['max_followers'].$_POST['category'];
 
-    </div>
-    <!-- /.container -->
-    <?
-        require_once('addActivity.php');
-    ?>
-
-    <!-- jQuery -->
-    <script src="../assets/js/moment-with-locales.js"></script>
-    <script src="../assets/js/jquery-1.11.1.js"></script>
-    <!-- Bootstrap Core JavaScript -->
-    <script src="../assets/bootstrap/js/bootstrap.min.js"></script>
-    <script src="../assets/js/bootstrap-datetimepicker.js"></script>
-
-
-    <!-- Script to Activate the Carousel -->
-    <script>
-    $('.carousel').carousel({
-
+              $activity = new activity();
+              $activity -> addEvent(strip_tags($_POST['start_time']), strip_tags($_POST['post_location']), strip_tags($_POST['post_description']), $imagename, $_SESSION['user_id'], strip_tags($_POST['category']), strip_tags($_POST['max_followers']), strip_tags($_POST['title']));
+            }
+            return;
+        }
+?>)
+       
+        <!-- Script to Activate the Carousel -->
+        <script>
+        $('.carousel').carousel({
         interval: 5000 //changes the speed
-    })
-    </script>
+        })
+        </script>
 
-    <!-- Ajax query -->
-    <script src="../assets/js/index_load_activity.js"></script>
+        <!-- Ajax query -->
+        <script src="../assets/js/index_load_activity.js"></script>
 
-</body>
 
+    </body>
 </html>

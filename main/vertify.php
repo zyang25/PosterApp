@@ -4,6 +4,10 @@ $title = 'vjoin';
 
 require_once('classes/auth_system.php');
 
+echo '<br/><br/><pre>Session_variable:<br/>';
+	var_dump($_SESSION);
+echo '</pre>';
+
 ?>
 
 <!DOCTYPE html>

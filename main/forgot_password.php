@@ -5,16 +5,19 @@ $title = 'vjoin';
 
 require_once('auth_system.php');
 
+echo '<br/><br/><pre>Session_variable:<br/>';
+var_dump($_SESSION);
+echo '</pre>';
+
 if(isset($_POST['email'])){
 
 $user = new AuthSystem();
 $user_array = $user->getuser($_POST['email']);
 if($user_array!=""){
+echo $user_array['id'];
 $user->newpassword($user_array['email'],$user_array['id']);
-    echo "The new password is created.";
-    header('Location: index.php');
 }else{
-    echo "Bad email request.";
+echo "Bad email request.";
 }
 
 }
@@ -36,7 +39,7 @@ $user->newpassword($user_array['email'],$user_array['id']);
 <img style="margin-top:-10px;width:300px"class="pull-left" src="../assets/img/stevens.png" alt="UAH"/>
 <p style="margin:14px 20px 0 0;" class="pull-right">
     <a href="http://www.uah.edu/oit/getting-started/for-students/67-main/its/666-campus-ids" accesskey="H" onclick="popup = window.open('http://www.uah.edu/oit/getting-started/for-students/67-main/its/666-campus-ids', 'PopupPage','height=500,width=450,scrollbars=yes,resizable=yes'); return false" target="_blank" onmouseover="window.status='';  return true" onmouseout="window.status=''; return true" onfocus="window.status='';  return true" onblur="window.status=''; return true" class="submenulinktext2"><i class="fa fa-question-circle"></i> Help</a>  |  
-    <a href="../index.php" accesskey="3" class="submenulinktext2"><i class="fa fa-sign-out"></i> Exit</a></p>
+    <a href="bwskalog.p_displogoutnon" accesskey="3" class="submenulinktext2"><i class="fa fa-sign-out"></i> Exit</a></p>
 </div>
     <div class="omb_login">
 

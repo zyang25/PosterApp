@@ -502,7 +502,7 @@ class UserModel{
     }
 
     public function vertifycode($email,$code){
-
+        echo $code;
         $this->vertifycode->bind_param("s",$code);
         $this->vertifycode->execute();
         return $this->vertifycode->affected_rows;
@@ -526,6 +526,7 @@ class UserModel{
     }
 
     public function changepassword($password,$salt,$user_id){
+        echo $password;
         $this->changepassword->bind_param("sss",$password,$salt,$user_id);
         $this->changepassword->execute();
 

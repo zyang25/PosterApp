@@ -2,12 +2,9 @@
 session_start();
 $title = 'vjoin';
 require_once('auth_system.php');
-
-if( !isset($_SESSION['user_id']) || $_SESSION['user_id']==""){
-    header('Location: ../index.php');
-}
-
-
+echo '<br/><br/><pre>Session_variable:<br/>';
+    var_dump($_SESSION);
+echo '</pre>';
 if(isset($_POST['org_password'])
 &&isset($_POST['new_password'])
 &&isset($_POST['confirm_password'])

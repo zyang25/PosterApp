@@ -1,6 +1,6 @@
 <!-- Fixed navbar -->
-
-
+<div class="row">
+  <div class="container">
     <nav class="navbar navbar-inverse navbar-fixed-top">
       <div class="container">
         <div class="navbar-header">
@@ -78,5 +78,6 @@
         </div>
       </nav>
       
-
+    </div>
     
+  </div>
