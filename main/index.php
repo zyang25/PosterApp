@@ -168,8 +168,6 @@ foreach ($activity_array as $key) {
             {
               $imagename = md5(uniqid(rand()));
               move_uploaded_file($_FILES["image"]["tmp_name"],"../assets/img/activities-large-pic/" . $imagename);
-              echo 'enter'.$_POST['title'].$_POST['post_location'].$_POST['start_time'].$_POST['post_description'].$_POST['max_followers'].$_POST['category'];
-
               $activity = new activity();
               $activity -> addEvent(strip_tags($_POST['start_time']), strip_tags($_POST['post_location']), strip_tags($_POST['post_description']), $imagename, $_SESSION['user_id'], strip_tags($_POST['category']), strip_tags($_POST['max_followers']), strip_tags($_POST['title']));
             }
