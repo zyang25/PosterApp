@@ -41,6 +41,7 @@ function index_activity(categoryId){
     $.ajax({
       url: 'ajax_query.php',
       type: 'GET',
+      async: false,
       cache: false,
       data: {'category_id': categoryId},
       success: function(data, status) {
@@ -91,6 +92,7 @@ function index_more_activity(categoryId, offset){
     $.ajax({
       url: 'ajax_query.php',
       type: 'GET',
+      async: false,
       cache: false,
       data: {'category_id': categoryId, 'current_activity_number': offset},
       success: function(data, status) {
@@ -100,6 +102,7 @@ function index_more_activity(categoryId, offset){
         if(activities.length > 0){
             window.page ++ ;
         }
+
         $.each(activities,function(key,activity){
             window.current_activity_number = window.current_activity_number + 1;
             var image_path = '../assets/img/activities-large-pic/' + activity.image;
