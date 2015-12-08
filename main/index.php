@@ -162,9 +162,9 @@ foreach ($activity_array as $key) {
               $activity = new activity();
               $activity -> addEvent(strip_tags($_POST['start_time']), strip_tags($_POST['post_location']), strip_tags($_POST['post_description']), $imagename, $_SESSION['user_id'], strip_tags($_POST['category']), strip_tags($_POST['max_followers']), strip_tags($_POST['title']));
             }
-            return;
+            
         }
-?>)
+?>
        
         <!-- Script to Activate the Carousel -->
         <script>
