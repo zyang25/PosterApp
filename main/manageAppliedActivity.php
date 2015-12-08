@@ -53,8 +53,5 @@
             </div>
             <!-- /.row -->
         </footer> 
-        <?php
-            require_once('addActivity.php');
-        ?>
     </body>
 </html>
