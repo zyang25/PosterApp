@@ -1,10 +1,11 @@
 <?php
 session_start();
-require_once('data.php');
-require_once('addActivity.php');
-if(!isset($_SESSION['user_id'])){
+if( !isset($_SESSION['user_id']) || $_SESSION['user_id']=="" ){
     header('Location: ../index.php');
 }
+require_once('data.php');
+require_once('addActivity.php');
+
 $activity = new activity();
 // Query recommanded activity
 
