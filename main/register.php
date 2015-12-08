@@ -3,17 +3,22 @@ session_start();
 $title = 'vjoin';
 require_once('auth_system.php');
 
-echo '<br/><br/><pre>Session_variable:<br/>';
-var_dump($_SESSION);
-echo '</pre>';
 
 if(isset($_POST['email'])&&isset($_POST['password'])){
 $user = new AuthSystem();
-$user -> createuser($_POST['email'],$_POST['password']);
-echo "<div class=\"alert alert-success\" role=\"alert\">";
-echo "Account Created, please check your email for verification information";
-echo "<a href=\"../index.php\" accesskey=\"3\" class=\"submenulinktext2\"><i class=\"fa fa-sign-out\"></i> Exit</a></p>";
-echo "</div>";
+
+if($user -> createuser($_POST['email'],$_POST['password'])){
+    echo "<div class=\"alert alert-success\" role=\"alert\">";
+    echo "Account Created, please check your email for verification information";
+    echo "<a href=\"../index.php\" accesskey=\"3\" class=\"submenulinktext2\"><i class=\"fa fa-sign-out\"></i> Exit</a></p>";
+    echo "</div>";
+}else{
+    echo "<div class=\"alert alert-danger\" role=\"alert\">";
+    echo "The username is already existed";
+    echo "<a href=\"../index.php\" accesskey=\"3\" class=\"submenulinktext2\"><i class=\"fa fa-sign-out\"></i> Exit</a></p>";
+    echo "</div>";
+}
+
 }
 
 ?>
@@ -88,8 +93,7 @@ echo "</div>";
     };
 
     $('#register_form').bind("submit",function(e){
-        if(check_email()&&check_password()){
-            console.log("Hello");
+        if(check_password()){
             $(this).unbind('submit').submit();
         }else{
             e.preventDefault();

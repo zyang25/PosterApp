@@ -2,13 +2,13 @@
 session_start();
 $title = 'vjoin';
 require_once('auth_system.php');
-// echo '<br/><br/><pre>Session_variable:<br/>';
-// 	var_dump($_SESSION);
-// echo '</pre>';
+
 echo "<br/><br/><br/><br/>";
 $c = new category();
 $allc = $c->getAllCategory();
-
+echo '<br/><br/><pre>Session_variable:<br/>';
+var_dump($_SESSION);
+echo '</pre>';
 
 if($_SESSION['user_id']!=""){
 	
@@ -132,22 +132,7 @@ if($_SESSION['user_id']!=""){
 			</div>
 		</div>
 
-		<div class="form-group">
-		  <label class="col-md-4 control-label" for="selectmultiple">Preference</label>
-		  <div class="col-md-4">
-		    <select id="selectmultiple" name="introduction[]" class="form-control" multiple="multiple">
-		      <?php
-		      		foreach ($allc as $key) {
-						echo '<option value= ' . $key["category_id"] . '>';
-						echo $key["category_name"];
-						echo "</option>";
-					}
-		      ?>
-		    </select>
-		  </div>
-		</div>
 		
-
 		<!-- Multiple Checkboxes -->
 		<div class="form-group">
 		  <label class="col-md-4 control-label" for="checkboxes">Preference</label>
@@ -156,7 +141,7 @@ if($_SESSION['user_id']!=""){
 		      		foreach ($allc as $key) {
 
 		      			echo '<div class="checkbox">';
-		      			echo '<input type="checkbox" name="introduction[]" value="' . $key["category_id"] . '"checked >';		
+		      			echo '<input type="checkbox" name="introduction[]" value="' . $key["category_id"] . '" >';		
 						echo $key["category_name"];
 						echo "</div>";
 					

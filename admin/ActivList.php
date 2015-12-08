@@ -34,7 +34,7 @@
   echo "<table class='table' border='1px' bordercolor='green' cellspacing='0px' width='700px' id='all_data'>";
   echo "<tr><th>activity_id</th><th>start_time</th><th>location</th><th>description</th><th>image</th><th>user_id</th><th>category_id</th><th>followers</th><th>max_followers</th><th>title</th><th>state</th></tr>";
   foreach($res as $key=>$val){
-      echo "<tr><td>".$val['activity_id']."</td><td>".$val['start_time']."</td><td>".$val['location']."</td><td>".$val['description']."</td><td>".$val['image']."</td><td>".$val['user_id']."</td><td>".$val['category_id']."</td><td>".$val['followers']."</td><td>".$val['max_followers']."</td><td>".$val['title']."</td><td>".$val['state']."</td></tr>";
+      echo "<tr><td>".$val['activity_id']."</td><td>".$val['start_time']."</td><td>".$val['location']."</td><td>".$val['description']."</td><td>".$val['image']."</td><td>".$val['user_id']."</td><td>".$val['category_id']."</td><td>".$val['followers']."</td><td>".$val['max_followers']."</td><td>".strip_tags($val['title'])."</td><td>".$val['state']."</td></tr>";
   }
   echo "</table>";
   echo "<center>";

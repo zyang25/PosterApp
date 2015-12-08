@@ -39,9 +39,9 @@
   echo "</br></br>";
   echo "<h1>USER LIST</h1>";
   echo "<table class='table' border='1px' bordercolor='green' cellspacing='0px' width='700px' id='all_data'>";
-  echo "<tr><th>user_id</th><th>email</th><th>password</th><th>is_admin</th><th>is_activated</th><th>post_number</th></tr>";
+  echo "<tr><th>user_id</th><th>email</th><th>password</th><th>is_admin</th><th>is_activated</th></tr>";
   foreach($res as $key=>$val){
-      echo "<tr><td>".$val['user_id']."</td><td>".$val['email']."</td><td>".$val['password']."</td><td>".$val['is_admin']."</td><td>".$val['is_activated']."</td><td>".$val['post_number']."</td></tr>";
+      echo "<tr><td>".$val['user_id']."</td><td>".$val['email']."</td><td>".$val['password']."</td><td>".$val['is_admin']."</td><td>".$val['is_activated']."</td></tr>";
   }
   echo "</table>";
   echo "<center>";
