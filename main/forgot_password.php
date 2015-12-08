@@ -38,7 +38,7 @@ echo "Bad email request.";
 <img style="margin-top:-10px;width:300px"class="pull-left" src="../assets/img/stevens.png" alt="UAH"/>
 <p style="margin:14px 20px 0 0;" class="pull-right">
     <a href="http://www.uah.edu/oit/getting-started/for-students/67-main/its/666-campus-ids" accesskey="H" onclick="popup = window.open('http://www.uah.edu/oit/getting-started/for-students/67-main/its/666-campus-ids', 'PopupPage','height=500,width=450,scrollbars=yes,resizable=yes'); return false" target="_blank" onmouseover="window.status='';  return true" onmouseout="window.status=''; return true" onfocus="window.status='';  return true" onblur="window.status=''; return true" class="submenulinktext2"><i class="fa fa-question-circle"></i> Help</a>  |  
-    <a href="bwskalog.p_displogoutnon" accesskey="3" class="submenulinktext2"><i class="fa fa-sign-out"></i> Exit</a></p>
+    <a href="../index.php" accesskey="3" class="submenulinktext2"><i class="fa fa-sign-out"></i> Exit</a></p>
 </div>
     <div class="omb_login">
 
