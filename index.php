@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once('./Authentication/classes/auth_system.php');
+require_once('main/auth_system.php');
 
 $title = 'vjoin';
 if(isset($_SESSION['user_id'])){
@@ -14,7 +14,7 @@ if(isset($_SESSION['user_id'])){
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>Bootstrap Login Form Template</title>
+        <title>Vjoin</title>
         <!-- CSS -->
         <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:400,100,300,500">
         <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">

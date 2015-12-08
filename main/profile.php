@@ -132,22 +132,7 @@ if($_SESSION['user_id']!=""){
 			</div>
 		</div>
 
-		<div class="form-group">
-		  <label class="col-md-4 control-label" for="selectmultiple">Preference</label>
-		  <div class="col-md-4">
-		    <select id="selectmultiple" name="introduction[]" class="form-control" multiple="multiple">
-		      <?php
-		      		foreach ($allc as $key) {
-						echo '<option value= ' . $key["category_id"] . '>';
-						echo $key["category_name"];
-						echo "</option>";
-					}
-		      ?>
-		    </select>
-		  </div>
-		</div>
 		
-
 		<!-- Multiple Checkboxes -->
 		<div class="form-group">
 		  <label class="col-md-4 control-label" for="checkboxes">Preference</label>

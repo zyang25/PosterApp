@@ -50,6 +50,7 @@ class AuthSystem{
 				}
 				// Get user information then store into session
 				$userinfo = $this->getuserinfobyuserid($user[0]['id']);
+
 				$_SESSION['user_id'] = $user[0]['id'];
 				$_SESSION['email'] = $user[0]['email'];
 				$_SESSION['activated'] = $user[0]['activated'];
@@ -60,8 +61,8 @@ class AuthSystem{
 				$_SESSION['zipcode'] = $userinfo['zip'];
 				//$_SESSION['preference'] = $userinfo['preference'];
 
-				if($userinfo['preference']=="" || $userinfo['preference']==null){
-					$_SESSION['preference'] = "all";
+				if($userinfo['preference']=="" || is_null($userinfo['preference'])){
+					$_SESSION['preference'] = "1,2,3";
 				}else
 					$_SESSION['preference'] = $userinfo['preference'];
 
