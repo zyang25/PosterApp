@@ -67,7 +67,7 @@ foreach ($activity_array as $key) {
 
                         <div class="carousel-caption">
                             
-                            <h2><?php echo $recommanded_title[0]; ?></h2>
+                            <h2><?php echo strip_tags($recommanded_title[0]); ?></h2>
                         </div>
                     </div>
                     <div class="item">
@@ -76,7 +76,7 @@ foreach ($activity_array as $key) {
                             <div class="fill" style="background-image:url('<?php echo $recommanded_img[1]; ?>');"></div>
                         </a>
                         <div class="carousel-caption">
-                            <h2><?php echo $recommanded_title[1]; ?></h2>
+                            <h2><?php echo strip_tags($recommanded_title[1]); ?></h2>
                         </div>
                     </div>
                     <div class="item">
@@ -85,7 +85,7 @@ foreach ($activity_array as $key) {
                             <div class="fill" style="background-image:url('<?php echo $recommanded_img[2]; ?>');"></div>
                         </a>
                         <div class="carousel-caption">
-                            <h2><?php echo $recommanded_title[2]; ?></h2>
+                            <h2><?php echo strip_tags($recommanded_title[2]); ?></h2>
                         </div>
                     </div>
                     <div class="item">
@@ -94,7 +94,7 @@ foreach ($activity_array as $key) {
                             <div class="fill" style="background-image:url('<?php echo $recommanded_img[3]; ?>');"></div>
                         </a>
                         <div class="carousel-caption">
-                            <h2><?php echo $recommanded_title[3]; ?></h2>
+                            <h2><?php echo strip_tags($recommanded_title[3]); ?></h2>
                         </div>
                     </div>
                     <div class="item">
@@ -103,7 +103,7 @@ foreach ($activity_array as $key) {
                             <div class="fill" style="background-image:url('<?php echo $recommanded_img[4]; ?>');"></div>
                         </a>
                         <div class="carousel-caption">
-                            <h2><?php echo $recommanded_title[4]; ?></h2>
+                            <h2><?php echo strip_tags($recommanded_title[4]); ?></h2>
                         </div>
                     </div>
                 </div>
