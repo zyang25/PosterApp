@@ -10,8 +10,11 @@ $("#follow_status").click(function(){
         $.getJSON(url, function(data){
             $("#follow_status").html("Unfollow");
             $("#follow_status").attr("key","1");    // to unfollow this event
-            var remain = data['max_followers'] - data['followers'];            
-            $("#remaining").html(' <h5> Remaining :' + remain + '&nbsp;/&nbsp;' + data['max_followers'] + '</h5>' );
+            if(isNumeric(data['max_followers']) && isNumeric(data['followers'])){
+                var remain = data['max_followers'] - data['followers'];            
+                $("#remaining").html(' <h5> Remaining :' + remain + '&nbsp;/&nbsp;' + data['max_followers'] + '</h5>' );
+            }
+            else $("#remaining").html('<h5>Please contact the admin this event!!!</h5>');
         });
     }
     else if(value == 1){ // to unfollow this event
@@ -19,8 +22,11 @@ $("#follow_status").click(function(){
         $.getJSON(url, function(data){
             $("#follow_status").html("Follow!!");
             $("#follow_status").attr("key","2");    // to follow this event
-            var remain = data['max_followers'] - data['followers'];            
-            $("#remaining").html(' <h5> Remaining :' + remain + '&nbsp;/&nbsp;' + data['max_followers'] + '</h5>' );
+            if(isNumeric(data['max_followers']) && isNumeric(data['followers'])){
+                 var remain = data['max_followers'] - data['followers'];            
+                 $("#remaining").html(' <h5> Remaining :' + remain + '&nbsp;/&nbsp;' + data['max_followers'] + '</h5>' );
+            }
+            else $("#remaining").html('<h5>Please contact the admin this event!!!</h5>');
         });    
     }
     else if(value == 0){ //jump to personal page to manage this event   modify!!!!!!!!!!!!!!!!!
@@ -62,12 +68,12 @@ $(function(){
     var activity_id = $('#activity_id').val();
     var url = '../main/load_activity.php?type=' + 0 +'&user_id=' + user_id + '&activity_id=' + activity_id;
     $.getJSON(url, function(data){
-        $("#activity_name").html(data['title']);
-        $("#location").html(data['location']); 
-        $("#time_stamp").html(data['start_time']);
-        $("#description").html(data['description']);
-        var start_t = data['start_time'];
+        $("#activity_name").html(strip(data['title']));
+        $("#location").html(strip(data['location'])); 
+        $("#time_stamp").html(strip(data['start_time']));
+        $("#description").html(strip(data['description']));
 
+        var start_t = data['start_time'];
         var now = new Date();
         var month = now.getMonth() + 1;
         var time_stamp = now.getFullYear() + '-' + month + '-' + now.getDate() + ' ' + now.getHours()+':'+now.getMinutes()+':'+now.getSeconds();
@@ -85,29 +91,40 @@ $(function(){
                 $("#follow_status").attr("key","0");        // to manage this event   
             }
             else{
-                var remain = data['max_followers'] - data['followers'];            
-
-                $("#remaining").html(' <h5> Remaining :' + remain + '&nbsp;/&nbsp;' + data['max_followers'] + '</h5>' );
-
-                if(data.count == 1){
-                    $("#follow_status").html("Unfollow");
-                    $("#follow_status").attr("key","1");    // to unfollow this event
-                }
-                else{
-                    if(data.followers >= data.max_followers){
-                        $("#follow_status").html("This Activity is Full, Please Check later");  //or directly contact with event poster
+                if(isNumeric(data['max_followers']) && isNumeric(data['followers'])){
+                    var remain = data['max_followers'] - data['followers'];            
+                    $("#remaining").html(' <h5> Remaining :' + remain + '&nbsp;/&nbsp;' + data['max_followers'] + '</h5>' );
+                    if(data.count == 1){
+                        $("#follow_status").html("Unfollow");
+                        $("#follow_status").attr("key","1");    // to unfollow this event
                     }
                     else{
-                        $("#follow_status").html("Follow!!");
-                        $("#follow_status").attr("key","2"); // to follow this event
+                        if(data.followers >= data.max_followers){
+                            $("#follow_status").html("This Activity is Full, Please Check later");  //or directly contact with event poster
+                        }
+                        else{
+                            $("#follow_status").html("Follow!!");
+                            $("#follow_status").attr("key","2"); // to follow this event
+                        }
                     }
                 }
+                else $("#remaining").html('<h5>Please contact the admin this event!!!</h5>');
             }
         }
     }); 
 });
 
 
+function strip(html)
+{
+   var tmp = document.createElement("DIV");
+   tmp.innerHTML = html;
+   return tmp.textContent || tmp.innerText || "";
+}
+
+function isNumeric(n) {
+  return !isNaN(parseFloat(n)) && isFinite(n);
+}
 
 
 
