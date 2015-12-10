@@ -48,7 +48,7 @@ if(isset($_SESSION['user_id'])){
                             <div class="form-top">
                                 <div class="form-top-left">
                                     <h3>Login to our site</h3> 
-                                    <p>Enter your email and password to log on &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="./Authentication/logout.php">logout</a></p>
+                                    
                                 </div>
                                 <div class="form-top-right">
                                     <i class="fa fa-lock"></i>
@@ -86,11 +86,8 @@ if(isset($_SESSION['user_id'])){
                                 <div class="row">
                                     
                                     <div  class="col-sm-12">
-                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                        <a href="main/forgot_password.php">forget password</a> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                        <a href="main/change_password.php">reset password</a>
-                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                        <a href="main/register.php">signup</a>
+                                        <div class="col-sm-5 col-sm-offset-2"><a href="main/forgot_password.php">forget password</a></div>
+                                        <div class="col-sm-4"><a href="main/register.php">signup</a></div>
                                     </div>
                                     
                                 </div>
