@@ -2,7 +2,7 @@
 session_start();
 require_once('main/auth_system.php');
 
-$title = 'vjoin';
+$title = 'Stevens Activity Poster';
 if(isset($_SESSION['user_id'])){
     header('Location: main');
 }
@@ -14,7 +14,7 @@ if(isset($_SESSION['user_id'])){
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>Vjoin</title>
+        <title>Stevens Activity Poster</title>
         <!-- CSS -->
         <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:400,100,300,500">
         <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
@@ -35,7 +35,7 @@ if(isset($_SESSION['user_id'])){
                 <div class="container">
                     <div class="row">
                         <div class="col-sm-8 col-sm-offset-2 text">
-                            <h1><strong>Vjoin</strong> Login </h1>
+                            <h1><strong>Stevens Activity Poster</strong> Login </h1>
                             <div class="description">
                                 <p>
                                     This is a free platform only for stevens institute of technology students. Show yourself easily!
@@ -48,7 +48,9 @@ if(isset($_SESSION['user_id'])){
                             <div class="form-top">
                                 <div class="form-top-left">
                                     <h3>Login to our site</h3> 
-                                    
+                                    <h4>Welcome, You can use a test account.</h4>
+                                    <h4>username: test</h4>
+                                    <h4>password: 123456</h4>
                                 </div>
                                 <div class="form-top-right">
                                     <i class="fa fa-lock"></i>
