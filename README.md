@@ -1,1 +1,1 @@
-# Vjoin
+# Stevens Activity Poster
